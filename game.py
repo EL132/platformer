@@ -119,10 +119,10 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = vector(0, 0)
 
         # kinematic constants
-        self.HORIZONTAL_ACCELERATION = 0.05
+        self.HORIZONTAL_ACCELERATION = 0.7
         self.HORIZONTAL_FRICTION = 0.10
-        self.VERTICAL_ACCELERATION = 0.01 # gravity 
-        self.VERTICAL_JUMP_SPEED = 1.5
+        self.VERTICAL_ACCELERATION = 0.25 # gravity 
+        self.VERTICAL_JUMP_SPEED = 10
 
 
     def update(self):
@@ -143,17 +143,17 @@ class Player(pygame.sprite.Sprite):
             if self.position.x < 0:
                 self.position.x = WINDOW_WIDTH
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
-            self.animate(self.move_left_sprites, 0.03)
+            self.animate(self.move_left_sprites, 0.1)
         elif keys[pygame.K_RIGHT]:
             if self.position.x > WINDOW_WIDTH:
                 self.position.x = 0
             self.acceleration.x = self.HORIZONTAL_ACCELERATION    
-            self.animate(self.move_right_sprites, 0.03)    
+            self.animate(self.move_right_sprites, 0.1)    
         else:
             if self.velocity.x > 0:
-                self.animate(self.idle_right_sprites, 0.015)
+                self.animate(self.idle_right_sprites, 0.1)
             else:
-                self.animate(self.idle_left_sprites, 0.015)
+                self.animate(self.idle_left_sprites, 0.1)
 
         # # calc new kinematic values 
         self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
@@ -302,6 +302,8 @@ while running:
     
 
     pygame.display.flip()
+
+    clock.tick(FPS)
 
 
 pygame.quit()
