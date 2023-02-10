@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, time
 from pytmx.util_pygame import load_pygame
 
 
@@ -175,6 +175,7 @@ class Player(pygame.sprite.Sprite):
 
 
 
+tic = time.perf_counter()
 # video tmx code
 tmx_data = load_pygame('./maps/levelOne.tmx')
 
@@ -185,6 +186,10 @@ for layer in tmx_data.visible_layers:
 		for x,y,surf in layer.tiles():
 			pos = (x * 32, y * 32)
 			Tile(pos = pos, surf = surf, groups = sprite_group)
+
+toc = time.perf_counter()
+print(f"Downloaded the tutorial in {toc - tic:0.4f} seconds")
+
 
 
 

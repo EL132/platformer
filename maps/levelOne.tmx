@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="25" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
- <tileset firstgid="1" source="../../../../../OneDrive - University of Georgia/Elias Sahil Proj Temp/Level Designs/Tile Sets/Level One Tiles - EL.tsx"/>
+ <tileset firstgid="1" source="./tiles/levelOneTiles.tsx"/>
  <layer id="7" name="Background" width="25" height="14">
   <data encoding="csv">
 185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,185,

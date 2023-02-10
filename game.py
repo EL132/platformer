@@ -1,4 +1,4 @@
-import pygame, csv
+import pygame, csv, time
 
 #Use 2D vectors
 vector = pygame.math.Vector2
@@ -199,6 +199,8 @@ water_tile_group = pygame.sprite.Group()
 dirt_tile_group = pygame.sprite.Group()
 
 
+tic = time.perf_counter()
+
 # to parse tile image to smaller tile images:
 
 def import_cut_graphics(image_path):
@@ -284,6 +286,9 @@ my_player = Player(164, 164, dirt_tile_group, water_tile_group)
 my_player_group.add(my_player)
 
 print(dirt_tile_group)
+
+toc = time.perf_counter()
+print(f"Downloaded the tutorial in {toc - tic:0.4f} seconds")
 
 
 running = True
