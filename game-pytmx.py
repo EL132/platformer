@@ -184,7 +184,7 @@ for layer in tmx_data.visible_layers:
 	# if layer.name in ('Floor', 'Plants and rocks', 'Pipes')
 	if hasattr(layer,'data'):
 		for x,y,surf in layer.tiles():
-			pos = (x * 32, y * 32)
+			pos = (x * 31, y * 31)
 			Tile(pos = pos, surf = surf, groups = sprite_group)
 
 toc = time.perf_counter()
