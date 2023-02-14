@@ -275,6 +275,7 @@ class BossOne(pygame.sprite.Sprite):
             self.rect.x -= self.move_speed
             if self.turns % 2 == 0:
                 self.animate(self.attack_left_sprites, 0.02)
+                # maybe add a clock functionality to delay when the laser gets created?
                 Laser(self.rect.left - 150, self.rect.centery, laser_group)
             else:
                 self.animate(self.move_left_sprites, 0.1)
