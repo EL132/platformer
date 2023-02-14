@@ -12,7 +12,7 @@ class Game:
 		pygame.display.set_caption('Level Selector')
 		self.clock = pygame.time.Clock()
 
-		# self.level = Level()
+		self.level = Level()
 	
 	def run(self):
 		while True:
@@ -22,8 +22,7 @@ class Game:
 					sys.exit()
 
 			self.screen.fill('black')
-			# self.level.run()
-			debug('hey there')
+			self.level.run()
 			pygame.display.update()
 			self.clock.tick(FPS)
 
