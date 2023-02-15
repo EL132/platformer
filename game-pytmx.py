@@ -31,7 +31,7 @@ class Tile(pygame.sprite.Sprite):
 
 class Player(pygame.sprite.Sprite):
     # parameters are TBD for grass and water tiles
-    def __init__(self, x, y, dirt_tiles, water_tiles):
+    def __init__(self, x, y, contact_tiles):
         super().__init__()
 
         # animation frames ::
@@ -91,8 +91,7 @@ class Player(pygame.sprite.Sprite):
         self.y = y
         self.rect.bottomleft = (x, y)
 
-        self.dirt_tiles = dirt_tiles
-        self.water_tiles = water_tiles
+        self.contact_tiles = contact_tiles
 
         # vector stuff with position, velocity, and accel
         self.position = vector(x, y)
@@ -147,8 +146,7 @@ class Player(pygame.sprite.Sprite):
             self.position.y = self.y
 
     def check_collisions(self):
-        # this function needs to really be rewritten, we need to make sure the contact is natural
-        dirt_collided_platforms = pygame.sprite.spritecollide(self, self.dirt_tiles, False, pygame.sprite.collide_mask) # this makes a list of all in contact tiles
+        dirt_collided_platforms = pygame.sprite.spritecollide(self, self.contact_tiles, False, pygame.sprite.collide_mask) # this makes a list of all in contact tiles
         if dirt_collided_platforms:
             if self.velocity.y > 0:
                 self.position.y = dirt_collided_platforms[0].rect.top + 8
@@ -188,22 +186,31 @@ class BossOne(pygame.sprite.Sprite):
 # video tmx code
 tmx_data = load_pygame('./maps/levelOne.tmx')
 
+# sprite group for collision detection
+contact_sprite_group = pygame.sprite.Group()
+
+
 # cycle through all layers
 for layer in tmx_data.visible_layers:
 	# if layer.name in ('Floor', 'Plants and rocks', 'Pipes')
-	if hasattr(layer,'data'):
-		for x,y,surf in layer.tiles():
-			pos = (x * 31, y * 31)
-			Tile(pos = pos, surf = surf, groups = sprite_group)
+
+    print(layer.name)
+    if hasattr(layer,'data'):
+        for x, y, surf in layer.tiles():
+            pos = (x * 32, y * 32)
+            temp = Tile(pos = pos, surf = surf, groups = sprite_group)
+            if layer.name in ('Yellow Dirt'):
+                contact_sprite_group.add(temp)
 
 
 
 
 
-# my_player_group = pygame.sprite.Group()
 
-# my_player = Player(164, 164, dirt_tile_group, water_tile_group)
-# my_player_group.add(my_player)
+my_player_group = pygame.sprite.Group()
+
+my_player = Player(164, 164, contact_sprite_group)
+my_player_group.add(my_player)
 
 
 
