@@ -1,3 +1,4 @@
+from colorsys import rgb_to_hls
 import pygame, time
 from pytmx.util_pygame import load_pygame
 
@@ -31,7 +32,7 @@ class Tile(pygame.sprite.Sprite):
 
 class Player(pygame.sprite.Sprite):
     # parameters are TBD for grass and water tiles
-    def __init__(self, x, y, contact_tiles):
+    def __init__(self, x, y, land_tiles, water_tiles):
         super().__init__()
 
         # animation frames ::
@@ -91,7 +92,8 @@ class Player(pygame.sprite.Sprite):
         self.y = y
         self.rect.bottomleft = (x, y)
 
-        self.contact_tiles = contact_tiles
+        self.land_tiles = land_tiles
+        self.water_tiles = water_tiles
 
         # vector stuff with position, velocity, and accel
         self.position = vector(x, y)
@@ -105,6 +107,20 @@ class Player(pygame.sprite.Sprite):
         self.VERTICAL_JUMP_SPEED = 10
 
 
+        # NEW CODE FOR IMPROVED COLLISION HERE:
+        self.leg_hitbox = pygame.sprite.Sprite()
+        self.leg_hitbox.rect = self.image.get_rect()
+        self.leg_hitbox.rect[3] = 32
+        self.leg_hitbox.rect[2] = 32
+        self.leg_surface = pygame.Surface((32, 32))
+        self.leg_surface.fill((255, 255, 255))
+        display_surface.blit(self.leg_surface, (50, 100))
+        print(self.leg_surface)
+
+
+
+
+
     def update(self):
         self.move()
         self.check_collisions()
@@ -116,6 +132,11 @@ class Player(pygame.sprite.Sprite):
 
     def move(self):
         self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
+
+        # for collision improvements 
+        self.leg_hitbox.rect[0] = self.rect[0]
+        self.leg_hitbox.rect[1] = self.rect[1]
+
 
         keys = pygame.key.get_pressed()
 
@@ -146,7 +167,7 @@ class Player(pygame.sprite.Sprite):
             self.position.y = self.y
 
     def check_collisions(self):
-        dirt_collided_platforms = pygame.sprite.spritecollide(self, self.contact_tiles, False, pygame.sprite.collide_mask) # this makes a list of all in contact tiles
+        dirt_collided_platforms = pygame.sprite.spritecollide(self, self.land_tiles, False, pygame.sprite.collide_mask) # this makes a list of all in contact tiles
         if dirt_collided_platforms:
             if self.velocity.y > 0:
                 self.position.y = dirt_collided_platforms[0].rect.top + 8
@@ -156,7 +177,7 @@ class Player(pygame.sprite.Sprite):
             self.position = (self.x, self.y)
     
     def jump(self):
-        if pygame.sprite.spritecollide(self, self.dirt_tiles, False):
+        if pygame.sprite.spritecollide(self, self.land_tiles, False):
             self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
 
     def animate(self, sprite_list, speed):
@@ -187,7 +208,9 @@ class BossOne(pygame.sprite.Sprite):
 tmx_data = load_pygame('./maps/levelOne.tmx')
 
 # sprite group for collision detection
-contact_sprite_group = pygame.sprite.Group()
+land_sprite_group = pygame.sprite.Group()
+water_sprite_group = pygame.sprite.Group()
+
 
 
 # cycle through all layers
@@ -199,8 +222,10 @@ for layer in tmx_data.visible_layers:
         for x, y, surf in layer.tiles():
             pos = (x * 32, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
-            if layer.name in ('Yellow Dirt'):
-                contact_sprite_group.add(temp)
+            if layer.name in ('Yellow Dirt', 'Brown Dirt'):
+                land_sprite_group.add(temp)
+            elif layer.name in ('Water'):
+                water_sprite_group.add(temp)
 
 
 
@@ -209,7 +234,7 @@ for layer in tmx_data.visible_layers:
 
 my_player_group = pygame.sprite.Group()
 
-my_player = Player(164, 164, contact_sprite_group)
+my_player = Player(164, 164, land_sprite_group, water_sprite_group)
 my_player_group.add(my_player)
 
 
@@ -219,15 +244,15 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_SPACE:
-        #         my_player.jump()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                my_player.jump()
 
     display_surface.fill('black')
     sprite_group.draw(display_surface)
 
-    # my_player_group.update()
-    # my_player_group.draw(display_surface)
+    my_player_group.update()
+    my_player_group.draw(display_surface)
     
 
     pygame.display.flip()
