@@ -175,7 +175,16 @@ class Player(pygame.sprite.Sprite):
 
 
 
-tic = time.perf_counter()
+
+
+class BossOne(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.x = x
+        self.y = y
+
+
+
 # video tmx code
 tmx_data = load_pygame('./maps/levelOne.tmx')
 
@@ -187,8 +196,6 @@ for layer in tmx_data.visible_layers:
 			pos = (x * 31, y * 31)
 			Tile(pos = pos, surf = surf, groups = sprite_group)
 
-toc = time.perf_counter()
-print(f"Downloaded the tutorial in {toc - tic:0.4f} seconds")
 
 
 
