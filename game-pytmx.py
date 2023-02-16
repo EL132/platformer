@@ -108,14 +108,12 @@ class Player(pygame.sprite.Sprite):
 
 
         # NEW CODE FOR IMPROVED COLLISION HERE:
-        self.leg_hitbox = pygame.sprite.Sprite()
-        self.leg_hitbox.rect = self.image.get_rect()
-        self.leg_hitbox.rect[3] = 32
-        self.leg_hitbox.rect[2] = 32
-        self.leg_surface = pygame.Surface((32, 32))
-        self.leg_surface.fill((255, 255, 255))
-        display_surface.blit(self.leg_surface, (50, 100))
-        print(self.leg_surface)
+        self.leg_hitbox_rect = pygame.Rect(self.x, self.y, 10, 15)
+        print(self.leg_hitbox_rect)
+
+        # create a mask
+        self.mask = pygame.mask.from_surface(self.image, 4)
+
 
 
 
@@ -124,8 +122,6 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.move()
         self.check_collisions()
-        # create a mask
-        self.mask = pygame.mask.from_surface(self.image, 4)
         mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
         pygame.draw.lines(self.image, (255, 0, 0), True, mask_outline)
 
@@ -133,19 +129,26 @@ class Player(pygame.sprite.Sprite):
     def move(self):
         self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
 
-        # for collision improvements 
-        self.leg_hitbox.rect[0] = self.rect[0]
-        self.leg_hitbox.rect[1] = self.rect[1]
+        # for collision improvements
+        self.leg_hitbox_rect.centery = self.position.y - 16
+        pygame.draw.rect(display_surface, (255, 0, 0), self.leg_hitbox_rect, 1)
+        left = False
+        if left:
+            self.leg_hitbox_rect.centerx = self.position.x + 6
+        else:
+            self.leg_hitbox_rect.centerx = self.position.x + 36
 
 
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_LEFT]:
+            left = True
             if self.position.x < 0:
                 self.position.x = WINDOW_WIDTH
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
             self.animate(self.move_left_sprites, 0.1)
         elif keys[pygame.K_RIGHT]:
+            left = False
             if self.position.x > WINDOW_WIDTH:
                 self.position.x = 0
             self.acceleration.x = self.HORIZONTAL_ACCELERATION    
@@ -167,14 +170,30 @@ class Player(pygame.sprite.Sprite):
             self.position.y = self.y
 
     def check_collisions(self):
-        dirt_collided_platforms = pygame.sprite.spritecollide(self, self.land_tiles, False, pygame.sprite.collide_mask) # this makes a list of all in contact tiles
-        if dirt_collided_platforms:
-            if self.velocity.y > 0:
-                self.position.y = dirt_collided_platforms[0].rect.top + 8
-                self.velocity.y = 0        
-        water_collided_platforms = pygame.sprite.spritecollide(self, self.water_tiles, False)
-        if water_collided_platforms:
-            self.position = (self.x, self.y)
+        # new collision detection:
+        # if self.land_tiles.rect.colliderect(self.leg_hitbox_rect):
+        #     print("lol")
+
+        mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
+
+        for tile in self.land_tiles:
+            if pygame.sprite.spritecollide(tile, mask_outline, False):
+                if self.velocity.y > 0:
+                    self.position.y = tile.rect.top + 10
+                    self.velocity.y = 0
+        for tile in self.water_tiles:
+            pass
+            # if pygame.Rect.colliderect(tile.rect, self.leg_hitbox_rect):
+            #     self.position = (self.x, self.y)
+
+        # dirt_collided_platforms = pygame.sprite.spritecollide(self, self.land_tiles, False, pygame.sprite.collide_mask) # this makes a list of all in contact tiles
+        # if dirt_collided_platforms:
+        #     if self.velocity.y > 0:
+        #         self.position.y = dirt_collided_platforms[0].rect.top + 8
+        #         self.velocity.y = 0        
+        # water_collided_platforms = pygame.sprite.spritecollide(self, self.water_tiles, False)
+        # if water_collided_platforms:
+        #     self.position = (self.x, self.y)
     
     def jump(self):
         if pygame.sprite.spritecollide(self, self.land_tiles, False):
@@ -190,7 +209,6 @@ class Player(pygame.sprite.Sprite):
             self.current_sprite = 0
         
         self.image = sprite_list[int(self.current_sprite)]
-
 
 
 
@@ -220,12 +238,18 @@ for layer in tmx_data.visible_layers:
     print(layer.name)
     if hasattr(layer,'data'):
         for x, y, surf in layer.tiles():
+            # for tile in layer.tiles():
+            #     print(tile.data)
+                # NOTE: here i need to check if the tile is an edge tile , use the ID of the edge tile to check this, just am not sure 
+                # how to do that because the documentation is so shit and basic 
             pos = (x * 32, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
             if layer.name in ('Yellow Dirt', 'Brown Dirt'):
                 land_sprite_group.add(temp)
             elif layer.name in ('Water'):
                 water_sprite_group.add(temp)
+
+
 
 
 
