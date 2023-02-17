@@ -9,9 +9,9 @@ screen = pygame.display.set_mode((500, 500))
 
 clock = pygame.time.Clock()
 
-img = pygame.image.load('img.png')
+img = pygame.image.load('./mask_tutorial/img.png')
 img.set_colorkey((0, 0, 0))
-img_2 = pygame.image.load('img_2.png')
+img_2 = pygame.image.load('./mask_tutorial/img_2.png')
 img_2.set_colorkey((0, 0, 0))
 img_loc = (50, 50)
 

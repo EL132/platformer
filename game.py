@@ -205,45 +205,45 @@ class BossOne(pygame.sprite.Sprite):
         self.attack_right_sprites = []
 
         # adding the moving right frames
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 1.png'), (55.5, 87)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 2.png'), (55.5, 87)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 3.png'), (55.5, 87)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 4.png'), (55.5, 87)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 5.png'), (55.5, 87)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 6.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 1.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 2.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 3.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 4.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 5.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 6.png'), (55.5, 87)))
 
-        self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 1.png'), (55.5, 87)))
-        self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 2.png'), (55.5, 87)))
-        self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 3.png'), (55.5, 87)))
-        self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 4.png'), (55.5, 87)))
-        self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 5.png'), (55.5, 87)))
-        self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 6.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 1.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 2.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 3.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 4.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 5.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 6.png'), (55.5, 87)))
 
-        self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 1.png'), (55.5, 87)))
-        self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 2.png'), (55.5, 87)))
-        self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 3.png'), (55.5, 87)))
-        self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 4.png'), (55.5, 87)))
-        self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 5.png'), (55.5, 87)))
-        self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 6.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 1.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 2.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 3.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 4.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 5.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 6.png'), (55.5, 87)))
 
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 1.png'), (55.5, 87)))
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 2.png'), (55.5, 87)))
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 3.png'), (55.5, 87)))
+        # self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 1.png'), (55.5, 87)))
+        # self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 2.png'), (55.5, 87)))
+        # self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 3.png'), (55.5, 87)))
 
-        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 1.png'), (55.5, 87)))
-        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 2.png'), (55.5, 87)))
-        self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 3.png'), (55.5, 87)))
+        # self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 1.png'), (55.5, 87)))
+        # self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 2.png'), (55.5, 87)))
+        # self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 3.png'), (55.5, 87)))
 
 
         # index of the current sprite 
-        self.current_sprite = 0
+        # self.current_sprite = 0
 
-        self.image = self.move_right_sprites[self.current_sprite]
-        self.rect = self.image.get_rect()
+        # self.image = self.move_right_sprites[self.current_sprite]
+        # self.rect = self.image.get_rect()
 
         self.x = x
         self.y = y
-        self.rect.bottomleft = (x, y)
+        # self.rect.bottomleft = (x, y)
 
         self.turns = 0
 
@@ -329,7 +329,7 @@ visible_sprites = YSortCameraGroup()
 my_player_group = pygame.sprite.Group()
 water_tile_group = pygame.sprite.Group() 
 dirt_tile_group = pygame.sprite.Group()
-boss_group_one = pygame.sprite.Group()
+# boss_group_one = pygame.sprite.Group()
 laser_group = pygame.sprite.Group()
 
 
@@ -418,7 +418,7 @@ my_player = Player(164, 164, dirt_tile_group, water_tile_group)
 my_player_group.add(my_player)
 
 boss_one = BossOne(501, 240)
-boss_group_one.add(boss_one)
+# boss_group_one.add(boss_one)
 
 
 running = True
@@ -435,8 +435,8 @@ while running:
     my_player_group.update()
     my_player_group.draw(display_surface)
 
-    boss_group_one.update()
-    boss_group_one.draw(display_surface)
+    # boss_group_one.update()
+    # boss_group_one.draw(display_surface)
     
     laser_group.update()
     laser_group.draw(display_surface)

@@ -172,7 +172,11 @@ class Player(pygame.sprite.Sprite):
     def check_collisions(self):
 
         for tile in self.land_tiles:  
-            if pygame.sprite.collide_mask(self.mask.scale((15, 15)), tile):
+            # if pygame.sprite.collide_mask(self.mask.scale((15, 15)), tile):
+            if pygame.sprite.collide_mask(self, tile):
+                tile.mask = pygame.mask.from_surface(tile.image)
+                tile_mask_outline = tile.mask.outline() # this gives a list of points that are on
+                pygame.draw.lines(self.image, (255, 0, 0), True, tile_mask_outline)
                 if self.velocity.y > 0:
                     self.position.y = tile.rect.top + 10
                     self.velocity.y = 0
@@ -228,7 +232,7 @@ for layer in tmx_data.visible_layers:
             #     print(tile.data)
                 # NOTE: here i need to check if the tile is an edge tile , use the ID of the edge tile to check this, just am not sure 
                 # how to do that because the documentation is so shit and basic 
-            pos = (x * 32, y * 32)
+            pos = (x * 31, y * 31)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
             if layer.name in ('Yellow Dirt', 'Brown Dirt'):
                 land_sprite_group.add(temp)
