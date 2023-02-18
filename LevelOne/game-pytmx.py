@@ -42,46 +42,46 @@ class Player(pygame.sprite.Sprite):
         self.idle_left_sprites = []
 
         # adding the moving right frames
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (1).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (2).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (3).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (4).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (5).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (6).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (7).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (8).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (1).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (2).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (3).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (4).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (5).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (6).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (7).png'), (64, 64)))
+        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (8).png'), (64, 64)))
 
         # adding the moving left frames
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (1).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (2).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (3).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (4).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (5).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (6).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (7).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Run (8).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (1).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (2).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (3).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (4).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (5).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (6).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (7).png'), (64, 64)), True, False))
+        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (8).png'), (64, 64)), True, False))
 
         # idle left frames 
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (1).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (2).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (3).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (4).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (5).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (6).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (7).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (8).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (9).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (1).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (2).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (3).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (4).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (5).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (6).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (7).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (8).png'), (64, 64)), True, False))
+        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (9).png'), (64, 64)), True, False))
 
         # idle right frames 
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (1).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (2).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (3).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (4).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (5).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (6).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (7).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (8).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/player/boy/Idle (9).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (1).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (2).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (3).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (4).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (5).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (6).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (7).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (8).png'), (64, 64)))
+        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (9).png'), (64, 64)))
 
         # index of the current sprite 
         self.current_sprite = 0
@@ -207,13 +207,103 @@ class Player(pygame.sprite.Sprite):
 class BossOne(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
+        # animation frames ::
+        self.move_right_sprites = []
+        self.move_left_sprites = []
+        self.idle_sprites = []
+        self.attack_left_sprites = []
+        self.attack_right_sprites = []
+
+        # adding the moving right frames
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 1.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 2.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 3.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 4.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 5.png'), (55.5, 87)))
+        # self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Right/Right 6.png'), (55.5, 87)))
+
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 1.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 2.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 3.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 4.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 5.png'), (55.5, 87)))
+        # self.move_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Move/Left/Left 6.png'), (55.5, 87)))
+
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 1.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 2.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 3.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 4.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 5.png'), (55.5, 87)))
+        # self.idle_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Idle/Idle 6.png'), (55.5, 87)))
+
+        # self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 1.png'), (55.5, 87)))
+        # self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 2.png'), (55.5, 87)))
+        # self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Left/Attack Left 3.png'), (55.5, 87)))
+
+        # self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 1.png'), (55.5, 87)))
+        # self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 2.png'), (55.5, 87)))
+        # self.attack_right_sprites.append(pygame.transform.scale(pygame.image.load('./images/BossOne/Attack/Right/Attack Right 3.png'), (55.5, 87)))
+
+
+        # index of the current sprite 
+        # self.current_sprite = 0
+
+        # self.image = self.move_right_sprites[self.current_sprite]
+        # self.rect = self.image.get_rect()
+
         self.x = x
         self.y = y
+        # self.rect.bottomleft = (x, y)
+
+        self.turns = 0
+
+        self.move_speed = 1
+        self.right = True
+    
+    def update(self):
+        self.move()
+
+
+    def move(self):
+        # i want this movement to be left then right then left then right...
+        # i essentially want to have the x value get updated every frame until
+        # a width parameter is reached
+        # print(self.position)
+        
+        if self.right:
+            self.rect.centerx += self.move_speed
+            # print(self.rect.centerx) --> not changing  
+            # print("position: ", self.position)
+            # print("position individual: ", self.position[0])
+            # # self.position[0] = self.rect[0]
+            # print("rect: ", self.rect[0])
+            self.animate(self.move_right_sprites, 0.1)
+            if self.rect.x > WINDOW_WIDTH - 40:
+                self.right = False
+                self.turns += 1
+        else:
+            self.rect.x -= self.move_speed
+            if self.turns % 2 == 0:
+                self.animate(self.attack_left_sprites, 0.02)
+            else:
+                self.animate(self.move_left_sprites, 0.1)
+            if self.rect.x < 500:
+                self.right = True
+
+
+    def animate(self, sprite_list, speed):
+        # loop through sprite list and change current sprite 
+        if self.current_sprite < len(sprite_list) - 1:
+            self.current_sprite += speed
+        else:
+            self.current_sprite = 0
+        
+        self.image = sprite_list[int(self.current_sprite)]
 
 
 
 # video tmx code
-tmx_data = load_pygame('./maps/levelOne.tmx')
+tmx_data = load_pygame('./levelOne/maps/levelOne.tmx')
 
 # sprite group for collision detection
 land_sprite_group = pygame.sprite.Group()
