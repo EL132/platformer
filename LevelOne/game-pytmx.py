@@ -21,7 +21,7 @@ FPS = 60
 clock = pygame.time.Clock()
 
 
-
+# test
 # classes
 class Tile(pygame.sprite.Sprite):
 	def __init__(self,pos,surf,groups):
