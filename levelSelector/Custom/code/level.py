@@ -3,9 +3,14 @@ from settings import *
 from tile import Tile
 from player import Player
 from debug import debug
+from pytmx.util_pygame import load_pygame
 
 DISPLAY_WIDTH = 1200
 DISPLAY_HEIGHT = 675
+
+#tmx_data = load_pygame('./maps/levelOne.tmx')
+tmx_data = load_pygame('./levelSelector/Custom/Ninja Tilemaps/LevelSelector.tmx')
+
 
 class Level:
 	def __init__(self):
@@ -14,10 +19,11 @@ class Level:
 		self.screen = pygame.display.get_surface()
 
 		# sprite group setup
-		self.visible_sprites = YSortCamerGroup()
+		self.visible_sprites = YSortCameraGroup()
 		self.obstacle_sprites = pygame.sprite.Group()
 
-		self.map_image = pygame.transform.scale(pygame.image.load("./levelSelector/Custom/levelSelectorMap.png"), (DISPLAY_WIDTH * 2, DISPLAY_HEIGHT * 2))
+		#self.map_image = pygame.transform.scale(pygame.image.load("./levelSelector/Custom/Ninja Tilemaps/levelSelector.png"), (DISPLAY_WIDTH * 2, DISPLAY_HEIGHT * 2))
+		self.map_image = pygame.image.load("./levelSelector/Custom/Ninja Tilemaps/levelSelector.png")
 		self.map_rect = self.map_image.get_rect()
 		self.map_rect.topleft = (0, 0)
 
@@ -29,8 +35,8 @@ class Level:
 			for col_index, col in enumerate(row):
 				x = col_index * TILESIZE
 				y = row_index * TILESIZE
-				if col == 'x':
-					Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
+				# if col == 'x':
+				# 	Tile((x, y), [self.visible_sprites, self.obstacle_sprites])
 				if col == 'p':
 					self.player = Player((x, y), [self.visible_sprites], self.obstacle_sprites)
 
@@ -40,7 +46,7 @@ class Level:
 		self.visible_sprites.update()
 		debug(self.player.direction)
 
-class YSortCamerGroup(pygame.sprite.Group):
+class YSortCameraGroup(pygame.sprite.Group):
 	def __init__(self): 
 		super().__init__()
 		self.screen = pygame.display.get_surface()

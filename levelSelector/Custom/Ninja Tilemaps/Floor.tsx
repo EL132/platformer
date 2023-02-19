@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.9" tiledversion="1.9.2" name="Floor" tilewidth="16" tileheight="16" tilecount="572" columns="22">
- <image source="../levelSelector/Custom/ninjaTileSet/NinjaAdventure/Backgrounds/Tilesets/TilesetFloor.png" width="352" height="417"/>
+ <image source="../ninjaTileSet/NinjaAdventure/Backgrounds/Tilesets/TilesetFloor.png" width="352" height="417"/>
  <wangsets>
   <wangset name="Dirt Road" type="edge" tile="-1">
    <wangcolor name="Dirt" color="#ff0000" tile="-1" probability="1"/>
