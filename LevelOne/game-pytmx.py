@@ -36,9 +36,16 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
 
         # animation frames :: default orientation is right 
-        self.walk_frames = []
-        self.run_frames = []
-        self.jump_frames = []
+        self.walk_right_frames = []
+        self.walk_left_frames = []
+
+        self.run_right_frames = []
+        self.run_left_frames = []
+
+        self.jump_right_frames = []
+        self.jump_left_frames = []
+
+        # establish left and right precedent for these frames at a later point 
         self.hurt_frames = []
         self.death_frames = []
         self.attack_one_frames = []
@@ -48,28 +55,34 @@ class Player(pygame.sprite.Sprite):
 
 
         # walk frames 
-        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 1.png').convert_alpha(), (64,64)))
-        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 2.png').convert_alpha(), (64,64)))
-        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 3.png').convert_alpha(), (64,64)))
-        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 4.png').convert_alpha(), (64,64)))
-        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 5.png').convert_alpha(), (64,64)))
-        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 6.png').convert_alpha(), (64,64)))
+        self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 1.png').convert_alpha(), (64,64)))
+        self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 2.png').convert_alpha(), (64,64)))
+        self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 3.png').convert_alpha(), (64,64)))
+        self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 4.png').convert_alpha(), (64,64)))
+        self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 5.png').convert_alpha(), (64,64)))
+        self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 6.png').convert_alpha(), (64,64)))
+        for frame in self.walk_right_frames:
+            self.walk_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # run frames 
-        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 1.png').convert_alpha(), (64, 64)))
-        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 2.png').convert_alpha(), (64, 64)))
-        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 3.png').convert_alpha(), (64, 64)))
-        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 4.png').convert_alpha(), (64, 64)))
-        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 5.png').convert_alpha(), (64, 64)))
-        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 6.png').convert_alpha(), (64, 64)))
+        self.run_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 1.png').convert_alpha(), (64, 64)))
+        self.run_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 2.png').convert_alpha(), (64, 64)))
+        self.run_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 3.png').convert_alpha(), (64, 64)))
+        self.run_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 4.png').convert_alpha(), (64, 64)))
+        self.run_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 5.png').convert_alpha(), (64, 64)))
+        self.run_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 6.png').convert_alpha(), (64, 64)))
+        for frame in self.run_right_frames:
+            self.run_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # jump frames 
-        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 1.png').convert_alpha(), (64, 64)))
-        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 2.png').convert_alpha(), (64, 64)))
-        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 3.png').convert_alpha(), (64, 64)))
-        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 4.png').convert_alpha(), (64, 64)))
-        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 5.png').convert_alpha(), (64, 64)))
-        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 6.png').convert_alpha(), (64, 64)))
+        self.jump_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 1.png').convert_alpha(), (64, 64)))
+        self.jump_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 2.png').convert_alpha(), (64, 64)))
+        self.jump_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 3.png').convert_alpha(), (64, 64)))
+        self.jump_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 4.png').convert_alpha(), (64, 64)))
+        self.jump_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 5.png').convert_alpha(), (64, 64)))
+        self.jump_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 6.png').convert_alpha(), (64, 64)))
+        for frame in self.jump_right_frames:
+            self.jump_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # hurt frames
         self.hurt_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Hurt/hurt 1.png').convert_alpha(), (64, 64)))
@@ -120,7 +133,7 @@ class Player(pygame.sprite.Sprite):
         # index of the current sprite 
         self.current_sprite = 0
 
-        self.image = self.move_right_sprites[self.current_sprite]
+        self.image = self.run_right_frames[self.current_sprite]
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
@@ -135,7 +148,8 @@ class Player(pygame.sprite.Sprite):
         self.acceleration = vector(0, 0)
 
         # kinematic constants
-        self.HORIZONTAL_ACCELERATION = 0.7
+        # this acceleration is used for walking and running will just add to this value 
+        self.HORIZONTAL_ACCELERATION = 0.35
         self.HORIZONTAL_FRICTION = 0.10
         self.VERTICAL_ACCELERATION = 0.25 # gravity 
         self.VERTICAL_JUMP_SPEED = 10
@@ -149,15 +163,11 @@ class Player(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image, 4)
 
 
-
-
-
-
     def update(self):
         self.move()
         self.check_collisions()
         mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
-        pygame.draw.lines(self.image, (255, 0, 0), True, mask_outline)
+        # pygame.draw.lines(self.image, (255, 0, 0), True, mask_outline)
 
 
     def move(self):
@@ -165,7 +175,7 @@ class Player(pygame.sprite.Sprite):
 
         # for collision improvements
         self.leg_hitbox_rect.centery = self.position.y - 16
-        pygame.draw.rect(display_surface, (255, 0, 0), self.leg_hitbox_rect, 1)
+        # pygame.draw.rect(display_surface, (255, 0, 0), self.leg_hitbox_rect, 1)
         left = False
         if left:
             self.leg_hitbox_rect.centerx = self.position.x + 6
@@ -180,18 +190,24 @@ class Player(pygame.sprite.Sprite):
             if self.position.x < 0:
                 self.position.x = WINDOW_WIDTH
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
-            self.animate(self.move_left_sprites, 0.1)
+            self.animate(self.walk_left_frames, 0.1)
+        # elif keys[pygame.K_LEFT] and keys[pygame.K_LSHIFT]:
+        #     left = True
+        #     if self.position.x < 0:
+        #         self.position.x = WINDOW_WIDTH
+        #     self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
+        #     self.animate(self.run_left_frames, 0.1)
         elif keys[pygame.K_RIGHT]:
             left = False
             if self.position.x > WINDOW_WIDTH:
                 self.position.x = 0
             self.acceleration.x = self.HORIZONTAL_ACCELERATION    
-            self.animate(self.move_right_sprites, 0.1)    
+            self.animate(self.walk_right_frames, 0.1)    
         else:
             if self.velocity.x > 0:
-                self.animate(self.idle_right_sprites, 0.1)
+                self.animate(self.idle_frames, 0.1)
             else:
-                self.animate(self.idle_left_sprites, 0.1)
+                self.animate(self.idle_frames, 0.1)
 
         # # calc new kinematic values 
         self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
@@ -210,9 +226,9 @@ class Player(pygame.sprite.Sprite):
             if pygame.sprite.collide_mask(self, tile):
                 tile.mask = pygame.mask.from_surface(tile.image)
                 tile_mask_outline = tile.mask.outline() # this gives a list of points that are on
-                pygame.draw.lines(self.image, (255, 0, 0), True, tile_mask_outline)
+                # pygame.draw.lines(self.image, (255, 0, 0), True, tile_mask_outline)
                 if self.velocity.y > 0:
-                    self.position.y = tile.rect.top + 10
+                    self.position.y = tile.rect.top + 2
                     self.velocity.y = 0
         for tile in self.water_tiles:  
             if pygame.sprite.collide_mask(self, tile):
@@ -221,6 +237,7 @@ class Player(pygame.sprite.Sprite):
     
     def jump(self):
         if pygame.sprite.spritecollide(self, self.land_tiles, False):
+            self.animate(self.jump_right_frames, 0.1)
             self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
 
     def animate(self, sprite_list, speed):
