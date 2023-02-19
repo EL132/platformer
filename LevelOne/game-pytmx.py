@@ -35,53 +35,87 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, x, y, land_tiles, water_tiles):
         super().__init__()
 
-        # animation frames ::
-        self.move_right_sprites = []
-        self.move_left_sprites = []
-        self.idle_right_sprites = []
-        self.idle_left_sprites = []
+        # animation frames :: default orientation is right 
+        self.walk_frames = []
+        self.run_frames = []
+        self.jump_frames = []
+        self.hurt_frames = []
+        self.death_frames = []
+        self.attack_one_frames = []
+        self.attack_two_frames = []
+        self.attack_three_frames = []
+        self.idle_frames = []
 
-        # adding the moving right frames
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (1).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (2).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (3).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (4).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (5).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (6).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (7).png'), (64, 64)))
-        self.move_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (8).png'), (64, 64)))
 
-        # adding the moving left frames
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (1).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (2).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (3).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (4).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (5).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (6).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (7).png'), (64, 64)), True, False))
-        self.move_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Run (8).png'), (64, 64)), True, False))
+        # walk frames 
+        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 1.png').convert_alpha(), (64,64)))
+        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 2.png').convert_alpha(), (64,64)))
+        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 3.png').convert_alpha(), (64,64)))
+        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 4.png').convert_alpha(), (64,64)))
+        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 5.png').convert_alpha(), (64,64)))
+        self.walk_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Walk/walk 6.png').convert_alpha(), (64,64)))
 
-        # idle left frames 
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (1).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (2).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (3).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (4).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (5).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (6).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (7).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (8).png'), (64, 64)), True, False))
-        self.idle_left_sprites.append(pygame.transform.flip(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (9).png'), (64, 64)), True, False))
+        # run frames 
+        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 1.png').convert_alpha(), (64, 64)))
+        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 2.png').convert_alpha(), (64, 64)))
+        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 3.png').convert_alpha(), (64, 64)))
+        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 4.png').convert_alpha(), (64, 64)))
+        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 5.png').convert_alpha(), (64, 64)))
+        self.run_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Run/run 6.png').convert_alpha(), (64, 64)))
 
-        # idle right frames 
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (1).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (2).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (3).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (4).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (5).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (6).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (7).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (8).png'), (64, 64)))
-        self.idle_right_sprites.append(pygame.transform.scale(pygame.image.load('./levelOne/images/player/boy/Idle (9).png'), (64, 64)))
+        # jump frames 
+        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 1.png').convert_alpha(), (64, 64)))
+        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 2.png').convert_alpha(), (64, 64)))
+        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 3.png').convert_alpha(), (64, 64)))
+        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 4.png').convert_alpha(), (64, 64)))
+        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 5.png').convert_alpha(), (64, 64)))
+        self.jump_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Jump/jump 6.png').convert_alpha(), (64, 64)))
+
+        # hurt frames
+        self.hurt_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Hurt/hurt 1.png').convert_alpha(), (64, 64)))
+        self.hurt_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Hurt/hurt 2.png').convert_alpha(), (64, 64)))
+        self.hurt_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Hurt/hurt 3.png').convert_alpha(), (64, 64)))
+
+        # death frames
+        self.death_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Death/death 1.png').convert_alpha(), (64, 64)))
+        self.death_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Death/death 2.png').convert_alpha(), (64, 64)))
+        self.death_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Death/death 3.png').convert_alpha(), (64, 64)))
+        self.death_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Death/death 4.png').convert_alpha(), (64, 64)))
+        self.death_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Death/death 5.png').convert_alpha(), (64, 64)))
+        self.death_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Death/death 6.png').convert_alpha(), (64, 64)))
+
+        #attack one frames
+        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack One/attack 1.png').convert_alpha(), (64, 64)))
+        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack One/attack 2.png').convert_alpha(), (64, 64)))
+        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack One/attack 3.png').convert_alpha(), (64, 64)))
+        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack One/attack 4.png').convert_alpha(), (64, 64)))
+        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack One/attack 5.png').convert_alpha(), (64, 64)))
+        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack One/attack 6.png').convert_alpha(), (64, 64)))
+
+        # attack two frames
+        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Two/attack 1.png').convert_alpha(), (64, 64)))
+        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Two/attack 2.png').convert_alpha(), (64, 64)))
+        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Two/attack 3.png').convert_alpha(), (64, 64)))
+        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Two/attack 4.png').convert_alpha(), (64, 64)))
+        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Two/attack 5.png').convert_alpha(), (64, 64)))
+        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Two/attack 6.png').convert_alpha(), (64, 64)))
+
+        # attack three frames
+        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Three/attack 1.png').convert_alpha(), (64, 64)))
+        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Three/attack 2.png').convert_alpha(), (64, 64)))
+        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Three/attack 3.png').convert_alpha(), (64, 64)))
+        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Three/attack 4.png').convert_alpha(), (64, 64)))
+        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Three/attack 5.png').convert_alpha(), (64, 64)))
+        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Attack Three/attack 6.png').convert_alpha(), (64, 64)))
+
+        # idle frames
+        self.idle_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Idle/idle 1.png').convert_alpha(), (64, 64)))
+        self.idle_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Idle/idle 2.png').convert_alpha(), (64, 64)))
+        self.idle_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Idle/idle 3.png').convert_alpha(), (64, 64)))
+        self.idle_frames.append(pygame.transform.scale(pygame.image.load('./LevelOne/images/player/Woodcutter/Idle/idle 4.png').convert_alpha(), (64, 64)))
+
+
+
 
         # index of the current sprite 
         self.current_sprite = 0
