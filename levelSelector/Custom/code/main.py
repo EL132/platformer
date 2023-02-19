@@ -3,8 +3,8 @@ from settings import *
 from debug import debug
 from level import Level
 
-DISPLAY_WIDTH = 1200
-DISPLAY_HEIGHT = 675
+DISPLAY_WIDTH = 800
+DISPLAY_HEIGHT = 448
 
 
 class Game:
