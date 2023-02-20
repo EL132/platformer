@@ -10,7 +10,7 @@ DISPLAY_HEIGHT = 448
 class Game:
 	def __init__(self):
 		pygame.init()
-		self.screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+		self.screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
 		pygame.display.set_caption('Level Selector')
 		self.clock = pygame.time.Clock()
 
