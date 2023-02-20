@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.9" tiledversion="1.9.2" name="Nature" tilewidth="16" tileheight="16" tilecount="336" columns="16">
- <image source="NinjaAdventure/Backgrounds/Tilesets/TilesetNature.png" width="256" height="336"/>
+ <image source="../NinjaAdventure/Backgrounds/Tilesets/TilesetNature.png" width="256" height="336"/>
  <wangsets>
   <wangset name="Trees" type="corner" tile="-1">
    <wangcolor name="" color="#ff0000" tile="-1" probability="1"/>

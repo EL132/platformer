@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="54" height="48" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="1">
- <tileset firstgid="1" source="Ground.tsx"/>
- <tileset firstgid="573" source="Buildings.tsx"/>
- <tileset firstgid="1332" source="Collision Tiles.tsx"/>
- <tileset firstgid="1333" source="Nature.tsx"/>
+ <tileset firstgid="1" source="tsx/Ground.tsx"/>
+ <tileset firstgid="573" source="tsx/Buildings.tsx"/>
+ <tileset firstgid="1332" source="tsx/Collision Tiles.tsx"/>
+ <tileset firstgid="1333" source="tsx/Nature.tsx"/>
  <layer id="1" name="Trail and Ground" width="54" height="48" offsetx="0.0322181" offsety="-0.0145792">
   <data encoding="csv">
 277,278,280,280,277,280,280,279,277,277,280,279,278,278,277,280,278,279,278,278,278,280,277,277,278,277,279,277,278,280,278,280,277,279,277,277,278,279,277,280,280,279,280,279,280,277,277,280,280,279,277,280,278,280,
