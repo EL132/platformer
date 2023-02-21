@@ -2,16 +2,17 @@ import pygame
 from settings import *
 
 class Player(pygame.sprite.Sprite):
-	def __init__(self, pos, groups, obstacle_sprites):
+	def __init__(self, pos, groups, obstacle_sprites, entrance_sprites):
 		super().__init__(groups)
 		self.image = pygame.transform.scale(pygame.image.load('./levelSelector/Custom/graphics/test/player.png').convert_alpha(), (TILESIZE, TILESIZE))
 		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.inflate(0, -26)
+		self.hitbox = self.rect.inflate(-10, 0)
 
 		self.direction = pygame.math.Vector2()
-		self.speed = 2
+		self.speed = 1.5
 
 		self.obstacle_sprites = obstacle_sprites
+		self.entrance_sprites = entrance_sprites
 
 	def input(self): 
 		keys = pygame.key.get_pressed()
@@ -57,6 +58,10 @@ class Player(pygame.sprite.Sprite):
 						self.hitbox.bottom = sprite.hitbox.top
 					if self.direction.y < 0: 
 						self.hitbox.top = sprite.hitbox.bottom
+
+		for sprite in self.entrance_sprites: 
+			if sprite.rect.colliderect(self.hitbox): 
+				print('Entering Level One')
 
 	def update(self): 
 		self.input()
