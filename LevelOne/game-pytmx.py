@@ -361,28 +361,37 @@ class Boss(pygame.sprite.Sprite):
     def move(self):
         attackNumber = random.randint(1, 3)
         timePassed = pygame.time.get_ticks() - self.starting_time
-        # what should the system be for deciding when to attack ?
-        # print(timePassed)
+
+        if not self.attacking:
 
 
-        if self.right:
-            self.rect.centerx += self.move_speed
-            if timePassed % 3000 > 0 and timePassed % 3000 < 100:
-                self.attacking = True
-                self.attack(attackNumber, 'right', 0.1)
+            if self.right:
+                self.rect.centerx += self.move_speed
+                if timePassed % 3000 > 0 and timePassed % 3000 < 100:
+                    self.attacking = True
+
+                # this if is a new try 
+                if self.attacking:
+                    print("inside move attacking")
+                    self.attack(attackNumber, 'right', 0.1)
+                else:
+                    self.animate(self.walk_right_frames, 0.1)
+
+                if self.rect.x > 600:
+                    self.right = False
             else:
-                self.animate(self.walk_right_frames, 0.1)
-            if self.rect.x > 600:
-                self.right = False
-        else:
-            self.rect.x -= self.move_speed
-            if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 200:
-                self.attacking = True
-                self.attack(attackNumber, 'left', 0.1)
-            else:
-                self.animate(self.walk_left_frames, 0.1)
-            if self.rect.x < 0:
-                self.right = True
+                self.rect.x -= self.move_speed
+                if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 200:
+                    self.attacking = True
+                
+                # this if is a new try 
+                if self.attacking:
+                    self.attack(attackNumber, 'left', 0.1)
+                else:
+                    self.animate(self.walk_left_frames, 0.1)
+
+                if self.rect.x < 0:
+                    self.right = True
 
 
     # right now, the attack animation is not functional as the animations 
@@ -401,11 +410,14 @@ class Boss(pygame.sprite.Sprite):
             self.animate(self.attack_three_left_frames, speed)
         elif number == 3 and orientation == 'right':
             self.animate(self.attack_three_right_frames, speed)
-
+        
 
     def animate(self, sprite_list, speed):
         # loop through sprite list and change current sprite 
         if self.current_sprite < len(sprite_list) - 1:
+            # this if is a new try
+            if self.attacking:
+                self.attacking = False
             self.current_sprite += speed
         else:
             self.current_sprite = 0
