@@ -134,7 +134,6 @@ class Player(pygame.sprite.Sprite):
 
 
 
-
         # index of the current sprite 
         self.current_sprite = 0
 
@@ -356,49 +355,48 @@ class Boss(pygame.sprite.Sprite):
     
     def update(self):
         self.move()
+        self.check_animations()
 
 
     def move(self):
-        attackNumber = random.randint(1, 3)
         timePassed = pygame.time.get_ticks() - self.starting_time
+        print(timePassed)
 
-        if not self.attacking:
+        if timePassed % 3000 > 0 and timePassed % 3000 < 100 and not self.attacking:
+            self.attacking = True
+            self.set = random.randint(1, 4)
 
 
-            if self.right:
-                self.rect.centerx += self.move_speed
-                if timePassed % 3000 > 0 and timePassed % 3000 < 100:
-                    self.attacking = True
+        if self.right:
+            self.rect.centerx += self.move_speed
+            if self.rect.x > 600:
+                self.right = False
+        else:
+            self.rect.x -= self.move_speed
+            if self.rect.x < 0:
+                self.right = True
 
-                # this if is a new try 
-                if self.attacking:
-                    print("inside move attacking")
-                    self.attack(attackNumber, 'right', 0.1)
-                else:
-                    self.animate(self.walk_right_frames, 0.1)
 
-                if self.rect.x > 600:
-                    self.right = False
-            else:
-                self.rect.x -= self.move_speed
-                if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 200:
-                    self.attacking = True
-                
-                # this if is a new try 
-                if self.attacking:
-                    self.attack(attackNumber, 'left', 0.1)
-                else:
-                    self.animate(self.walk_left_frames, 0.1)
-
-                if self.rect.x < 0:
-                    self.right = True
+    def check_animations(self):
+        if self.attacking:
+            # self.animate(self.attack_four_left_frames, 0.1)
+            self.attack(self.set, 'left', 0.1)
+            # print('attacking')
+        else:
+            if self.right: 
+                self.animate(self.walk_right_frames, 0.1)
+                # print('not attacking')
+            else: 
+                self.animate(self.walk_left_frames, 0.1)
 
 
     # right now, the attack animation is not functional as the animations 
     # move too fast, but there is a place to start working on it if you go 
     # to chatGPT and take a look at the stuff it said 
     def attack(self, number, orientation, speed):
+        # print("inside attacking number",  number)
         if number == 1 and orientation == 'left':
+            # print("inside one left")
             self.animate(self.attack_one_left_frames, speed)
         elif number == 1 and orientation == 'right':
             self.animate(self.attack_one_right_frames, speed)
@@ -410,18 +408,21 @@ class Boss(pygame.sprite.Sprite):
             self.animate(self.attack_three_left_frames, speed)
         elif number == 3 and orientation == 'right':
             self.animate(self.attack_three_right_frames, speed)
-        
+        elif number == 4 and orientation == 'left':
+            self.animate(self.attack_four_left_frames, speed)
+        elif number == 4 and orientation == 'right':
+            self.animate(self.attack_four_right_frames, speed)
+                    
 
     def animate(self, sprite_list, speed):
         # loop through sprite list and change current sprite 
         if self.current_sprite < len(sprite_list) - 1:
-            # this if is a new try
-            if self.attacking:
-                self.attacking = False
             self.current_sprite += speed
         else:
             self.current_sprite = 0
-        
+            if self.attacking: 
+                self.attacking = False
+
         self.image = sprite_list[int(self.current_sprite)]
 
 
@@ -437,9 +438,6 @@ water_sprite_group = pygame.sprite.Group()
 
 # cycle through all layers
 for layer in tmx_data.visible_layers:
-	# if layer.name in ('Floor', 'Plants and rocks', 'Pipes')
-
-    print(layer.name)
     if hasattr(layer,'data'):
         for x, y, surf in layer.tiles():
             # for tile in layer.tiles():
