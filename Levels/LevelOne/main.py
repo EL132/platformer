@@ -1,20 +1,17 @@
 from colorsys import rgb_to_hls
 import pygame, time, random
 from pytmx.util_pygame import load_pygame
-from boss import *
-from player import *
-from constants import *
+
+from variables import *
 from tile import *
+
 
 #Initiailize pygame
 pygame.init()
 
 # video tmx code
-tmx_data = load_pygame('./levelOne/maps/levelOne.tmx')
+tmx_data = load_pygame('./Levels/levelOne/maps/levelOne.tmx')
 
-# sprite group for collision detection
-land_sprite_group = pygame.sprite.Group()
-water_sprite_group = pygame.sprite.Group()
 
 # cycle through all layers
 for layer in tmx_data.visible_layers:
@@ -33,15 +30,7 @@ for layer in tmx_data.visible_layers:
 
 
 
-my_player_group = pygame.sprite.Group()
-boss_group = pygame.sprite.Group()
 
-
-my_player = Player(164, 164, land_sprite_group, water_sprite_group)
-my_player_group.add(my_player)
-
-boss_chomper = Boss(600, 373)
-boss_group.add(boss_chomper)
 
 
 
@@ -51,7 +40,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
                 my_player.jump()
 
     display_surface.fill('black')
@@ -62,6 +51,8 @@ while running:
 
     boss_group.update()
     boss_group.draw(display_surface)
+
+    my_game.update()
     
 
     pygame.display.flip()
