@@ -3,7 +3,21 @@ import pygame, time, random
 from pytmx.util_pygame import load_pygame
 
 from variables import *
+from player import Player
+from boss import Boss
+from game import Game
 from tile import *
+
+
+
+
+my_player = Player(164, 164, land_sprite_group, water_sprite_group)
+my_player_group.add(my_player)
+
+boss_chomper = Boss(600, 373)
+boss_group.add(boss_chomper)
+
+my_game = Game()
 
 
 #Initiailize pygame

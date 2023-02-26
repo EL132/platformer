@@ -26,12 +26,3 @@ water_sprite_group = pygame.sprite.Group()
 
 my_player_group = pygame.sprite.Group()
 boss_group = pygame.sprite.Group()
-
-
-my_player = Player(164, 164, land_sprite_group, water_sprite_group)
-my_player_group.add(my_player)
-
-boss_chomper = Boss(600, 373)
-boss_group.add(boss_chomper)
-
-my_game = Game()
