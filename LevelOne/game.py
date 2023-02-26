@@ -363,7 +363,7 @@ class Boss(pygame.sprite.Sprite):
         print(timePassed)
 
         if timePassed % 3000 > 0 and timePassed % 3000 < 100 and not self.attacking:
-            self.attacking = True
+            self.attacking = True   
             self.set = random.randint(1, 4)
 
 
