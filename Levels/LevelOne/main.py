@@ -98,6 +98,48 @@ class Game():
     def lives_update(self, lives):
         self.lives -= lives
 
+    def pause_game(self, main_text, sub_text):
+        """Pause the game"""
+        global running
+
+        pygame.mixer.music.pause()
+
+        #Set colors
+        WHITE = (255, 255, 255)
+        BLACK = (0, 0, 0)
+        GREEN = (25, 200, 25)
+
+        #Create main pause text
+        main_text = self.custom_font.render(main_text, True, GREEN)
+        main_rect = main_text.get_rect()
+        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+        #Create sub pause text
+        sub_text = self.custom_font.render(sub_text, True, WHITE)
+        sub_rect = sub_text.get_rect()
+        sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
+
+        #Display the pause text
+        display_surface.fill(BLACK)
+        display_surface.blit(main_text, main_rect)
+        display_surface.blit(sub_text, sub_rect)
+        pygame.display.update()
+
+        #Pause the game until user hits enter or quits
+        is_paused = True
+        while is_paused:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    #User wants to continue
+                    if event.key == pygame.K_RETURN:
+                        is_paused = False
+                        pygame.mixer.music.unpause()
+                #User wants to quit
+                if event.type == pygame.QUIT:
+                    is_paused = False
+                    running = False
+                    pygame.mixer.music.stop()
+
 
 my_game = Game()
 
@@ -114,6 +156,10 @@ while running:
             if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
                 my_player.is_jumping = True
                 my_player.jump()
+            if event.key == pygame.K_ESCAPE:
+                my_game.pause_game("Paused", "Press    enter     to     play")
+
+
 
     display_surface.fill('black')
     sprite_group.draw(display_surface)
