@@ -42,10 +42,40 @@ class Player(pygame.sprite.Sprite):
         # create a mask
         self.mask = pygame.mask.from_surface(self.image, 4)
 
+        self.is_jumping = False
+
+        self.right = True
+
 
     def update(self):
         self.move()
         self.check_collisions()
+        self.check_animations()
+        self.mask_maintenance()
+
+
+    def check_animations(self):
+        if self.is_jumping:
+            self.jump()
+        else:
+            keys = pygame.key.get_pressed()
+            
+            if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
+                self.animate(self.run_left_frames, 0.1)
+            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
+                self.animate(self.run_right_frames, 0.1)
+            elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
+                self.animate(self.walk_left_frames, 0.1)
+            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+                self.animate(self.walk_right_frames, 0.1)    
+            else:
+                if self.velocity.x > 0:
+                    self.animate(self.idle_right_frames, 0.05)
+                else:
+                    self.animate(self.idle_left_frames, 0.05)
+
+
+    def mask_maintenance(self):
         self.mask = pygame.mask.from_surface(self.image, 4)
         self.mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
         self.mask = self.mask.scale((64, 80))
@@ -67,36 +97,32 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
 
         if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
-            left = True
+            self.right = False
             if self.position.x < 0:
                 self.position.x = WINDOW_WIDTH
             self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
-            self.animate(self.run_left_frames, 0.1)
         elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
-            left = False
+            self.right = True
             if self.position.x < 0:
                 self.position.x = WINDOW_WIDTH
             self.acceleration.x = 1 * (self.HORIZONTAL_ACCELERATION + 0.2)
-            self.animate(self.run_right_frames, 0.1)
         elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
-            left = True
+            self.right = False
             if self.position.x < 0:
                 self.position.x = WINDOW_WIDTH
             self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
-            self.animate(self.walk_left_frames, 0.1)
         elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
-            left = False
+            self.right = True
             if self.position.x > WINDOW_WIDTH:
                 self.position.x = 0
             self.acceleration.x = self.HORIZONTAL_ACCELERATION    
-            self.animate(self.walk_right_frames, 0.1)    
         else:
             if self.velocity.x > 0:
+                self.right = True
                 self.mask = self.mask.scale((64, 80))
                 pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)  
-                self.animate(self.idle_right_frames, 0.05)
             else:
-                self.animate(self.idle_left_frames, 0.05)
+                self.right = False
 
         # # calc new kinematic values 
         self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
@@ -109,12 +135,14 @@ class Player(pygame.sprite.Sprite):
             self.position.y = self.y
 
     def check_collisions(self):
-
         for tile in self.land_tiles:  
             if pygame.sprite.collide_mask(self, tile):
                 tile.mask = pygame.mask.from_surface(tile.image)
                 tile_mask_outline = tile.mask.outline() # this gives a list of points that are on
                 if self.velocity.y > 0:
+                    # this is where i changed the jumping back to false to prevent infinite jumping 
+                    if self.is_jumping:
+                        self.is_jumping = False     
                     self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
         for tile in self.water_tiles:  
@@ -124,7 +152,10 @@ class Player(pygame.sprite.Sprite):
     
     def jump(self):
         if pygame.sprite.spritecollide(self, self.land_tiles, False):
-            self.animate(self.jump_right_frames, 0.1)
+            if self.right:
+                self.animate(self.jump_right_frames, 0.1)
+            else:
+                self.animate(self.jump_left_frames, 0.1)
             self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
 
     def animate(self, sprite_list, speed):
@@ -137,6 +168,7 @@ class Player(pygame.sprite.Sprite):
             self.current_sprite = 0
         
         self.image = sprite_list[int(self.current_sprite)]
+
     
     def load_animation_sprites(self):
         # animation frames :: default orientation is right 

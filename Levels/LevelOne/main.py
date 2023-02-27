@@ -112,6 +112,7 @@ while running:
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
+                my_player.is_jumping = True
                 my_player.jump()
 
     display_surface.fill('black')

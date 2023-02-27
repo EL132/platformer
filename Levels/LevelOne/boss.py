@@ -29,6 +29,10 @@ class Boss(pygame.sprite.Sprite):
     def update(self):
         self.move()
         self.check_animations()
+        self.mask_maintenance()
+
+    
+    def mask_maintenance(self):
         self.mask = pygame.mask.from_surface(self.image, 4)
         self.mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
         # self.mask = self.mask.scale((64, 80))
