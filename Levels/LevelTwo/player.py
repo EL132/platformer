@@ -1,11 +1,12 @@
 import pygame, random, sys
-from variables import *
+from constants import * 
 
 #Use 2D vectors
 vector = pygame.math.Vector2
 
+
+# this class still needs to be updated with new animations bc this is level two
 class Player(pygame.sprite.Sprite):
-    # parameters are TBD for grass and water tiles
     def __init__(self, x, y, land_tiles, water_tiles):
         super().__init__()
 
