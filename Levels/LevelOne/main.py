@@ -31,7 +31,7 @@ for layer in tmx_data.visible_layers:
             # for tile in layer.tiles():
                 # NOTE: here i need to check if the tile is an edge tile , use the ID of the edge tile to check this, just am not sure 
                 # how to do that because the documentation is so shit and basic 
-            pos = (x * 31, y * 31)
+            pos = (x * 32, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
             if layer.name in ('Yellow Dirt', 'Brown Dirt'):
                 land_sprite_group.add(temp)
@@ -48,9 +48,8 @@ boss_group = pygame.sprite.Group()
 my_player = Player(164, 164, land_sprite_group, water_sprite_group)
 my_player_group.add(my_player)
 
-boss_chomper = Boss(600, 373)
+boss_chomper = Boss(600, 385)
 boss_group.add(boss_chomper)
-
 
 
 
@@ -59,33 +58,33 @@ boss_group.add(boss_chomper)
 class Game():
     def __init__(self):
 
-        GREEN = (0, 255, 0)
-        DARK_GREEN = (10, 50, 10)
-        BLACK = (0, 0, 0)
-        self.lives = 0
+
+        self.lives = 5
         self.score = 0
 
-        custom_font = pygame.font.Font('./Levels/LevelOne/fonts/AttackGraffiti.ttf', 32)
-        self.title_text = custom_font.render("Feed the Dragon", True, GREEN, DARK_GREEN)
+        self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
+        self.title_text = self.custom_font.render("Level One", True, BEIGE)
         self.title_text_rect = self.title_text.get_rect()
         self.title_text_rect.center = (WINDOW_WIDTH // 2, 25)
 
-        self.score_text = custom_font.render("Score: " + str(self.score), True, GREEN, DARK_GREEN)
+        self.score_text = self.custom_font.render("Score " + str(self.score), True, BEIGE)
         self.score_text_rect = self.score_text.get_rect()
         self.score_text_rect.center = (75, 25)
 
-        self.lives_text = custom_font.render("Lives: " + str(self.lives), True, GREEN, DARK_GREEN)
+        self.lives_text = self.custom_font.render("Lives " + str(self.lives), True, BEIGE)
         self.lives_text_rect = self.lives_text.get_rect()
         self.lives_text_rect.center = (WINDOW_WIDTH - 65, 25)
 
     def update(self):
-        display_surface.blit(self.title_text, self.title_text_rect)
+        self.score_text = self.custom_font.render("Score " + str(self.score), True, BEIGE)        
         display_surface.blit(self.score_text, self.score_text_rect)
+
+        self.lives_text = self.custom_font.render("Lives " + str(self.lives), True, BEIGE)
         display_surface.blit(self.lives_text, self.lives_text_rect)
-        # self.check_collisions(my_player_group, boss_group)
+        self.check_collisions(my_player_group, boss_group)
     
     def check_collisions(self, player, boss):
-        if pygame.sprite.groupcollide(player, boss, False, True):
+        if pygame.sprite.groupcollide(player, boss, False, False):
             self.score_update(15)
             self.lives_update(1)        
 
