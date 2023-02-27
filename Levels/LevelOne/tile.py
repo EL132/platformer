@@ -1,4 +1,4 @@
-from variables import *
+import pygame
 
 # test
 # classes

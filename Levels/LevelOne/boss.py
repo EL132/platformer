@@ -1,6 +1,5 @@
-import pygame, random, sys
-from variables import *
-
+import pygame, random
+from constants import WINDOW_HEIGHT, WINDOW_WIDTH
 
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):

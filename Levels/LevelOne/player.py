@@ -1,7 +1,5 @@
 import pygame, random, sys
-from variables import *
-from variables import WINDOW_WIDTH
-
+from constants import WINDOW_WIDTH, WINDOW_HEIGHT
 
 #Use 2D vectors
 vector = pygame.math.Vector2
@@ -40,7 +38,6 @@ class Player(pygame.sprite.Sprite):
 
         # NEW CODE FOR IMPROVED COLLISION HERE:
         self.leg_hitbox_rect = pygame.Rect(self.x, self.y, 10, 15)
-        print(self.leg_hitbox_rect)
 
         # create a mask
         self.mask = pygame.mask.from_surface(self.image, 4)
