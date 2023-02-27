@@ -21,42 +21,49 @@ class Boss(pygame.sprite.Sprite):
         self.starting_time= pygame.time.get_ticks()
         self.attacking = False
 
+        self.set = 0
+
+        self.mask = pygame.mask.from_surface(self.image, 4)
+
     
     def update(self):
         self.move()
         self.check_animations()
+        self.mask = pygame.mask.from_surface(self.image, 4)
+        self.mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
+        # self.mask = self.mask.scale((64, 80))
+        pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)
 
 
     def move(self):
-        timePassed = pygame.time.get_ticks() - self.starting_time
+        if not self.attacking and self.set is not 1 or self.set is not 2:
 
-        # note: end conditions of rect.x prevents boss from attacking on side of the screen
-        if timePassed % 3000 > 0 and timePassed % 3000 < 100 and not self.attacking and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
-            self.attacking = True   
-            self.set = random.randint(1, 3)
+            timePassed = pygame.time.get_ticks() - self.starting_time
 
-        if self.right:
-            self.rect.centerx += self.move_speed
-            if self.rect.x > 600:
-                self.right = False
-        else:
-            self.rect.x -= self.move_speed
-            if self.rect.x < 0:
-                self.right = True
+            # note: end conditions of rect.x prevents boss from attacking on side of the screen
+            if timePassed % 3000 > 0 and timePassed % 3000 < 100 and not self.attacking and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
+                self.attacking = True   
+                self.set = random.randint(1, 3)
+
+            if self.right:
+                self.rect.centerx += self.move_speed
+                if self.rect.x > 600:
+                    self.right = False
+            else:
+                self.rect.x -= self.move_speed
+                if self.rect.x < 0:
+                    self.right = True
 
 
     def check_animations(self):
         if self.attacking:
-            # self.animate(self.attack_four_left_frames, 0.1)
             if self.right:
                 self.attack(self.set, 'right', 0.1)  
             else:    
                 self.attack(self.set, 'left', 0.1)
-            # print('attacking')
         else:
             if self.right: 
                 self.animate(self.walk_right_frames, 0.1)
-                # print('not attacking')
             else: 
                 self.animate(self.walk_left_frames, 0.1)
 

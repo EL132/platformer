@@ -46,8 +46,10 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.move()
         self.check_collisions()
-        mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
-        # pygame.draw.lines(self.image, (255, 0, 0), True, mask_outline)
+        self.mask = pygame.mask.from_surface(self.image, 4)
+        self.mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
+        self.mask = self.mask.scale((64, 80))
+        pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)
 
 
     def move(self):
@@ -55,7 +57,6 @@ class Player(pygame.sprite.Sprite):
 
         # for collision improvements
         self.leg_hitbox_rect.centery = self.position.y - 16
-        # pygame.draw.rect(display_surface, (255, 0, 0), self.leg_hitbox_rect, 1)
         left = False
         if left:
             self.leg_hitbox_rect.centerx = self.position.x + 6
@@ -91,6 +92,8 @@ class Player(pygame.sprite.Sprite):
             self.animate(self.walk_right_frames, 0.1)    
         else:
             if self.velocity.x > 0:
+                self.mask = self.mask.scale((64, 80))
+                pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)  
                 self.animate(self.idle_right_frames, 0.05)
             else:
                 self.animate(self.idle_left_frames, 0.05)
@@ -108,13 +111,11 @@ class Player(pygame.sprite.Sprite):
     def check_collisions(self):
 
         for tile in self.land_tiles:  
-            # if pygame.sprite.collide_mask(self.mask.scale((15, 15)), tile):
             if pygame.sprite.collide_mask(self, tile):
                 tile.mask = pygame.mask.from_surface(tile.image)
                 tile_mask_outline = tile.mask.outline() # this gives a list of points that are on
-                # pygame.draw.lines(self.image, (255, 0, 0), True, tile_mask_outline)
                 if self.velocity.y > 0:
-                    self.position.y = tile.rect.top + 2
+                    self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
         for tile in self.water_tiles:  
             if pygame.sprite.collide_mask(self, tile):

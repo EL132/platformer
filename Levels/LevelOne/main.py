@@ -81,12 +81,16 @@ class Game():
 
         self.lives_text = self.custom_font.render("Lives " + str(self.lives), True, BEIGE)
         display_surface.blit(self.lives_text, self.lives_text_rect)
-        self.check_collisions(my_player_group, boss_group)
-    
+        self.check_collisions(my_player, boss_chomper)
+
     def check_collisions(self, player, boss):
-        if pygame.sprite.groupcollide(player, boss, False, False):
+        if pygame.sprite.groupcollide(my_player_group, boss_group, False, False):
             self.score_update(15)
-            self.lives_update(1)        
+            self.lives_update(1)
+        # not sure why this doesn't work
+        # if pygame.sprite.collide_mask(player.mask, boss.mask):
+        #     self.score_update(15)
+        #     self.lives_update(1)
 
     def score_update(self, score):
         self.score += score
@@ -115,9 +119,11 @@ while running:
 
     my_player_group.update()
     my_player_group.draw(display_surface)
+    # pygame.draw.rect(display_surface, (255, 255, 255), my_player.rect)
 
     boss_group.update()
     boss_group.draw(display_surface)
+    # pygame.draw.rect(display_surface, (255, 255, 255), boss_chomper.rect)
 
     my_game.update()
     
