@@ -22,7 +22,6 @@ tmx_data = load_pygame('./Levels/levelOne/maps/levelOne.tmx')
 
 
 land_sprite_group = pygame.sprite.Group()
-water_sprite_group = pygame.sprite.Group()
 
 # cycle through all layers
 for layer in tmx_data.visible_layers:
@@ -43,7 +42,7 @@ for layer in tmx_data.visible_layers:
 my_player_group = pygame.sprite.Group()
 boss_group = pygame.sprite.Group()
 
-my_player = Player(164, 164, land_sprite_group, water_sprite_group)
+my_player = Player(164, 164, land_sprite_group)
 my_player_group.add(my_player)
 
 boss_chomper = Boss(600, 385)
@@ -86,10 +85,11 @@ class Game():
         #     self.score_update(15)
         #     self.lives_update(1)
         # not sure why this doesn't work
-        # if pygame.sprite.collide_mask(player.mask, boss.mask):
-        #     self.score_update(15)
-        #     self.lives_update(1)
-        print(pygame.sprite.collide_mask(player.mask, boss.mask))
+        if pygame.sprite.collide_mask(player.mask, boss.mask):
+            self.score_update(15)
+            self.lives_update(1)
+        # print(pygame.sprite.collide_mask(player.mask, boss.mask))
+        print("hello")
 
     def score_update(self, score):
         self.score += score

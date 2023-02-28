@@ -6,7 +6,7 @@ vector = pygame.math.Vector2
 
 class Player(pygame.sprite.Sprite):
     # parameters are TBD for grass and water tiles
-    def __init__(self, x, y, land_tiles, water_tiles):
+    def __init__(self, x, y, land_tiles):
         super().__init__()
 
         self.load_animation_sprites()
@@ -21,7 +21,6 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottomleft = (x, y)
 
         self.land_tiles = land_tiles
-        self.water_tiles = water_tiles
 
         # vector stuff with position, velocity, and accel
         self.position = vector(x, y)
@@ -145,10 +144,6 @@ class Player(pygame.sprite.Sprite):
                         self.is_jumping = False     
                     self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
-        for tile in self.water_tiles:  
-            if pygame.sprite.collide_mask(self, tile):
-                self.position.x = self.x
-                self.position.y = self.y
     
     def jump(self):
         if pygame.sprite.spritecollide(self, self.land_tiles, False):
