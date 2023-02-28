@@ -31,7 +31,7 @@ for layer in tmx_data.visible_layers:
             # for tile in layer.tiles():
                 # NOTE: here i need to check if the tile is an edge tile , use the ID of the edge tile to check this, just am not sure 
                 # how to do that because the documentation is so shit and basic 
-            pos = (x * 32, y * 32)
+            pos = (x * 31, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
             if layer.name in ('Collisions'):
                 land_sprite_group.add(temp)
@@ -82,13 +82,14 @@ class Game():
         self.check_collisions(my_player, boss_chomper)
 
     def check_collisions(self, player, boss):
-        if pygame.sprite.groupcollide(my_player_group, boss_group, False, False):
-            self.score_update(15)
-            self.lives_update(1)
+        # if pygame.sprite.groupcollide(my_player_group, boss_group, False, False):
+        #     self.score_update(15)
+        #     self.lives_update(1)
         # not sure why this doesn't work
         # if pygame.sprite.collide_mask(player.mask, boss.mask):
         #     self.score_update(15)
         #     self.lives_update(1)
+        print(pygame.sprite.collide_mask(player.mask, boss.mask))
 
     def score_update(self, score):
         self.score += score
