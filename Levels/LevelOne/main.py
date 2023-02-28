@@ -33,10 +33,8 @@ for layer in tmx_data.visible_layers:
                 # how to do that because the documentation is so shit and basic 
             pos = (x * 32, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
-            if layer.name in ('Yellow Dirt', 'Brown Dirt'):
+            if layer.name in ('Collisions'):
                 land_sprite_group.add(temp)
-            elif layer.name in ('Water'):
-                water_sprite_group.add(temp)
 
 
 
