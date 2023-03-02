@@ -76,7 +76,9 @@ class Game():
 
         self.lives_text = self.custom_font.render("Lives " + str(self.lives), True, BEIGE)
         display_surface.blit(self.lives_text, self.lives_text_rect)
+
         self.check_collisions(my_player, boss_chomper)
+        self.check_game_over()
 
     def check_collisions(self, player, boss):
         # Check for collisions between player and boss
@@ -98,9 +100,34 @@ class Game():
         if len(collision_list) == 0:
             boss.collision_occurred = False
 
-        
+    def check_game_over(self):
+        if self.lives <= 0:
+            game_over = True
+            #Set colors
+            WHITE = (255, 255, 255)
+            BLACK = (0, 0, 0)
+            GREEN = (25, 200, 25)
 
+            #Create main pause text
+            main_text = self.custom_font.render("GAME OVER", True, WHITE)
+            main_rect = main_text.get_rect()
+            main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
+            #Display the pause text
+            display_surface.fill(BLACK)
+            display_surface.blit(main_text, main_rect)
+            pygame.display.update()
+            while game_over:
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        #User wants to continue
+                        if event.key == pygame.K_RETURN:
+                            game_over = False
+                            pygame.mixer.music.unpause()
+                    #User wants to quit
+                    if event.type == pygame.QUIT:
+                        game_over = False
+                        pygame.mixer.music.stop()
 
     def score_update(self, score):
         self.score += score
