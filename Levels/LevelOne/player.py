@@ -46,6 +46,7 @@ class Player(pygame.sprite.Sprite):
         
 
         self.is_jumping = False
+        self.is_attacking = False
 
         self.right = True
 
@@ -59,7 +60,15 @@ class Player(pygame.sprite.Sprite):
 
     def check_animations(self):
         if self.is_jumping:
-            self.jump()
+            if self.right:
+                self.animate(self.jump_right_frames, 0.1)
+            else:
+                self.animate(self.jump_left_frames, 0.1)
+        elif self.is_attacking:
+            if self.right:
+                self.animate(self.attack_one_right_frames, 0.1)
+            else:
+                self.animate(self.attack_one_left_frames, 0.1)
         else:
             keys = pygame.key.get_pressed()
             
@@ -150,11 +159,8 @@ class Player(pygame.sprite.Sprite):
                     self.velocity.y = 0
     
     def jump(self):
+        self.is_jumping = True
         if pygame.sprite.spritecollide(self, self.land_tiles, False):
-            if self.right:
-                self.animate(self.jump_right_frames, 0.1)
-            else:
-                self.animate(self.jump_left_frames, 0.1)
             self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
 
     def animate(self, sprite_list, speed):
@@ -167,6 +173,10 @@ class Player(pygame.sprite.Sprite):
             self.current_sprite = 0
         
         self.image = sprite_list[int(self.current_sprite)]
+
+    
+    def attack(self):
+        self.is_attacking = True
 
     
     def load_animation_sprites(self):
@@ -187,9 +197,15 @@ class Player(pygame.sprite.Sprite):
         # establish left and right precedent for these frames at a later point 
         self.hurt_frames = []
         self.death_frames = []
-        self.attack_one_frames = []
-        self.attack_two_frames = []
-        self.attack_three_frames = []
+
+        self.attack_one_right_frames = []
+        self.attack_one_left_frames = []
+
+        self.attack_two_right_frames = []
+        self.attack_two_left_frames = []
+        
+        self.attack_three_right_frames = []
+        self.attack_three_left_frames = []
 
 
         # walk frames 
@@ -236,28 +252,35 @@ class Player(pygame.sprite.Sprite):
         self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 6.png').convert_alpha(), (80, 80)))
 
         #attack one frames
-        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 1.png').convert_alpha(), (80, 80)))
-        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 2.png').convert_alpha(), (80, 80)))
-        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 3.png').convert_alpha(), (80, 80)))
-        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 4.png').convert_alpha(), (80, 80)))
-        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 5.png').convert_alpha(), (80, 80)))
-        self.attack_one_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 6.png').convert_alpha(), (80, 80)))
+        self.attack_one_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 1.png').convert_alpha(), (80, 80)))
+        self.attack_one_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 2.png').convert_alpha(), (80, 80)))
+        self.attack_one_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 3.png').convert_alpha(), (80, 80)))
+        self.attack_one_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 4.png').convert_alpha(), (80, 80)))
+        self.attack_one_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 5.png').convert_alpha(), (80, 80)))
+        self.attack_one_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 6.png').convert_alpha(), (80, 80)))
+        for frame in self.attack_one_right_frames:
+            self.attack_one_left_frames.append(pygame.transform.flip(frame, True, False))
+
 
         # attack two frames
-        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 1.png').convert_alpha(), (80, 80)))
-        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 2.png').convert_alpha(), (80, 80)))
-        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 3.png').convert_alpha(), (80, 80)))
-        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 4.png').convert_alpha(), (80, 80)))
-        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 5.png').convert_alpha(), (80, 80)))
-        self.attack_two_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 6.png').convert_alpha(), (80, 80)))
+        self.attack_two_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 1.png').convert_alpha(), (80, 80)))
+        self.attack_two_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 2.png').convert_alpha(), (80, 80)))
+        self.attack_two_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 3.png').convert_alpha(), (80, 80)))
+        self.attack_two_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 4.png').convert_alpha(), (80, 80)))
+        self.attack_two_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 5.png').convert_alpha(), (80, 80)))
+        self.attack_two_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Two/attack 6.png').convert_alpha(), (80, 80)))
+        for frame in self.attack_two_right_frames:
+            self.attack_two_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # attack three frames
-        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 1.png').convert_alpha(), (80, 80)))
-        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 2.png').convert_alpha(), (80, 80)))
-        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 3.png').convert_alpha(), (80, 80)))
-        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 4.png').convert_alpha(), (80, 80)))
-        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 5.png').convert_alpha(), (80, 80)))
-        self.attack_three_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 6.png').convert_alpha(), (80, 80)))
+        self.attack_three_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 1.png').convert_alpha(), (80, 80)))
+        self.attack_three_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 2.png').convert_alpha(), (80, 80)))
+        self.attack_three_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 3.png').convert_alpha(), (80, 80)))
+        self.attack_three_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 4.png').convert_alpha(), (80, 80)))
+        self.attack_three_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 5.png').convert_alpha(), (80, 80)))
+        self.attack_three_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack Three/attack 6.png').convert_alpha(), (80, 80)))
+        for frame in self.attack_three_right_frames:
+            self.attack_three_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # idle frames
         self.idle_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Idle/idle 1.png').convert_alpha(), (80, 80)))
