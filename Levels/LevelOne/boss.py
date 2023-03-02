@@ -25,6 +25,7 @@ class Boss(pygame.sprite.Sprite):
 
         self.set = 0
 
+        self.collision_occurred = False
 
     
     def update(self):
