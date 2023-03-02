@@ -81,6 +81,8 @@ class Game():
     def check_collisions(self, player, boss):
     # Check for collisions between player and boss
         collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
+        print(collision_list)
+
         for collided in collision_list:
             # Handle the collision here
             self.score_update(15)
