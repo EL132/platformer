@@ -81,7 +81,6 @@ class Game():
     def check_collisions(self, player, boss):
     # Check for collisions between player and boss
         collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
-
         for collided in collision_list:
             # Handle the collision here
             self.score_update(15)
@@ -154,8 +153,10 @@ while running:
                 my_player.jump()
             if event.key == pygame.K_ESCAPE:
                 my_game.pause_game("Paused", "Press    enter     to     play")
-            if event.key == pygame.K_0:
-                my_player.attack()
+            if event.key == pygame.K_1:
+                my_player.attack(1)
+            if event.key == pygame.K_2:
+                my_player.attack(2)
 
 
 

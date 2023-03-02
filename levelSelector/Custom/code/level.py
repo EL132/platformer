@@ -1,7 +1,7 @@
 import pygame
 from settings import *
 from tile import Tile
-from LevelOne.player import Player
+from Levels.LevelOne.player import Player
 from debug import debug
 from support import *
 
