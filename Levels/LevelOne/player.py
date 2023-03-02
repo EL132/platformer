@@ -171,6 +171,8 @@ class Player(pygame.sprite.Sprite):
             self.current_sprite += speed
         else:
             self.current_sprite = 0
+            if self.is_attacking:
+                self.is_attacking = False
         
         self.image = sprite_list[int(self.current_sprite)]
 
