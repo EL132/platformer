@@ -10,10 +10,12 @@ class Boss(pygame.sprite.Sprite):
         self.current_sprite = 0
 
         self.image = self.walk_right_frames[self.current_sprite]
+        self.mask = pygame.mask.from_surface(self.image, 4)
+
         self.rect = self.image.get_rect()
 
-        self.x = x
-        self.y = y
+        self.rect.x = x
+        self.rect.y = y
         self.rect.bottomleft = (x, y)
 
         self.move_speed = 1
@@ -23,7 +25,6 @@ class Boss(pygame.sprite.Sprite):
 
         self.set = 0
 
-        self.mask = pygame.mask.from_surface(self.image, 4)
 
     
     def update(self):

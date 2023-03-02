@@ -15,10 +15,15 @@ class Player(pygame.sprite.Sprite):
         self.current_sprite = 0
 
         self.image = self.run_right_frames[self.current_sprite]
+        # create a mask
+        self.mask = pygame.mask.from_surface(self.image, 4)
         self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
         self.x = x
         self.y = y
-        self.rect.bottomleft = (x, y)
+
+        # self.rect.bottomleft = (x, y)
 
         self.land_tiles = land_tiles
 
@@ -38,8 +43,7 @@ class Player(pygame.sprite.Sprite):
         # NEW CODE FOR IMPROVED COLLISION HERE:
         self.leg_hitbox_rect = pygame.Rect(self.x, self.y, 10, 15)
 
-        # create a mask
-        self.mask = pygame.mask.from_surface(self.image, 4)
+        
 
         self.is_jumping = False
 

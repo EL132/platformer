@@ -54,8 +54,6 @@ boss_group.add(boss_chomper)
 
 class Game():
     def __init__(self):
-
-
         self.lives = 5
         self.score = 0
 
@@ -81,15 +79,13 @@ class Game():
         self.check_collisions(my_player, boss_chomper)
 
     def check_collisions(self, player, boss):
-        # if pygame.sprite.groupcollide(my_player_group, boss_group, False, False):
-        #     self.score_update(15)
-        #     self.lives_update(1)
-        # not sure why this doesn't work
-        if pygame.sprite.collide_mask(player.mask, boss.mask):
+    # Check for collisions between player and boss
+        collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
+        for collided in collision_list:
+            # Handle the collision here
             self.score_update(15)
             self.lives_update(1)
-        # print(pygame.sprite.collide_mask(player.mask, boss.mask))
-        print("hello")
+
 
     def score_update(self, score):
         self.score += score
