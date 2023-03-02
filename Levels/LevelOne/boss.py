@@ -27,6 +27,8 @@ class Boss(pygame.sprite.Sprite):
 
         self.collision_occurred = False
 
+        self.is_hurting = False
+
     
     def update(self):
         self.move()
@@ -67,6 +69,11 @@ class Boss(pygame.sprite.Sprite):
                 self.attack(self.set, 'right', 0.1)  
             else:    
                 self.attack(self.set, 'left', 0.1)
+        elif self.is_hurting:
+            if self.right:
+                self.animate(self.hurt_right_frames, 0.1)
+            else:
+                self.animate(self.hurt_left_frames, 0.1)
         else:
             if self.right: 
                 self.animate(self.walk_right_frames, 0.1)
@@ -101,6 +108,8 @@ class Boss(pygame.sprite.Sprite):
             self.current_sprite = 0
             if self.attacking: 
                 self.attacking = False
+            if self.is_hurting:
+                self.is_hurting = False
 
         self.image = sprite_list[int(self.current_sprite)]
     
@@ -120,6 +129,9 @@ class Boss(pygame.sprite.Sprite):
 
         self.attack_four_left_frames = []
         self.attack_four_right_frames = []
+
+        self.hurt_left_frames = []
+        self.hurt_right_frames = []
 
 
         # walk frames
@@ -161,3 +173,12 @@ class Boss(pygame.sprite.Sprite):
         self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Attack Three/attack 6.png').convert_alpha(), (200, 200)))
         for frame in self.attack_three_left_frames:
             self.attack_three_right_frames.append(pygame.transform.flip(frame, True, False)) 
+
+        # hurt frames
+        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 1.png').convert_alpha(), (200, 200)))
+        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 2.png').convert_alpha(), (200, 200)))
+        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 3.png').convert_alpha(), (200, 200)))
+        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 4.png').convert_alpha(), (200, 200)))
+        for frame in self.hurt_left_frames:
+            self.hurt_right_frames.append(pygame.transform.flip(frame, True, False))
+        

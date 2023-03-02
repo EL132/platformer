@@ -47,6 +47,7 @@ class Player(pygame.sprite.Sprite):
 
         self.is_jumping = False
         self.is_attacking = False
+        self.is_hurting = False
 
         self.right = True
 
@@ -66,7 +67,6 @@ class Player(pygame.sprite.Sprite):
                 self.animate(self.jump_right_frames, 0.1)
             else:
                 self.animate(self.jump_left_frames, 0.1)
-
         elif self.is_attacking: # this is true right now  
             if self.right:
                 if self.attack_number == 1:
@@ -82,6 +82,11 @@ class Player(pygame.sprite.Sprite):
                     self.animate(self.attack_two_left_frames, 0.1)
                 else:
                     self.animate(self.attack_two_left_frames, 0.1)
+        elif self.is_hurting:
+            if self.right:
+                self.animate(self.hurt_right_frames, 0.1)
+            else:
+                self.animate(self.hurt_left_frames, 0.1)
         else:
             keys = pygame.key.get_pressed()
             
@@ -109,7 +114,6 @@ class Player(pygame.sprite.Sprite):
 
     def move(self):
         self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
-
 
         keys = pygame.key.get_pressed()
 
@@ -178,6 +182,8 @@ class Player(pygame.sprite.Sprite):
             self.current_sprite = 0
             if self.is_attacking:
                 self.is_attacking = False
+            if self.is_hurting:
+                self.is_hurting = False
         
         self.image = sprite_list[int(self.current_sprite)]
 
@@ -203,7 +209,9 @@ class Player(pygame.sprite.Sprite):
 
 
         # establish left and right precedent for these frames at a later point 
-        self.hurt_frames = []
+        self.hurt_right_frames = []
+        self.hurt_left_frames = []
+
         self.death_frames = []
 
         self.attack_one_right_frames = []
@@ -244,9 +252,11 @@ class Player(pygame.sprite.Sprite):
             self.jump_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # hurt frames
-        self.hurt_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Hurt/hurt 1.png').convert_alpha(), (80, 80)))
-        self.hurt_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Hurt/hurt 2.png').convert_alpha(), (80, 80)))
-        self.hurt_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Hurt/hurt 3.png').convert_alpha(), (80, 80)))
+        self.hurt_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Hurt/hurt 1.png').convert_alpha(), (80, 80)))
+        self.hurt_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Hurt/hurt 2.png').convert_alpha(), (80, 80)))
+        self.hurt_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Hurt/hurt 3.png').convert_alpha(), (80, 80)))
+        for frame in self.hurt_right_frames:
+            self.hurt_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # death frames
         self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 1.png').convert_alpha(), (80, 80)))

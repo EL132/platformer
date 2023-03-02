@@ -78,26 +78,23 @@ class Game():
         display_surface.blit(self.lives_text, self.lives_text_rect)
         self.check_collisions(my_player, boss_chomper)
 
-    # def check_collisions(self, player, boss):
-    # # Check for collisions between player and boss
-    #     collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
-    #     for collided in collision_list:
-    #         if player.is_attacking and not boss.attacking:
-    #             self.score_update(15)
-    #         elif not player.is_attacking and boss.attacking:
-    #             self.lives_update(1)
     def check_collisions(self, player, boss):
         # Check for collisions between player and boss
         collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
         for collided in collision_list:
             if not collided.collision_occurred and player.is_attacking and not boss.attacking:
+                boss.is_hurting = True
                 self.score_update(15)
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and boss.attacking:
+                player.is_hurting = True
                 self.lives_update(1)
                 collided.collision_occurred = True
-            elif collided.collision_occurred and player.is_attacking and boss.attacking:
-                collided.collision_occurred = False
+            elif player.is_attacking and boss.attacking and not collided.collision_occurred:
+                self.lives_update(1)
+                self.score_update(15)
+                boss.is_hurting = True
+                player.is_hurting = True
         if len(collision_list) == 0:
             boss.collision_occurred = False
 
