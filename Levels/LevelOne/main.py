@@ -1,5 +1,5 @@
 from colorsys import rgb_to_hls
-import pygame, time, random, matplotlib
+import pygame, time, random, math
 from pytmx.util_pygame import load_pygame
 
 
@@ -55,31 +55,37 @@ boss_group.add(boss_chomper)
 
 class Game():
     def __init__(self):
-        self.lives = 5
-        self.score = 0
+        self.player_lives = 3
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
-        self.title_text = self.custom_font.render("Level One", True, BEIGE)
-        self.title_text_rect = self.title_text.get_rect()
-        self.title_text_rect.center = (WINDOW_WIDTH // 2, 25)
 
-        self.score_text = self.custom_font.render("Score " + str(self.score), True, BEIGE)
-        self.score_text_rect = self.score_text.get_rect()
-        self.score_text_rect.center = (75, 25)
+        self.player_lives_text = self.custom_font.render("Lives", True, BEIGE)
+        self.player_lives_text_rect = self.player_lives_text.get_rect()
+        self.player_lives_text_rect.center = (65, 35)
+        display_surface.blit(self.player_lives_text, self.player_lives_text_rect)
 
-        self.lives_text = self.custom_font.render("Lives " + str(self.lives), True, BEIGE)
-        self.lives_text_rect = self.lives_text.get_rect()
-        self.lives_text_rect.center = (WINDOW_WIDTH - 65, 25)
+        self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
+
 
     def update(self):
-        self.score_text = self.custom_font.render("Score " + str(self.score), True, BEIGE)        
-        display_surface.blit(self.score_text, self.score_text_rect)
-
-        self.lives_text = self.custom_font.render("Lives " + str(self.lives), True, BEIGE)
-        display_surface.blit(self.lives_text, self.lives_text_rect)
-
         self.check_collisions(my_player, boss_chomper)
         self.check_game_over()
+        self.draw_hearts()
+
+
+    def draw_hearts(self):
+        # can't do a "if change needed" because the hearts need to be drawn every frame since the back
+        
+        for i in range(math.ceil(self.player_lives)):
+            if self.player_lives % 1 is not 0 and i is math.floor(self.player_lives):
+                self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/half-heart.png").convert_alpha(), (48, 48))
+            else:
+                self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
+            self.heart_rect = self.heart.get_rect() # sets a rectangle that surrounds the surface, use this to position
+            self.heart_rect.topleft = (130 + (i * 52), 10) # can position multiple ways
+            display_surface.blit(self.heart, self.heart_rect)
+        
+        display_surface.blit(self.player_lives_text, self.player_lives_text_rect)
 
     def check_collisions(self, player, boss):
         # Check for collisions between player and boss
@@ -91,10 +97,10 @@ class Game():
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and boss.attacking:
                 player.is_hurting = True
-                self.lives_update(1)
+                self.player_lives_update(0.5)
                 collided.collision_occurred = True
             elif player.is_attacking and boss.attacking and not collided.collision_occurred:
-                self.lives_update(1)
+                self.player_lives_update(0.5)
                 self.score_update(15)
                 boss.is_hurting = True
                 player.is_hurting = True
@@ -102,14 +108,12 @@ class Game():
             boss.collision_occurred = False
 
     def check_game_over(self):
-        if self.lives <= 0:
+        if self.player_lives <= 0:
             game_over = True
             #Set colors
             WHITE = (255, 255, 255)
             BLACK = (0, 0, 0)
-            GREEN = (25, 200, 25)
-
-            
+            GREEN = (25, 200, 25)            
 
             #Create main pause text
             main_text = self.custom_font.render("GAME OVER", True, WHITE)
@@ -132,12 +136,10 @@ class Game():
                     if event.type == pygame.QUIT:
                         game_over = False
                         pygame.mixer.music.stop()
-
-    def score_update(self, score):
-        self.score += score
     
-    def lives_update(self, lives):
-        self.lives -= lives
+    def player_lives_update(self, lives):
+        self.player_lives -= lives
+        self.update_needed = True
 
     def pause_game(self, main_text, sub_text):
         """Pause the game"""
@@ -205,9 +207,12 @@ while running:
                 my_player.attack(2)
 
 
+    # high level loop progression: screen goes black, tiles get loaded, player and boss update position and get redrawn, 
+    # game updates, screen updates, repeat 
 
     display_surface.fill('black')
     sprite_group.draw(display_surface)
+
 
     my_player_group.update()
     my_player_group.draw(display_surface)
@@ -218,7 +223,7 @@ while running:
     # pygame.draw.rect(display_surface, (255, 255, 255), boss_chomper.rect)
 
     my_game.update()
-    
+    # display_surface.blit(heart, heart_rect)
 
     pygame.display.flip()
 
