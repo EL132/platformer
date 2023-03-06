@@ -93,7 +93,6 @@ class Game():
         for collided in collision_list:
             if not collided.collision_occurred and player.is_attacking and not boss.attacking:
                 boss.is_hurting = True
-                self.score_update(15)
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and boss.attacking:
                 player.is_hurting = True
@@ -101,7 +100,6 @@ class Game():
                 collided.collision_occurred = True
             elif player.is_attacking and boss.attacking and not collided.collision_occurred:
                 self.player_lives_update(0.5)
-                self.score_update(15)
                 boss.is_hurting = True
                 player.is_hurting = True
         if len(collision_list) == 0:
