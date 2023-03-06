@@ -1,6 +1,7 @@
 from colorsys import rgb_to_hls
-import pygame, time, random
+import pygame, time, random, matplotlib
 from pytmx.util_pygame import load_pygame
+
 
 from tile import Tile
 from player import Player
@@ -108,6 +109,8 @@ class Game():
             BLACK = (0, 0, 0)
             GREEN = (25, 200, 25)
 
+            
+
             #Create main pause text
             main_text = self.custom_font.render("GAME OVER", True, WHITE)
             main_rect = main_text.get_rect()
@@ -115,6 +118,7 @@ class Game():
 
             #Display the pause text
             display_surface.fill(BLACK)
+            # pygame.draw.rect(display_surface, BLACK, pygame.Rect(30, 30, 60, 60))
             display_surface.blit(main_text, main_rect)
             pygame.display.update()
             while game_over:
@@ -143,8 +147,9 @@ class Game():
 
         #Set colors
         WHITE = (255, 255, 255)
-        BLACK = (0, 0, 0)
+        BLACK = (0, 0, 0, 0)
         GREEN = (25, 200, 25)
+        BLUE = (240, 248, 255)
 
         #Create main pause text
         main_text = self.custom_font.render(main_text, True, GREEN)
@@ -152,12 +157,13 @@ class Game():
         main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
         #Create sub pause text
-        sub_text = self.custom_font.render(sub_text, True, WHITE)
+        sub_text = self.custom_font.render(sub_text, True, BLACK)
         sub_rect = sub_text.get_rect()
         sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
 
         #Display the pause text
-        display_surface.fill(BLACK)
+        # display_surface.fill(BLACK)
+        pygame.draw.rect(display_surface, BLUE, pygame.Rect(150, 110, 475, 300))
         display_surface.blit(main_text, main_rect)
         display_surface.blit(sub_text, sub_rect)
         pygame.display.update()
