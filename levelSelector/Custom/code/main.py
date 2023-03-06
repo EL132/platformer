@@ -16,16 +16,20 @@ class Game:
 		fade = pygame.Surface((width, height))
 		fade.fill((0,0,0))
 		for alpha in range(0, 300):
+			print("looping through" + str(alpha))
 			fade.set_alpha(alpha)
 			self.redrawScreen()
 			self.screen.blit(fade, (0,0))
 			pygame.display.update()
-			pygame.time.delay(5)
-	
+			pygame.time.delay(3)
+
+
 	def redrawScreen(self): 
 		self.screen.fill((255, 255, 255))
-		self.run()
-	
+		self.fade_image = pygame.image.load("levelSelector/Custom/screenshot.jpg")
+		self.fade_rect = self.fade_image.get_rect(topleft = (0, 0))
+		self.screen.blit(self.fade_image, self.fade_rect)
+
 	def run(self):
 		while True:
 			for event in pygame.event.get():
@@ -39,7 +43,10 @@ class Game:
 				print('no transition needed')
 			if settings.transition: 
 				print('we need to transition')
+				pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
 				self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
+				settings.transtion = False
+				self.level.kill
 
 
 			self.clock.tick(settings.FPS)
