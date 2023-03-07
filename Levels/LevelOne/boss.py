@@ -28,6 +28,8 @@ class Boss(pygame.sprite.Sprite):
         self.collision_occurred = False
 
         self.is_hurting = False
+        self.is_dying = False
+        self.able_to_move = True
 
     
     def update(self):
@@ -44,23 +46,24 @@ class Boss(pygame.sprite.Sprite):
 
 
     def move(self):
-        if not self.attacking and self.set is not 1 or self.set is not 2:
+        if self.able_to_move:
+            if not self.attacking and self.set != 1 or self.set != 2:
 
-            timePassed = pygame.time.get_ticks() - self.starting_time
+                timePassed = pygame.time.get_ticks() - self.starting_time
 
-            # note: end conditions of rect.x prevents boss from attacking on side of the screen
-            if timePassed % 3000 > 0 and timePassed % 3000 < 100 and not self.attacking and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
-                self.attacking = True   
-                self.set = random.randint(1, 3)
+                # note: end conditions of rect.x prevents boss from attacking on side of the screen
+                if timePassed % 3000 > 0 and timePassed % 3000 < 100 and not self.attacking and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
+                    self.attacking = True   
+                    self.set = random.randint(1, 3)
 
-            if self.right:
-                self.rect.centerx += self.move_speed
-                if self.rect.x > 600:
-                    self.right = False
-            else:
-                self.rect.x -= self.move_speed
-                if self.rect.x < 0:
-                    self.right = True
+                if self.right:
+                    self.rect.centerx += self.move_speed
+                    if self.rect.x > 600:
+                        self.right = False
+                else:
+                    self.rect.x -= self.move_speed
+                    if self.rect.x < 0:
+                        self.right = True
 
 
     def check_animations(self):
@@ -74,6 +77,11 @@ class Boss(pygame.sprite.Sprite):
                 self.animate(self.hurt_right_frames, 0.1)
             else:
                 self.animate(self.hurt_left_frames, 0.1)
+        elif self.is_dying:
+            if self.right:
+                self.animate(self.death_right_frames, 0.1)
+            else:
+                self.animate(self.death_left_frames, 0.1)
         else:
             if self.right: 
                 self.animate(self.walk_right_frames, 0.1)
@@ -133,6 +141,9 @@ class Boss(pygame.sprite.Sprite):
         self.hurt_left_frames = []
         self.hurt_right_frames = []
 
+        self.death_left_frames = []
+        self.death_right_frames = []
+
 
         # walk frames
         self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Walk/walk 1.png').convert_alpha(), (200, 200)))
@@ -182,3 +193,12 @@ class Boss(pygame.sprite.Sprite):
         for frame in self.hurt_left_frames:
             self.hurt_right_frames.append(pygame.transform.flip(frame, True, False))
         
+        # death frames
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Death/death 1.png').convert_alpha(), (200, 200)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Death/death 2.png').convert_alpha(), (200, 200)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Death/death 3.png').convert_alpha(), (200, 200)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Death/death 4.png').convert_alpha(), (200, 200)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Death/death 5.png').convert_alpha(), (200, 200)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Death/death 6.png').convert_alpha(), (200, 200)))
+        for frame in self.death_left_frames:
+            self.death_right_frames.append(pygame.transform.flip(frame, True, False))

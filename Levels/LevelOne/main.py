@@ -55,7 +55,7 @@ boss_group.add(boss_chomper)
 
 class Game():
     def __init__(self):
-        self.player_lives = 3
+        self.player_lives = 1
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
 
@@ -143,12 +143,18 @@ class Game():
             self.show_player_win_screen()
 
 
-
     def death_animation(self):
-        pass
+        # here i just want the player to go through a whole cycle of animations, and 
+        # then i want the game to show the death screen 
+        delay = 1000
+
+        for i in range(1, 6):
+            pygame.time.delay(delay)
 
 
     def show_player_loss_screen(self):
+        game_over = True
+
         WHITE = (255, 255, 255)
         BLACK = (0, 0, 0)
 
@@ -218,7 +224,8 @@ class Game():
         self.player_lives = 3
         self.boss_health = 1
         boss_chomper.rect.bottomleft = (600, 385)
-        my_player.rect.center = (164, 164)
+        my_player.position = (164, 164)
+        my_player.able_to_move = True
     
     def player_lives_update(self, lives):
         self.player_lives -= lives
