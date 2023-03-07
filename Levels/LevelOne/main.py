@@ -62,26 +62,48 @@ class Game():
         self.player_lives_text = self.custom_font.render("Lives", True, BEIGE)
         self.player_lives_text_rect = self.player_lives_text.get_rect()
         self.player_lives_text_rect.center = (65, 35)
-        display_surface.blit(self.player_lives_text, self.player_lives_text_rect)
+
+        self.boss_health_text = self.custom_font.render("Health", True, BEIGE)
+        self.boss_health_text_rect = self.boss_health_text.get_rect()
+        self.boss_health_text_rect.center = (WINDOW_WIDTH - 300, 35)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
+        self.boss_health = 1
 
 
     def update(self):
         self.check_collisions(my_player, boss_chomper)
         self.check_game_over()
         self.draw_hearts()
+        self.draw_health_bar()
+
+
+    def draw_health_bar(self):
+        # outline for the health bar: 
+        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 225, 22), (WINDOW_WIDTH - 25, 22), 4)
+        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 225, 42), (WINDOW_WIDTH - 25, 42), 4)
+        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 225, 22), (WINDOW_WIDTH - 225, 42), 4)
+        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 25, 22), (WINDOW_WIDTH - 25, 42), 4)
+
+        # fill for the health bar: 
+        pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(WINDOW_WIDTH - 223, 24, 195 * self.boss_health, 18))
+
+        display_surface.blit(self.boss_health_text, self.boss_health_text_rect)
+        
+
+    def boss_hurt(self):
+        self.boss_health -= 0.1
 
 
     def draw_hearts(self):
         # can't do a "if change needed" because the hearts need to be drawn every frame since the back
         
         for i in range(math.ceil(self.player_lives)):
-            if self.player_lives % 1 is not 0 and i is math.floor(self.player_lives):
+            if self.player_lives % 1 != 0 and i is math.floor(self.player_lives):
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/half-heart.png").convert_alpha(), (48, 48))
             else:
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
-            self.heart_rect = self.heart.get_rect() # sets a rectangle that surrounds the surface, use this to position
+            self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
             self.heart_rect.topleft = (130 + (i * 52), 10) # can position multiple ways
             display_surface.blit(self.heart, self.heart_rect)
         
@@ -93,6 +115,7 @@ class Game():
         for collided in collision_list:
             if not collided.collision_occurred and player.is_attacking and not boss.attacking:
                 boss.is_hurting = True
+                self.boss_hurt()
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and boss.attacking:
                 player.is_hurting = True
@@ -100,6 +123,7 @@ class Game():
                 collided.collision_occurred = True
             elif player.is_attacking and boss.attacking and not collided.collision_occurred:
                 self.player_lives_update(0.5)
+                self.boss_hurt()
                 boss.is_hurting = True
                 player.is_hurting = True
         if len(collision_list) == 0:
@@ -107,29 +131,94 @@ class Game():
 
     def check_game_over(self):
         if self.player_lives <= 0:
-            game_over = True
-            #Set colors
-            WHITE = (255, 255, 255)
-            BLACK = (0, 0, 0)
-            GREEN = (25, 200, 25)            
+            # player lost 
+            my_player.is_dying = True
+            my_player.able_to_move = False
+            self.death_animation()
+            self.show_player_loss_screen()
+        elif self.boss_health <= 0.09:
+            boss_chomper.is_dying = True
+            boss_chomper.able_to_move = False
+            self.death_animation()
+            self.show_player_win_screen()
 
-            #Create main pause text
-            main_text = self.custom_font.render("GAME OVER", True, WHITE)
-            main_rect = main_text.get_rect()
-            main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-            #Display the pause text
-            display_surface.fill(BLACK)
-            # pygame.draw.rect(display_surface, BLACK, pygame.Rect(30, 30, 60, 60))
-            display_surface.blit(main_text, main_rect)
-            pygame.display.update()
-            while game_over:
-                for event in pygame.event.get():    
-                    #User wants to quit
-                    if event.type == pygame.QUIT:
+
+    def death_animation(self):
+        pass
+
+
+    def show_player_loss_screen(self):
+        WHITE = (255, 255, 255)
+        BLACK = (0, 0, 0)
+
+        main_text = self.custom_font.render("GAME OVER", True, WHITE)
+        main_rect = main_text.get_rect()
+        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+        retry_text = self.custom_font.render("Press Y to retry", True, WHITE)
+        exit_text = self.custom_font.render("Press N to exit", True, WHITE)
+
+        retry_rect = retry_text.get_rect()
+        retry_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 50)
+
+        exit_rect = exit_text.get_rect()
+        exit_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 100)
+
+        #Display the pause text
+        display_surface.fill(BLACK)
+        display_surface.blit(main_text, main_rect)
+        display_surface.blit(retry_text, retry_rect)
+        display_surface.blit(exit_text, exit_rect)
+
+        pygame.display.update()
+        while game_over:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_y:
+                        self.reset()
                         game_over = False
-                        self.player_lives = 3
-                        pygame.mixer.music.stop()
+                    if event.key == pygame.K_n:
+                        # here we need to go back to the level selector
+                        pass
+
+    def show_player_win_screen(self):
+        WHITE = (255, 255, 255)
+        BLACK = (0, 0, 0)
+
+        game_over = True
+
+        #Create main pause text
+        main_text = self.custom_font.render("YOU WON", True, WHITE)
+        main_rect = main_text.get_rect()
+        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+
+        continue_text = self.custom_font.render("PRESS ENTER TO CONTINUE", True, WHITE)
+        continue_rect = main_text.get_rect()
+        continue_rect.center = (WINDOW_WIDTH//2 - 150, WINDOW_HEIGHT//2 + 50)
+        
+        #Display the pause text
+        display_surface.fill(BLACK)
+        display_surface.blit(main_text, main_rect)
+        display_surface.blit(continue_text, continue_rect)
+        
+        pygame.display.update()
+        while game_over:
+            for event in pygame.event.get():    
+                #User wants to quit
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        game_over = False
+                        self.boss_health = 1
+                        # go to the level selector
+                        pass
+
+
+    def reset(self):
+        self.player_lives = 3
+        self.boss_health = 1
+        boss_chomper.rect.bottomleft = (600, 385)
+        my_player.rect.center = (164, 164)
     
     def player_lives_update(self, lives):
         self.player_lives -= lives

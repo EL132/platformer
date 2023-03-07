@@ -4,6 +4,7 @@ from constants import WINDOW_WIDTH, WINDOW_HEIGHT
 #Use 2D vectors
 vector = pygame.math.Vector2
 
+
 class Player(pygame.sprite.Sprite):
     # parameters are TBD for grass and water tiles
     def __init__(self, x, y, land_tiles):
@@ -48,10 +49,13 @@ class Player(pygame.sprite.Sprite):
         self.is_jumping = False
         self.is_attacking = False
         self.is_hurting = False
+        self.is_dying = False
 
         self.right = True
 
         self.attack_number = 1
+
+        self.able_to_move = True
 
 
     def update(self):
@@ -87,6 +91,11 @@ class Player(pygame.sprite.Sprite):
                 self.animate(self.hurt_right_frames, 0.1)
             else:
                 self.animate(self.hurt_left_frames, 0.1)
+        elif self.is_dying:
+            if self.right:
+                self.animate(self.death_right_frames, 0.1)
+            else:
+                self.animate(self.death_left_frames, 0.1)
         else:
             keys = pygame.key.get_pressed()
             
@@ -113,47 +122,49 @@ class Player(pygame.sprite.Sprite):
 
 
     def move(self):
-        self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
+        if self.able_to_move:
 
-        keys = pygame.key.get_pressed()
+            self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
 
-        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
-            self.right = False
-            if self.position.x < 0:
-                self.position.x = WINDOW_WIDTH
-            self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
-        elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
-            self.right = True
-            if self.position.x < 0:
-                self.position.x = WINDOW_WIDTH
-            self.acceleration.x = 1 * (self.HORIZONTAL_ACCELERATION + 0.2)
-        elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
-            self.right = False
-            if self.position.x < 0:
-                self.position.x = WINDOW_WIDTH
-            self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
-        elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
-            self.right = True
-            if self.position.x > WINDOW_WIDTH:
-                self.position.x = 0
-            self.acceleration.x = self.HORIZONTAL_ACCELERATION    
-        else:
-            if self.velocity.x > 0:
-                self.right = True
-                self.mask = self.mask.scale((64, 80))
-                pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)  
-            else:
+            keys = pygame.key.get_pressed()
+
+            if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
                 self.right = False
+                if self.position.x < 0:
+                    self.position.x = WINDOW_WIDTH
+                self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
+            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
+                self.right = True
+                if self.position.x < 0:
+                    self.position.x = WINDOW_WIDTH
+                self.acceleration.x = 1 * (self.HORIZONTAL_ACCELERATION + 0.2)
+            elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
+                self.right = False
+                if self.position.x < 0:
+                    self.position.x = WINDOW_WIDTH
+                self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
+            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+                self.right = True
+                if self.position.x > WINDOW_WIDTH:
+                    self.position.x = 0
+                self.acceleration.x = self.HORIZONTAL_ACCELERATION    
+            else:
+                if self.velocity.x > 0:
+                    self.right = True
+                    self.mask = self.mask.scale((64, 80))
+                    pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)  
+                else:
+                    self.right = False
 
-        # # calc new kinematic values 
-        self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
-        self.velocity += self.acceleration
-        self.position += self.velocity + 0.5 * self.acceleration
-        
-        self.rect.bottomleft = self.position
+            # # calc new kinematic values 
+            self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
+            self.velocity += self.acceleration
+            self.position += self.velocity + 0.5 * self.acceleration
+            
+            self.rect.bottomleft = self.position
 
-        if self.position.y > WINDOW_HEIGHT:
-            self.position.y = self.y
+            if self.position.y > WINDOW_HEIGHT:
+                self.position.y = self.y
 
     def check_collisions(self):
         for tile in self.land_tiles:  
@@ -184,6 +195,8 @@ class Player(pygame.sprite.Sprite):
                 self.is_attacking = False
             if self.is_hurting:
                 self.is_hurting = False
+            if self.is_dying:
+                self.is_dying = False
         
         self.image = sprite_list[int(self.current_sprite)]
 
@@ -212,7 +225,8 @@ class Player(pygame.sprite.Sprite):
         self.hurt_right_frames = []
         self.hurt_left_frames = []
 
-        self.death_frames = []
+        self.death_right_frames = []
+        self.death_left_frames = []
 
         self.attack_one_right_frames = []
         self.attack_one_left_frames = []
@@ -259,12 +273,14 @@ class Player(pygame.sprite.Sprite):
             self.hurt_left_frames.append(pygame.transform.flip(frame, True, False))
 
         # death frames
-        self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 1.png').convert_alpha(), (80, 80)))
-        self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 2.png').convert_alpha(), (80, 80)))
-        self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 3.png').convert_alpha(), (80, 80)))
-        self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 4.png').convert_alpha(), (80, 80)))
-        self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 5.png').convert_alpha(), (80, 80)))
-        self.death_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 6.png').convert_alpha(), (80, 80)))
+        self.death_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 1.png').convert_alpha(), (80, 80)))
+        self.death_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 2.png').convert_alpha(), (80, 80)))
+        self.death_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 3.png').convert_alpha(), (80, 80)))
+        self.death_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 4.png').convert_alpha(), (80, 80)))
+        self.death_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 5.png').convert_alpha(), (80, 80)))
+        self.death_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Death/death 6.png').convert_alpha(), (80, 80)))
+        for frame in self.death_right_frames:
+            self.death_left_frames.append(pygame.transform.flip(frame, True, False))
 
         #attack one frames
         self.attack_one_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Attack One/attack 1.png').convert_alpha(), (80, 80)))
