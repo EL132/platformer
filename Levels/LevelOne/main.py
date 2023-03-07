@@ -55,7 +55,7 @@ boss_group.add(boss_chomper)
 
 class Game():
     def __init__(self):
-        self.player_lives = 1
+        self.player_lives = 3
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
 
@@ -92,7 +92,7 @@ class Game():
         
 
     def boss_hurt(self):
-        self.boss_health -= 0.5
+        self.boss_health -= 0.1
 
 
     def draw_hearts(self):
