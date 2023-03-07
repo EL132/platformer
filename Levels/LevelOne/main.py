@@ -124,15 +124,11 @@ class Game():
             display_surface.blit(main_text, main_rect)
             pygame.display.update()
             while game_over:
-                for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN:
-                        #User wants to continue
-                        if event.key == pygame.K_RETURN:
-                            game_over = False
-                            pygame.mixer.music.unpause()
+                for event in pygame.event.get():    
                     #User wants to quit
                     if event.type == pygame.QUIT:
                         game_over = False
+                        self.player_lives = 3
                         pygame.mixer.music.stop()
     
     def player_lives_update(self, lives):
