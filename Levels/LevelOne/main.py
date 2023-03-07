@@ -92,7 +92,7 @@ class Game():
         
 
     def boss_hurt(self):
-        self.boss_health -= 0.1
+        self.boss_health -= 0.5
 
 
     def draw_hearts(self):
@@ -134,22 +134,59 @@ class Game():
             # player lost 
             my_player.is_dying = True
             my_player.able_to_move = False
-            self.death_animation()
+            self.player_death_animation()
             self.show_player_loss_screen()
         elif self.boss_health <= 0.09:
             boss_chomper.is_dying = True
             boss_chomper.able_to_move = False
-            self.death_animation()
+            self.boss_death_animation()
             self.show_player_win_screen()
 
 
-    def death_animation(self):
+    def player_death_animation(self):
         # here i just want the player to go through a whole cycle of animations, and 
         # then i want the game to show the death screen 
-        delay = 1000
+        if my_player.right:
+            death_frames = my_player.death_right_frames # a list of death frames
+        else:
+            death_frames = my_player.death_left_frames # a list of death frames
+        delay = 200 # the delay between each frame in milliseconds
 
-        for i in range(1, 6):
+        for frame in death_frames:
+            # currently have it so that everything goes away except the player 
+            my_player.image = frame
+            # redraw the screen
+            my_player_group.draw(display_surface)
+            pygame.display.flip()
             pygame.time.delay(delay)
+            display_surface.fill('black')
+            sprite_group.draw(display_surface)
+
+    
+    def boss_death_animation(self):
+        # here i just want the player to go through a whole cycle of animations, and 
+        # then i want the game to show the death screen 
+        if boss_chomper.right:
+            death_frames = boss_chomper.death_right_frames # a list of death frames
+        else:
+            death_frames = boss_chomper.death_left_frames # a list of death frames
+
+        delay = 400 # the delay between each frame in milliseconds
+
+        for frame in death_frames:
+            # currently have it so that everything goes away except the player 
+            boss_chomper.image = frame
+            # redraw the screen
+            boss_group.draw(display_surface)
+            my_player_group.draw(display_surface)
+
+            pygame.display.flip()
+            pygame.time.delay(delay)
+            display_surface.fill('black')
+            sprite_group.draw(display_surface)
+
+        # pause the animation for a few seconds
+        pygame.time.wait(3000)
 
 
     def show_player_loss_screen(self):
@@ -215,7 +252,7 @@ class Game():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         game_over = False
-                        self.boss_health = 1
+                        self.reset()
                         # go to the level selector
                         pass
 
@@ -226,6 +263,13 @@ class Game():
         boss_chomper.rect.bottomleft = (600, 385)
         my_player.position = (164, 164)
         my_player.able_to_move = True
+        my_player.is_hurting = False
+        my_player.is_attacking = False
+        boss_chomper.is_dying = False
+        boss_chomper.able_to_move = True
+        boss_chomper.is_hurting = False
+        boss_chomper.attacking = False
+
     
     def player_lives_update(self, lives):
         self.player_lives -= lives
