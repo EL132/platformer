@@ -91,11 +91,6 @@ class Player(pygame.sprite.Sprite):
                 self.animate(self.hurt_right_frames, 0.1)
             else:
                 self.animate(self.hurt_left_frames, 0.1)
-        # elif self.is_dying:
-        #     if self.right:
-        #         self.animate(self.death_right_frames, 0.1)
-        #     else:
-        #         self.animate(self.death_left_frames, 0.1)
         else:
             keys = pygame.key.get_pressed()
             
