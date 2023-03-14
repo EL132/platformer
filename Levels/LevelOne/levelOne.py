@@ -323,9 +323,7 @@ class Game():
 my_game = Game()
 
 
-
-running = True
-while running:
+def run_level_one():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False 
@@ -363,5 +361,5 @@ while running:
 
     clock.tick(FPS)
 
-
-pygame.quit()
+while True:
+    run_level_one()
