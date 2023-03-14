@@ -2,6 +2,7 @@ import pygame
 import settings 
 from debug import debug
 from level import Level
+# from Levels/LevelOne/boss import  	
 
 class Game:
 	def __init__(self):
@@ -40,9 +41,7 @@ class Game:
 				self.screen.fill('black')
 				self.level.run()
 				pygame.display.update()
-				print('no transition needed')
 			if settings.transition: 
-				print('we need to transition')
 				pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
 				self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
 				settings.transtion = False
