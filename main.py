@@ -1,8 +1,8 @@
 import pygame 
 import settings 
-from debug import debug
-from level import Level
-# from Levels/LevelOne/boss import  	
+from levelSelector.Custom.code.debug import debug
+from levelSelector.Custom.code.level import Level
+from Levels.LevelOne.levelOneRun import Game
 
 class Game:
 	def __init__(self):
@@ -37,15 +37,19 @@ class Game:
 				if event.type == pygame.QUIT:
 					pygame.quit()
 
-			if not settings.transition: 
-				self.screen.fill('black')
-				self.level.run()
-				pygame.display.update()
-			if settings.transition: 
-				pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
-				self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
-				settings.transtion = False
-				self.level.kill
+			if settings.game_state == 0: 
+				if not settings.transition: 
+					self.screen.fill('black')
+					self.level.run()
+					pygame.display.update()
+				if settings.transition: 
+					pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
+					self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
+					settings.transtion = False
+					self.level.kill
+
+			if settings.game_state == 1: 
+				pass
 
 
 			self.clock.tick(settings.FPS)

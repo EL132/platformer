@@ -1,10 +1,10 @@
 #this is on the new branch 
 import pygame
 from settings import *
-from tile import Tile
-from player import Player
-from debug import debug
-from support import *
+from levelSelector.Custom.code.tile import Tile
+from levelSelector.Custom.code.player import Player
+from levelSelector.Custom.code.debug import debug
+from levelSelector.Custom.code.support import *
 
 class Level:
 	def __init__(self):

@@ -1,5 +1,5 @@
 import pygame, random, sys
-from constants import WINDOW_WIDTH, WINDOW_HEIGHT
+from Levels.LevelOne.constants import WINDOW_WIDTH, WINDOW_HEIGHT
 
 #Use 2D vectors
 vector = pygame.math.Vector2
