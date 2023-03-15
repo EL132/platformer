@@ -1,8 +1,8 @@
 import pygame 
 import settings 
 from levelSelector.Custom.code.debug import debug
-from levelSelector.Custom.code.level import Level
-from Levels.LevelOne.levelOneRun import Game
+from levelSelector.Custom.code.levelSelector import Level
+from Levels.LevelOne.levelOne import LevelOne
 
 class Game:
 	def __init__(self):
@@ -12,6 +12,7 @@ class Game:
 		self.clock = pygame.time.Clock()
 
 		self.level = Level()
+		self.levelOne = LevelOne()
 
 	def fade(self, width, height): 
 		fade = pygame.Surface((width, height))
@@ -36,21 +37,35 @@ class Game:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					pygame.quit()
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
+						self.levelOne.player.is_jumping = True
+						self.levelOne.player.jump()
+					if event.key == pygame.K_ESCAPE:
+						self.pause_game("Paused", "Press    enter     to     play")
+					if event.key == pygame.K_1:
+						self.levelOne.player.attack(1)
+					if event.key == pygame.K_2:
+						self.levelOne.player.attack(2)
 
-			if settings.game_state == 0: 
-				if not settings.transition: 
-					self.screen.fill('black')
-					self.level.run()
-					pygame.display.update()
-				if settings.transition: 
-					pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
-					self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
-					settings.transtion = False
-					self.level.kill
+			self.screen.fill('black')
 
-			if settings.game_state == 1: 
-				pass
 
+			# if settings.game_state == 0: 
+			# 	if not settings.transition: 
+			# 		self.level.run()
+			# 	if settings.transition: 
+			# 		pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
+			# 		self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
+			# 		settings.transtion = False
+			# 		self.level.kill()
+
+			# elif settings.game_state == 1: 
+			# 	pass
+
+			self.levelOne.run()
+
+			pygame.display.update()
 
 			self.clock.tick(settings.FPS)
 

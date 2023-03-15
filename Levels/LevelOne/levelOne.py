@@ -3,20 +3,15 @@ import pygame, time, random, math
 from pytmx.util_pygame import load_pygame
 
 
-from tile import Tile
-from player import Player
-from boss import Boss
-from constants import *
+from Levels.LevelOne.tile import Tile
+from Levels.LevelOne.player import Player
+from Levels.LevelOne.boss import Boss
+from Levels.LevelOne.constants import *
 
 
 display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 sprite_group = pygame.sprite.Group()
-
-clock = pygame.time.Clock()
-
-#Initiailize pygame
-pygame.init()
 
 # video tmx code
 tmx_data = load_pygame('./Levels/levelOne/maps/levelOne.tmx')
@@ -36,25 +31,11 @@ for layer in tmx_data.visible_layers:
             if layer.name in ('Collisions'):
                 land_sprite_group.add(temp)
 
-
-
-
-
-my_player_group = pygame.sprite.Group()
-boss_group = pygame.sprite.Group()
-
-my_player = Player(164, 164, land_sprite_group)
-my_player_group.add(my_player)
-
-boss_chomper = Boss(600, 385)
-boss_group.add(boss_chomper)
-
-
-
-
-
-class Game():
+class LevelOne():
     def __init__(self):
+        self.player = Player(164, 164, land_sprite_group)
+        self.player_group = pygame.sprite.Group()
+        self.player_group.add(self.player)
         self.player_lives = 3
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
@@ -63,6 +44,9 @@ class Game():
         self.player_lives_text_rect = self.player_lives_text.get_rect()
         self.player_lives_text_rect.center = (65, 35)
 
+        self.boss_chomper = Boss(600, 385)
+        self.boss_group = pygame.sprite.Group()
+        self.boss_group.add(self.boss_chomper)
         self.boss_health_text = self.custom_font.render("Health", True, BEIGE)
         self.boss_health_text_rect = self.boss_health_text.get_rect()
         self.boss_health_text_rect.center = (WINDOW_WIDTH - 300, 35)
@@ -72,7 +56,7 @@ class Game():
 
 
     def update(self):
-        self.check_collisions(my_player, boss_chomper)
+        self.check_collisions(self.player, self.boss_chomper)
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
@@ -132,13 +116,13 @@ class Game():
     def check_game_over(self):
         if self.player_lives <= 0:
             # player lost 
-            my_player.is_dying = True
-            my_player.able_to_move = False
+            self.player.is_dying = True
+            self.player.able_to_move = False
             self.player_death_animation()
             self.show_player_loss_screen()
         elif self.boss_health <= 0.09:
-            boss_chomper.is_dying = True
-            boss_chomper.able_to_move = False
+            self.boss_chomper.is_dying = True
+            self.boss_chomper.able_to_move = False
             self.boss_death_animation()
             self.show_player_win_screen()
 
@@ -146,17 +130,17 @@ class Game():
     def player_death_animation(self):
         # here i just want the player to go through a whole cycle of animations, and 
         # then i want the game to show the death screen 
-        if my_player.right:
-            death_frames = my_player.death_right_frames # a list of death frames
+        if self.player.right:
+            death_frames = self.player.death_right_frames # a list of death frames
         else:
-            death_frames = my_player.death_left_frames # a list of death frames
+            death_frames = self.player.death_left_frames # a list of death frames
         delay = 200 # the delay between each frame in milliseconds
 
         for frame in death_frames:
             # currently have it so that everything goes away except the player 
-            my_player.image = frame
+            self.player.image = frame
             # redraw the screen
-            my_player_group.draw(display_surface)
+            self.player_group.draw(display_surface)
             pygame.display.flip()
             pygame.time.delay(delay)
             display_surface.fill('black')
@@ -166,19 +150,19 @@ class Game():
     def boss_death_animation(self):
         # here i just want the player to go through a whole cycle of animations, and 
         # then i want the game to show the death screen 
-        if boss_chomper.right:
-            death_frames = boss_chomper.death_right_frames # a list of death frames
+        if self.boss_chomper.right:
+            death_frames = self.boss_chomper.death_right_frames # a list of death frames
         else:
-            death_frames = boss_chomper.death_left_frames # a list of death frames
+            death_frames = self.boss_chomper.death_left_frames # a list of death frames
 
         delay = 400 # the delay between each frame in milliseconds
 
         for frame in death_frames:
             # currently have it so that everything goes away except the player 
-            boss_chomper.image = frame
+            self.boss_chomper.image = frame
             # redraw the screen
-            boss_group.draw(display_surface)
-            my_player_group.draw(display_surface)
+            self.boss_group.draw(display_surface)
+            self.player_group.draw(display_surface)
 
             pygame.display.flip()
             pygame.time.delay(delay)
@@ -260,15 +244,15 @@ class Game():
     def reset(self):
         self.player_lives = 3
         self.boss_health = 1
-        boss_chomper.rect.bottomleft = (600, 385)
-        my_player.position = (164, 164)
-        my_player.able_to_move = True
-        my_player.is_hurting = False
-        my_player.is_attacking = False
-        boss_chomper.is_dying = False
-        boss_chomper.able_to_move = True
-        boss_chomper.is_hurting = False
-        boss_chomper.attacking = False
+        self.boss_chomper.rect.bottomleft = (600, 385)
+        self.player.position = (164, 164)
+        self.player.able_to_move = True
+        self.player.is_hurting = False
+        self.player.is_attacking = False
+        self.boss_chomper.is_dying = False
+        self.boss_chomper.able_to_move = True
+        self.boss_chomper.is_hurting = False
+        self.boss_chomper.attacking = False
 
     
     def player_lives_update(self, lives):
@@ -319,47 +303,27 @@ class Game():
                     running = False
                     pygame.mixer.music.stop()
 
+    def run(self): 
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
+                    self.player.is_jumping = True
+                    self.player.jump()
+                if event.key == pygame.K_ESCAPE:
+                    self.pause_game("Paused", "Press    enter     to     play")
+                if event.key == pygame.K_1:
+                    self.player.attack(1)
+                if event.key == pygame.K_2:
+                    self.player.attack(2)
 
-my_game = Game()
+        sprite_group.draw(display_surface)
 
+        self.player_group.update()
+        self.player_group.draw(display_surface)
 
-def run_level_one():
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False 
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
-                my_player.is_jumping = True
-                my_player.jump()
-            if event.key == pygame.K_ESCAPE:
-                my_game.pause_game("Paused", "Press    enter     to     play")
-            if event.key == pygame.K_1:
-                my_player.attack(1)
-            if event.key == pygame.K_2:
-                my_player.attack(2)
+        self.boss_group.update()
+        self.boss_group.draw(display_surface)
 
-
-    # high level loop progression: screen goes black, tiles get loaded, player and boss update position and get redrawn, 
-    # game updates, screen updates, repeat 
-
-    display_surface.fill('black')
-    sprite_group.draw(display_surface)
+        self.update()
 
 
-    my_player_group.update()
-    my_player_group.draw(display_surface)
-    # pygame.draw.rect(display_surface, (255, 255, 255), my_player.rect)
-
-    boss_group.update()
-    boss_group.draw(display_surface)
-    # pygame.draw.rect(display_surface, (255, 255, 255), boss_chomper.rect)
-
-    my_game.update()
-    # display_surface.blit(heart, heart_rect)
-
-    pygame.display.flip()
-
-    clock.tick(FPS)
-
-while True:
-    run_level_one()
