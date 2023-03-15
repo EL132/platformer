@@ -42,7 +42,7 @@ class Game:
 						self.levelOne.player.is_jumping = True
 						self.levelOne.player.jump()
 					if event.key == pygame.K_ESCAPE:
-						self.pause_game("Paused", "Press    enter     to     play")
+						self.levelOne.pause_game("Paused", "Press    enter     to     play")
 					if event.key == pygame.K_1:
 						self.levelOne.player.attack(1)
 					if event.key == pygame.K_2:
