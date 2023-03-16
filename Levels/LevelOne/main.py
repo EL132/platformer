@@ -107,8 +107,6 @@ class Game():
             else:
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
 
-            print("player lives: ", self.player_lives)
-
             self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
             self.heart_rect.topleft = (130 + (i * 52), 10) # can position multiple ways
             display_surface.blit(self.heart, self.heart_rect)
