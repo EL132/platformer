@@ -42,7 +42,7 @@ class Player(pygame.sprite.Sprite):
 
 
         # NEW CODE FOR IMPROVED COLLISION HERE:
-        self.leg_hitbox_rect = pygame.Rect(self.x, self.y, 10, 15)
+        self.leg_hitbox_rect = pygame.Rect(self.x, self.y, 34, 15)
 
         
 
@@ -164,13 +164,17 @@ class Player(pygame.sprite.Sprite):
             self.position += self.velocity + 0.5 * self.acceleration
             
             self.rect.bottomleft = self.position
+            if self.right:
+                self.leg_hitbox_rect.center = (self.position.x + 26, self.position.y - 6)
+            else:
+                self.leg_hitbox_rect.center = (self.position.x + 53, self.position.y - 6)
 
             if self.position.y > WINDOW_HEIGHT:
                 self.position.y = self.y
 
     def check_collisions(self):
         for tile in self.land_tiles:  
-            if pygame.sprite.collide_mask(self, tile):
+            if pygame.sprite.collide_mask(self, tile) and self.leg_hitbox_rect.colliderect(tile.rect):
                 tile.mask = pygame.mask.from_surface(tile.image)
                 tile_mask_outline = tile.mask.outline() # this gives a list of points that are on
                 if self.velocity.y > 0:
