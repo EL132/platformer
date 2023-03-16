@@ -1,5 +1,5 @@
 import pygame, random
-from Levels.LevelOne.constants import WINDOW_WIDTH
+from constants import WINDOW_WIDTH
 
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):

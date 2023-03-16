@@ -98,11 +98,17 @@ class Game():
     def draw_hearts(self):
         # can't do a "if change needed" because the hearts need to be drawn every frame since the back
         
-        for i in range(math.ceil(self.player_lives)):
-            if self.player_lives % 1 != 0 and i is math.floor(self.player_lives):
+        for i in range(1, 4):
+            if math.ceil(self.player_lives) < i:
+                # if player has two lives and we are on the third heart location, then load empty heart
+                self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/empty-heart.png").convert_alpha(), (48, 48))            
+            elif self.player_lives % 1 != 0 and i == math.ceil(self.player_lives):
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/half-heart.png").convert_alpha(), (48, 48))
             else:
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
+
+            print("player lives: ", self.player_lives)
+
             self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
             self.heart_rect.topleft = (130 + (i * 52), 10) # can position multiple ways
             display_surface.blit(self.heart, self.heart_rect)

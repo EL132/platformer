@@ -1,5 +1,5 @@
 import pygame, random, sys
-from Levels.LevelOne.constants import WINDOW_WIDTH, WINDOW_HEIGHT
+from constants import WINDOW_WIDTH, WINDOW_HEIGHT
 
 #Use 2D vectors
 vector = pygame.math.Vector2
@@ -50,6 +50,7 @@ class Player(pygame.sprite.Sprite):
         self.is_attacking = False
         self.is_hurting = False
         self.is_dying = False
+        self.is_sprinting = False
 
         self.right = True
 
@@ -125,31 +126,37 @@ class Player(pygame.sprite.Sprite):
 
             if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
                 self.right = False
+                self.is_sprinting = True
                 if self.position.x < 0:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
                 self.right = True
+                self.is_sprinting = True
                 if self.position.x < 0:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = 1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
                 self.right = False
+                self.is_sprinting = False
                 if self.position.x < 0:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
                 self.right = True
+                self.is_sprinting = False
                 if self.position.x > WINDOW_WIDTH:
                     self.position.x = 0
                 self.acceleration.x = self.HORIZONTAL_ACCELERATION    
             else:
                 if self.velocity.x > 0:
                     self.right = True
+                    self.is_sprinting = False
                     self.mask = self.mask.scale((64, 80))
                     pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)  
                 else:
                     self.right = False
+                    self.is_sprinting = False
 
             # # calc new kinematic values 
             self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
@@ -169,8 +176,11 @@ class Player(pygame.sprite.Sprite):
                 if self.velocity.y > 0:
                     # this is where i changed the jumping back to false to prevent infinite jumping 
                     if self.is_jumping:
-                        self.is_jumping = False     
-                    self.position.y = tile.rect.top + 1
+                        self.is_jumping = False
+                    if self.is_sprinting:
+                        self.position.y = tile.rect.top + 3
+                    else:
+                        self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
     
     def jump(self):
