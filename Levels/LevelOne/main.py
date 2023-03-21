@@ -90,6 +90,7 @@ class Game():
 
         display_surface.blit(self.boss_health_text, self.boss_health_text_rect)
         
+        print("hello")
 
     def boss_hurt(self):
         self.boss_health -= 0.02
