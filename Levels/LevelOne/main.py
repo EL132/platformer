@@ -92,12 +92,10 @@ class Game():
         
 
     def boss_hurt(self):
-        self.boss_health -= 0.1
+        self.boss_health -= 0.02
 
 
     def draw_hearts(self):
-        # can't do a "if change needed" because the hearts need to be drawn every frame since the back
-        
         for i in range(1, 4):
             if math.ceil(self.player_lives) < i:
                 # if player has two lives and we are on the third heart location, then load empty heart
@@ -130,6 +128,7 @@ class Game():
                 self.boss_hurt()
                 boss.is_hurting = True
                 player.is_hurting = True
+                collided.collision_occurred = True
         if len(collision_list) == 0:
             boss.collision_occurred = False
 
