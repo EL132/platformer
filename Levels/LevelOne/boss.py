@@ -1,5 +1,5 @@
 import pygame, random
-from Levels.LevelOne.constants import WINDOW_WIDTH
+from constants import WINDOW_WIDTH
 
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -67,16 +67,16 @@ class Boss(pygame.sprite.Sprite):
 
 
     def check_animations(self):
-        if self.attacking:
-            if self.right:
-                self.attack(self.set, 'right', 0.1)  
-            else:    
-                self.attack(self.set, 'left', 0.1)
-        elif self.is_hurting:
+        if self.is_hurting:
             if self.right:
                 self.animate(self.hurt_right_frames, 0.1)
             else:
                 self.animate(self.hurt_left_frames, 0.1)
+        elif self.attacking:
+            if self.right:
+                self.attack(self.set, 'right', 0.1)  
+            else:    
+                self.attack(self.set, 'left', 0.1)
         elif self.is_dying:
             if self.right:
                 self.animate(self.death_right_frames, 0.1)
