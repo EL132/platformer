@@ -90,19 +90,20 @@ class Game():
 
         display_surface.blit(self.boss_health_text, self.boss_health_text_rect)
         
-
     def boss_hurt(self):
-        self.boss_health -= 0.1
+        self.boss_health -= 0.02
 
 
     def draw_hearts(self):
-        # can't do a "if change needed" because the hearts need to be drawn every frame since the back
-        
-        for i in range(math.ceil(self.player_lives)):
-            if self.player_lives % 1 != 0 and i is math.floor(self.player_lives):
+        for i in range(1, 4):
+            if math.ceil(self.player_lives) < i:
+                # if player has two lives and we are on the third heart location, then load empty heart
+                self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/empty-heart.png").convert_alpha(), (48, 48))            
+            elif self.player_lives % 1 != 0 and i == math.ceil(self.player_lives):
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/half-heart.png").convert_alpha(), (48, 48))
             else:
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
+
             self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
             self.heart_rect.topleft = (130 + (i * 52), 10) # can position multiple ways
             display_surface.blit(self.heart, self.heart_rect)
@@ -126,6 +127,7 @@ class Game():
                 self.boss_hurt()
                 boss.is_hurting = True
                 player.is_hurting = True
+                collided.collision_occurred = True
         if len(collision_list) == 0:
             boss.collision_occurred = False
 
