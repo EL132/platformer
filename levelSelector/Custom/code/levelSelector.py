@@ -35,7 +35,7 @@ class Level:
 						if style == 'level_entrance': 
 							Tile((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible')
 
-		self.player = Player((15, 45), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
+		self.player = Player((382, 92), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
 
 	def entrance_confirmation(self): 
 		pass
