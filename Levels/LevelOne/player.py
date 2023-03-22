@@ -1,5 +1,5 @@
 import pygame, random, sys
-from constants import WINDOW_WIDTH, WINDOW_HEIGHT
+from Levels.LevelOne.constants import WINDOW_WIDTH, WINDOW_HEIGHT
 
 #Use 2D vectors
 vector = pygame.math.Vector2
@@ -174,23 +174,23 @@ class Player(pygame.sprite.Sprite):
 
     def check_collisions(self):
         for tile in self.land_tiles:  
-            if pygame.sprite.collide_mask(self, tile) and self.leg_hitbox_rect.colliderect(tile.rect):
-                tile.mask = pygame.mask.from_surface(tile.image)
-                tile_mask_outline = tile.mask.outline() # this gives a list of points that are on
+            if self.leg_hitbox_rect.colliderect(tile.rect):
                 if self.velocity.y > 0:
                     # this is where i changed the jumping back to false to prevent infinite jumping 
                     if self.is_jumping:
                         self.is_jumping = False
                     if self.is_sprinting:
-                        self.position.y = tile.rect.top + 3
+                        self.position.y = tile.rect.top
                     else:
                         self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
     
     def jump(self):
         self.is_jumping = True
-        if pygame.sprite.spritecollide(self, self.land_tiles, False):
-            self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
+        for tile in self.land_tiles:
+            if self.leg_hitbox_rect.colliderect(tile.rect):
+                self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
+
 
     def animate(self, sprite_list, speed):
         # speed parameter used to limit how fast the animation goes 
