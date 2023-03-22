@@ -51,19 +51,16 @@ class Game:
 			self.screen.fill('black')
 
 
-			# if settings.game_state == 0: 
-			# 	if not settings.transition: 
-			# 		self.level.run()
-			# 	if settings.transition: 
-			# 		pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
-			# 		self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
-			# 		settings.transtion = False
-			# 		self.level.kill()
+			if settings.game_state == 0: 
+				if not settings.transition: 
+					self.level.run()
+				if settings.transition: 
+					pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
+					self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
+					settings.transtion = False
 
-			# elif settings.game_state == 1: 
-			# 	pass
-
-			self.levelOne.run()
+			elif settings.game_state == 1: 
+				self.levelOne.run()
 
 			pygame.display.update()
 

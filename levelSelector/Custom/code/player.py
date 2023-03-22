@@ -63,8 +63,8 @@ class Player(pygame.sprite.Sprite):
 			if sprite.rect.colliderect(self.hitbox): 
 				self.hitbox.topleft = (15, 45)
 				settings.transition = True
-				print(settings.transition)
-				print('Entering Level One')
+				settings.game_state = 1
+
 
 	def update(self): 
 		self.input()

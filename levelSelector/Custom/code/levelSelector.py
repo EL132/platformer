@@ -37,6 +37,9 @@ class Level:
 
 		self.player = Player((15, 45), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
 
+	def entrance_confirmation(self): 
+		pass
+
 	def run(self):
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
@@ -66,3 +69,9 @@ class YSortCameraGroup(pygame.sprite.Group):
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
 			offset_pos = sprite.rect.topleft - self.offset
 			self.screen.blit(sprite.image, offset_pos)
+
+class LevelEntrance(pygame.sprite.Sprite):
+	def __init__(self, level_number):
+		super().__init__()
+		self.level_number = level_number
+        
