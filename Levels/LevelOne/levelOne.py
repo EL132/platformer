@@ -98,7 +98,9 @@ class LevelOne():
     def check_collisions(self, player, boss):
         # Check for collisions between player and boss
         collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
+        # collision_list is either empty or contains just the boss sprite
         for collided in collision_list:
+            # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
             if not collided.collision_occurred and player.is_attacking and not boss.attacking:
                 boss.is_hurting = True
                 self.boss_hurt()
