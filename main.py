@@ -1,8 +1,10 @@
-import pygame 
+import pygame, sys
 import settings 
 from levelSelector.Custom.code.debug import debug
 from levelSelector.Custom.code.levelSelector import Level
 from Levels.LevelOne.levelOne import LevelOne
+
+sys.dont_write_bytecode = True
 
 class Game:
 	def __init__(self):
@@ -17,7 +19,7 @@ class Game:
 	def fade(self, width, height): 
 		fade = pygame.Surface((width, height))
 		fade.fill((0,0,0))
-		for alpha in range(0, 300):
+		for alpha in range(0, 150):
 			print("looping through" + str(alpha))
 			fade.set_alpha(alpha)
 			self.redrawScreen()
