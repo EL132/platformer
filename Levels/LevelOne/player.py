@@ -133,8 +133,8 @@ class Player(pygame.sprite.Sprite):
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
                 self.right = True
                 self.is_sprinting = True
-                if self.position.x < 0:
-                    self.position.x = WINDOW_WIDTH
+                if self.position.x > WINDOW_WIDTH:
+                    self.position.x = 0
                 self.acceleration.x = 1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
                 self.right = False
