@@ -10,6 +10,3 @@ TILESIZE = 16
 
 global game_state
 game_state = 0
-
-
-

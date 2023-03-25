@@ -47,9 +47,6 @@ class LevelOne():
         self.boss_chomper = Boss(600, 385)
         self.boss_group = pygame.sprite.Group()
         self.boss_group.add(self.boss_chomper)
-        self.boss_health_text = self.custom_font.render("Health", True, BEIGE)
-        self.boss_health_text_rect = self.boss_health_text.get_rect()
-        self.boss_health_text_rect.center = (WINDOW_WIDTH - 300, 35)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
@@ -63,17 +60,26 @@ class LevelOne():
 
 
     def draw_health_bar(self):
-        # outline for the health bar: 
-        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 225, 22), (WINDOW_WIDTH - 25, 22), 4)
-        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 225, 42), (WINDOW_WIDTH - 25, 42), 4)
-        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 225, 22), (WINDOW_WIDTH - 225, 42), 4)
-        pygame.draw.line(display_surface, (255, 20, 20), (WINDOW_WIDTH - 25, 22), (WINDOW_WIDTH - 25, 42), 4)
+        left_shift = 30
+        right_shift = 15
 
-        # fill for the health bar: 
-        pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(WINDOW_WIDTH - 223, 24, 195 * self.boss_health, 18))
-
-        display_surface.blit(self.boss_health_text, self.boss_health_text_rect)
+        # want to have this hover over the boss, so we need to access position of boss 
+        if self.boss_chomper.right:
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), 4)
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 4)
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), 4)
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 4)
         
+            # outline for the health bar: 
+            pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x - (right_shift - 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+        else:
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), 4)
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 4)
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), 4)
+            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 4)
+        
+            # outline for the health bar: 
+            pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self):
         self.boss_health -= 0.1
@@ -90,7 +96,7 @@ class LevelOne():
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
 
             self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
-            self.heart_rect.topleft = (130 + (i * 52), 10) # can position multiple ways
+            self.heart_rect.topleft = (90 + (i * 52), 10) # can position multiple ways
             display_surface.blit(self.heart, self.heart_rect)
         
         display_surface.blit(self.player_lives_text, self.player_lives_text_rect)
