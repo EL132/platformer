@@ -59,11 +59,11 @@ class Player(pygame.sprite.Sprite):
 					if self.direction.y < 0: 
 						self.hitbox.top = sprite.hitbox.bottom
 
-		for sprite in self.entrance_sprites: 
+		collided_entrance = pygame.sprite.spritecollideany(self, self.entrance_sprites)
+		if collided_entrance:
 			if sprite.rect.colliderect(self.hitbox): 
-				self.hitbox.topleft = (15, 45)
 				settings.transition = True
-				settings.game_state = 1
+				settings.game_state = collided_entrance.level
 
 
 	def update(self): 
