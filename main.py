@@ -1,7 +1,7 @@
 import pygame, sys
 import settings 
-from levelSelector.Custom.code.debug import debug
-from levelSelector.Custom.code.levelSelector import Level
+from LevelSelector.code.debug import debug
+from LevelSelector.code.levelSelector import Level
 from Levels.LevelOne.levelOne import LevelOne
 
 sys.dont_write_bytecode = True
@@ -30,7 +30,7 @@ class Game:
 
 	def redrawScreen(self): 
 		self.screen.fill((255, 255, 255))
-		self.fade_image = pygame.image.load("levelSelector/Custom/screenshot.jpg")
+		self.fade_image = pygame.image.load("LevelSelector/screenshot.jpg")
 		self.fade_rect = self.fade_image.get_rect(topleft = (0, 0))
 		self.screen.blit(self.fade_image, self.fade_rect)
 
@@ -52,12 +52,11 @@ class Game:
 
 			self.screen.fill('black')
 
-
 			if settings.game_state == 0: 
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 
-					pygame.image.save(self.screen,"levelSelector/Custom/screenshot.jpg")
+					pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
 					self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
 					settings.transtion = False
 

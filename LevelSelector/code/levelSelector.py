@@ -1,10 +1,11 @@
 #this is on the new branch 
 import pygame
 from settings import *
-from levelSelector.Custom.code.tile import Tile
-from levelSelector.Custom.code.player import Player
-from levelSelector.Custom.code.debug import debug
-from levelSelector.Custom.code.support import *
+from LevelSelector.code.tile import Tile
+from LevelSelector.code.player import Player
+from LevelSelector.code.debug import debug
+from LevelSelector.code.levelEntrance import LevelEntrance
+from LevelSelector.code.support import *
 
 class Level:
 	def __init__(self):
@@ -15,13 +16,15 @@ class Level:
 		self.obstacle_sprites = pygame.sprite.Group()
 		self.level_entrance_sprites = pygame.sprite.Group()
 
+		self.entrance_count = 0
+
 		self.create_map()
 
 	def create_map(self):
 		#add each csv into layout array
 		layout = {
-			'trail_border': import_csv_layout('./levelSelector/Custom/Tilemaps/csv/LevelSelector._Trail Border.csv'),
-			'level_entrance': import_csv_layout('./levelSelector/Custom/Tilemaps/csv/LevelSelector._Level Entrance.csv')
+			'trail_border': import_csv_layout('./LevelSelector/Tilemaps/csv/LevelSelector._Trail Border.csv'),
+			'level_entrance': import_csv_layout('./LevelSelector/Tilemaps/csv/LevelSelector._Level Entrance.csv')
 		}
 
 		for style, layout in layout.items(): 
@@ -33,10 +36,8 @@ class Level:
 						if style == 'trail_border': 	
 							Tile((x, y), [self.obstacle_sprites], 'invisible')
 						if style == 'level_entrance': 
-							#entrance = LevelEntrance((x,y), [self.obstacle_sprites, self.level_entrance_sprites], 1)
-							#self.obstacle_sprites.add(entrance)
-							#self.level_entrance_sprites.add(entrance)
-							Tile((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible')
+							self.entrance_count += 1
+							LevelEntrance((x,y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', self.entrance_count)
 
 		self.player = Player((382, 92), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
 
@@ -57,7 +58,7 @@ class YSortCameraGroup(pygame.sprite.Group):
 		self.half_height = self.screen.get_size()[1] // 2 
 		self.offset = pygame.math.Vector2(100, 200)
 
-		self.map_image = pygame.image.load("./levelSelector/Custom/Tilemaps/levelSelector.png")
+		self.map_image = pygame.image.load("./LevelSelector/Tilemaps/levelSelector.png")
 		self.map_rect = self.map_image.get_rect(topleft = (0, 0))
 
 	def custom_draw(self, player): 
@@ -73,9 +74,5 @@ class YSortCameraGroup(pygame.sprite.Group):
 			offset_pos = sprite.rect.topleft - self.offset
 			self.screen.blit(sprite.image, offset_pos)
 
-class LevelEntrance(pygame.sprite.Sprite):
-	def __init__(self, pos, groups, level_number):
-		super().__init__(groups)
-		self.level_number = level_number
-		self.rect = pygame.Rect(pos[0], pos[1], TILESIZE, TILESIZE)
+
         
