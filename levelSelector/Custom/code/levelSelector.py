@@ -33,10 +33,10 @@ class Level:
 						if style == 'trail_border': 	
 							Tile((x, y), [self.obstacle_sprites], 'invisible')
 						if style == 'level_entrance': 
-							entrance = LevelEntrance((x,y), 1)
+							#entrance = LevelEntrance((x,y), [self.obstacle_sprites, self.level_entrance_sprites], 1)
 							#self.obstacle_sprites.add(entrance)
-							self.level_entrance_sprites.add(entrance)
-							# Tile((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible')
+							#self.level_entrance_sprites.add(entrance)
+							Tile((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible')
 
 		self.player = Player((382, 92), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
 
@@ -74,8 +74,8 @@ class YSortCameraGroup(pygame.sprite.Group):
 			self.screen.blit(sprite.image, offset_pos)
 
 class LevelEntrance(pygame.sprite.Sprite):
-	def __init__(self, pos, level_number):
-		super().__init__()
+	def __init__(self, pos, groups, level_number):
+		super().__init__(groups)
 		self.level_number = level_number
 		self.rect = pygame.Rect(pos[0], pos[1], TILESIZE, TILESIZE)
         

@@ -63,7 +63,7 @@ class Player(pygame.sprite.Sprite):
 		if collided_entrance:
 			if sprite.rect.colliderect(self.hitbox): 
 				settings.transition = True
-				settings.game_state = collided_entrance.level
+				#settings.game_state = collided_entrance.level
 
 
 	def update(self): 
