@@ -3,6 +3,7 @@ import settings
 from LevelSelector.code.debug import debug
 from LevelSelector.code.levelSelector import Level
 from Levels.LevelOne.levelOne import LevelOne
+from Menu.menu import Menu
 
 sys.dont_write_bytecode = True
 
@@ -15,6 +16,7 @@ class Game:
 
 		self.level = Level()
 		self.levelOne = LevelOne()
+		self.menu = Menu()
 
 	def fade(self, width, height): 
 		fade = pygame.Surface((width, height))
@@ -51,6 +53,14 @@ class Game:
 						self.levelOne.player.attack(2)
 
 			self.screen.fill('black')
+
+			if settings.game_state == -1:
+				self.menu.run()
+
+			# if self.menu.started_game and settings.game_state == 0:
+			# 	pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
+			# 	self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
+			# 	settings.transtion = False
 
 			if settings.game_state == 0: 
 				if not settings.transition: 

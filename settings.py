@@ -9,4 +9,4 @@ FPS      = 60
 TILESIZE = 16
 
 global game_state
-game_state = 0
+game_state = -1
