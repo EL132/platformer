@@ -3,7 +3,7 @@ import settings
 from LevelSelector.code.debug import debug
 from LevelSelector.code.levelSelector import Level
 from Levels.LevelOne.levelOne import LevelOne
-from Menu.menu import Menu
+from menu import Menu
 
 sys.dont_write_bytecode = True
 
@@ -28,6 +28,10 @@ class Game:
 			self.screen.blit(fade, (0,0))
 			pygame.display.update()
 			pygame.time.delay(3)
+		
+		if self.menu.started_game == True:
+			self.menu.started_game = False
+	
 
 
 	def redrawScreen(self): 
@@ -57,10 +61,10 @@ class Game:
 			if settings.game_state == -1:
 				self.menu.run()
 
-			# if self.menu.started_game and settings.game_state == 0:
-			# 	pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
-			# 	self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
-			# 	settings.transtion = False
+			if self.menu.started_game:
+				pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
+				self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
+				settings.transtion = False
 
 			if settings.game_state == 0: 
 				if not settings.transition: 
