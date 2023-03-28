@@ -9,6 +9,7 @@ display_surface = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISP
 clock = pygame.time.Clock()
 
 font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
+medium_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 64)
 title_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 84)
 
 
@@ -85,11 +86,30 @@ class Menu():
 
 
     def options(self):
+        # only want to deal with options that we can change in our settings basically
+        # likely will only be able to change FPS value and difficulty value 
+
         running = True
         while running:
+            # will need to do the mx, my stuff that i did for the original screen, but for now this is fine
+            
             display_surface.fill((0,0,0))
 
+            pygame.draw.line(display_surface, (255, 255, 255), (0, 98), (settings.DISPLAY_WIDTH, 98), 8)
+
             draw_text('options', title_font, (255, 255, 255), display_surface, settings.DISPLAY_WIDTH // 2 - 150, 25)
+
+            draw_text('Difficulty', medium_font, (255, 255, 255), display_surface, 25, 125)
+            pygame.draw.line(display_surface, (255, 255, 255), (0, 195), (400, 195), 2)
+            draw_text('Easy', font, (255, 255, 255), display_surface, 45, 215)
+            draw_text('Medium', font, (255, 255, 255), display_surface, 205, 215)
+            draw_text('Hard', font, (255, 255, 255), display_surface, 405, 215)
+
+            draw_text('FPS', medium_font, (255, 255, 255), display_surface, 25, 275)
+            pygame.draw.line(display_surface, (255, 255, 255), (0, 345), (400, 345), 2)
+            draw_text('40', font, (255, 255, 255), display_surface, 45, 375)
+            draw_text('60', font, (255, 255, 255), display_surface, 205, 375)
+            draw_text('80', font, (255, 255, 255), display_surface, 405, 375)
             for event in pygame.event.get():
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
