@@ -62,9 +62,18 @@ class Player(pygame.sprite.Sprite):
 		collided_entrance = pygame.sprite.spritecollideany(self, self.entrance_sprites)
 		if collided_entrance:
 			if sprite.rect.colliderect(self.hitbox): 
-				settings.transition = True
-				#settings.game_state = 1
-				settings.game_state = collided_entrance.level_number
+				level_request = True
+				print("Would you like to enter level " + str(collided_entrance.level_number) + "? (y/n)")
+				while level_request:
+					for event in pygame.event.get():
+						if event.type == pygame.KEYDOWN:
+							if event.key == pygame.K_y: 
+								settings.game_state = collided_entrance.level_number
+								level_request = False
+								settings.transition = True
+							elif event.key == pygame.K_n: 
+								self.hitbox.y += 20
+								level_request = False
 
 
 	def update(self): 

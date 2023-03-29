@@ -18,25 +18,33 @@ class Game:
 		self.levelOne = LevelOne()
 		self.menu = Menu()
 
-	def fade(self, width, height): 
-		fade = pygame.Surface((width, height))
+	def fadeOut(self): 
+		pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
+		image = pygame.image.load("LevelSelector/screenshot.jpg")
+		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0,0,0))
-		for alpha in range(0, 150):
-			print("looping through" + str(alpha))
+		for alpha in range(0, 275):
 			fade.set_alpha(alpha)
-			self.redrawScreen()
+			self.redrawScreen(image)
 			self.screen.blit(fade, (0,0))
 			pygame.display.update()
 			pygame.time.delay(3)
-		
-		if self.menu.started_game == True:
-			self.menu.started_game = False
-	
+		self.fadeIn()
 
+	def fadeIn(self):
+		image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+		fade.fill((0, 0, 0))
+		for alpha in range(275, 0, -1):
+			fade.set_alpha(alpha)
+			self.redrawScreen(image)
+			self.screen.blit(fade, (0,0))
+			pygame.display.update()
+			pygame.time.delay(3)
 
-	def redrawScreen(self): 
+	def redrawScreen(self, fade_image): 
 		self.screen.fill((255, 255, 255))
-		self.fade_image = pygame.image.load("LevelSelector/screenshot.jpg")
+		self.fade_image = fade_image
 		self.fade_rect = self.fade_image.get_rect(topleft = (0, 0))
 		self.screen.blit(self.fade_image, self.fade_rect)
 
@@ -46,34 +54,39 @@ class Game:
 				if event.type == pygame.QUIT:
 					pygame.quit()
 				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
-						self.levelOne.player.is_jumping = True
-						self.levelOne.player.jump()
-					if event.key == pygame.K_ESCAPE:
-						self.levelOne.pause_game("Paused", "Press    enter     to     play")
-					if event.key == pygame.K_1:
-						self.levelOne.player.attack(1)
-					if event.key == pygame.K_2:
-						self.levelOne.player.attack(2)
+					if settings.game_state == 1:
+						if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
+							self.levelOne.player.is_jumping = True
+							self.levelOne.player.jump()
+						if event.key == pygame.K_ESCAPE:
+							self.levelOne.pause_game("Paused", "Press    enter     to     play")
+						if event.key == pygame.K_1:
+							self.levelOne.player.attack(1)
+						if event.key == pygame.K_2:
+							self.levelOne.player.attack(2)
+					if settings.game_state == 0: 
+						pass
 
 			self.screen.fill('black')
 
+			#Main Menu
 			if settings.game_state == -1:
 				self.menu.run()
 
-			if self.menu.started_game:
-				pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
-				self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
-				settings.transtion = False
+				if self.menu.started_game:
+					self.fadeOut()
+					settings.transtion = False
+					self.menu.started_game = False
 
+			#Level Selector 
 			if settings.game_state == 0: 
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 
-					pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
-					self.fade(settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT)
+					self.fadeOut()
 					settings.transtion = False
 
+			#Level 1
 			elif settings.game_state == 1: 
 				self.levelOne.run()
 
