@@ -10,3 +10,6 @@ TILESIZE = 16
 
 global game_state
 game_state = -1
+
+global difficulty
+difficulty = 2
