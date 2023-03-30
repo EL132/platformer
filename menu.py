@@ -34,8 +34,9 @@ class Menu():
         select = pygame.mixer.Sound('./Menu/menu-select.mp3')
         hover = pygame.mixer.Sound('./Menu/menu-hover.wav')
 
+        button_list = [False, False, False]
+
         while self.running:
-            
             display_surface.fill((0,0,0))
 
             bg = pygame.image.load('./Menu/test_bg.png')
@@ -51,26 +52,40 @@ class Menu():
             start_game_button = pygame.Rect(settings.DISPLAY_WIDTH // 2 - 75, 200, 165, 35)
             options_button = pygame.Rect(settings.DISPLAY_WIDTH // 2 - 50, 250, 125, 35)
             quit_button = pygame.Rect(settings.DISPLAY_WIDTH // 2 - 25, 300, 100, 35)
+
             if start_game_button.collidepoint((mx, my)):
-                pygame.mixer.Sound.play(hover)
-                # here i can now just blit a line below the text if it is currently being hovered
+                if not button_list[0]:
+                    pygame.mixer.Sound.play(hover)
+                    button_list[0] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 75, 235), (settings.DISPLAY_WIDTH // 2 + 89, 235), 4)
                 if self.click:
                     pygame.mixer.Sound.play(select)
                     self.game()
+            else:
+                button_list[0] = False
+
             if options_button.collidepoint((mx, my)):
-                pygame.mixer.Sound.play(hover)
+                if not button_list[1]:
+                    pygame.mixer.Sound.play(hover)
+                    button_list[1] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 50, 285), (settings.DISPLAY_WIDTH // 2 + 73, 285), 4)
                 if self.click:
                     self.options()
                     pygame.mixer.Sound.play(select)
+            else:
+                button_list[1] = False
+
             if quit_button.collidepoint((mx, my)):
-                pygame.mixer.Sound.play(hover)
+                if not button_list[2]:
+                    pygame.mixer.Sound.play(hover)
+                    button_list[2] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 25, 335), (settings.DISPLAY_WIDTH // 2 + 40, 335), 4)
                 if self.click:
                     pygame.quit()
                     pygame.mixer.Sound.play(select)
-
+            else:
+                button_list[2] = False
+            
             self.click = False
             for event in pygame.event.get():
                 if event.type == MOUSEBUTTONDOWN:
@@ -79,6 +94,7 @@ class Menu():
 
             pygame.display.update()
             clock.tick(settings.FPS)
+
 
     def game(self):
         if self.fade_counter < 200:
@@ -130,23 +146,8 @@ class Menu():
             select = pygame.mixer.Sound('./Menu/menu-select.mp3')
             hover = pygame.mixer.Sound('./Menu/menu-hover.wav')
 
-            is_hovering = False
-
             if easy_button.collidepoint((mx, my)):
-                is_hovering = True
                 pygame.mixer.Sound.play(hover)
-                # while is_hovering:
-                #     mx, my = pygame.mouse.get_pos()
-                #     print("inside while")
-                #     print(mx, my)
-                #     pygame.draw.line(display_surface, (255, 255, 255), (45, 250), (115, 250), 4)
-                #     if self.click:
-                #         settings.difficulty = 1
-                #         pygame.mixer.Sound.play(select)
-                #     pygame.display.update()
-                #     clock.tick(settings.FPS)
-                #     if not easy_button.collidepoint((mx, my)):
-                #         is_hovering = False
 
                 pygame.draw.line(display_surface, (255, 255, 255), (45, 250), (115, 250), 4)
                 if self.click:
@@ -167,7 +168,6 @@ class Menu():
                     settings.difficulty = 3
                     pygame.mixer.Sound.play(select)
             
-
             self.click = False
             for event in pygame.event.get():
                 if event.type == MOUSEBUTTONDOWN:
