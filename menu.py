@@ -31,8 +31,14 @@ class Menu():
 
         self.running = True
 
+        self.select = pygame.mixer.Sound('./Menu/menu-select.mp3')
+        self.select.set_volume(0.3)
+        self.hover = pygame.mixer.Sound('./Menu/menu-hover.wav')
+
+
+        button_list = [False, False, False]
+
         while self.running:
-            
             display_surface.fill((0,0,0))
 
             bg = pygame.image.load('./Menu/test_bg.png')
@@ -48,20 +54,39 @@ class Menu():
             start_game_button = pygame.Rect(settings.DISPLAY_WIDTH // 2 - 75, 200, 165, 35)
             options_button = pygame.Rect(settings.DISPLAY_WIDTH // 2 - 50, 250, 125, 35)
             quit_button = pygame.Rect(settings.DISPLAY_WIDTH // 2 - 25, 300, 100, 35)
+
             if start_game_button.collidepoint((mx, my)):
-                # here i can now just blit a line below the text if it is currently being hovered
+                if not button_list[0]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[0] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 75, 235), (settings.DISPLAY_WIDTH // 2 + 89, 235), 4)
                 if self.click:
+                    pygame.mixer.Sound.play(self.select)
                     self.game()
+            else:
+                button_list[0] = False
+
             if options_button.collidepoint((mx, my)):
+                if not button_list[1]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[1] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 50, 285), (settings.DISPLAY_WIDTH // 2 + 73, 285), 4)
                 if self.click:
+                    pygame.mixer.Sound.play(self.select)
                     self.options()
+            else:
+                button_list[1] = False
+
             if quit_button.collidepoint((mx, my)):
+                if not button_list[2]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[2] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 25, 335), (settings.DISPLAY_WIDTH // 2 + 40, 335), 4)
                 if self.click:
                     pygame.quit()
-
+            else:
+                button_list[2] = False
+            
             self.click = False
             for event in pygame.event.get():
                 if event.type == MOUSEBUTTONDOWN:
@@ -70,6 +95,7 @@ class Menu():
 
             pygame.display.update()
             clock.tick(settings.FPS)
+
 
     def game(self):
         if self.fade_counter < 200:
@@ -89,8 +115,12 @@ class Menu():
         # only want to deal with options that we can change in our settings basically
         # likely will only be able to change FPS value and difficulty value 
 
+        button_list = [False, False, False, False, False, False]
+
         running = True
         while running:
+            print("FPS: " + str(settings.FPS))
+            print("difficulty: " + str(settings.difficulty))
             # will need to do the mx, my stuff that i did for the original screen, but for now this is fine
             
             display_surface.fill((0,0,0))
@@ -110,11 +140,94 @@ class Menu():
             draw_text('40', font, (255, 255, 255), display_surface, 45, 375)
             draw_text('60', font, (255, 255, 255), display_surface, 205, 375)
             draw_text('80', font, (255, 255, 255), display_surface, 405, 375)
+
+            mx, my = pygame.mouse.get_pos()
+
+            # (left, top, width, height)
+            easy_button = pygame.Rect(45, 215, 69, 35)
+            medium_button = pygame.Rect(205, 215, 108, 35)
+            hard_button = pygame.Rect(405, 215, 70, 35)
+
+            button_40 = pygame.Rect(45, 375, 50, 35)
+            button_60 = pygame.Rect(205, 375, 50, 35)
+            button_80 = pygame.Rect(405, 375, 50, 35)
+
+            if easy_button.collidepoint((mx, my)):
+                if not button_list[0]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[0] = True
+                pygame.draw.line(display_surface, (255, 255, 255), (45, 250), (115, 250), 4)
+                if self.click:
+                    settings.difficulty = 1
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[0] = False
+
+            if medium_button.collidepoint((mx, my)):
+                if not button_list[1]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[1] = True
+                pygame.draw.line(display_surface, (255, 255, 255), (205, 250), (313, 250), 4)
+                if self.click:
+                    settings.difficulty = 2
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[1] = False
+
+            if hard_button.collidepoint((mx, my)):
+                if not button_list[2]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[2] = True
+                pygame.draw.line(display_surface, (255, 255, 255), (405, 250), (475, 250), 4)
+                if self.click:
+                    settings.difficulty = 3
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[2] = False
+
+            if button_40.collidepoint((mx, my)):
+                if not button_list[3]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[3] = True
+                pygame.draw.line(display_surface, (255, 255, 255), (45, 410), (82, 410), 4)
+                if self.click:
+                    settings.FPS = 40
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[3] = False
+            
+            if button_60.collidepoint((mx, my)):
+                if not button_list[4]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[4] = True
+                pygame.draw.line(display_surface, (255, 255, 255), (205, 410), (242, 410), 4)
+                if self.click:
+                    settings.FPS = 60
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[4] = False
+
+            if button_80.collidepoint((mx, my)):
+                if not button_list[5]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[5] = True
+                pygame.draw.line(display_surface, (255, 255, 255), (405, 410), (442, 410), 4)
+                if self.click:
+                    settings.FPS = 80
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[5] = False
+
+
+            self.click = False
             for event in pygame.event.get():
+                if event.type == MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        self.click = True   
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
-            
+
             pygame.display.update()
             clock.tick(settings.FPS)
     
