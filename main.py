@@ -32,7 +32,11 @@ class Game:
 		self.fadeIn()
 
 	def fadeIn(self):
-		image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+		if settings.game_state == 0: 
+			image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+		elif settings.game_state == 1:
+			image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+			
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0, 0, 0))
 		for alpha in range(275, 0, -1):
