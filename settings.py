@@ -13,3 +13,6 @@ game_state = -1
 
 global difficulty
 difficulty = 2
+
+global save_level
+save_level = 0
