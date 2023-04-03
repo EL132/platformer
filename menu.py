@@ -35,10 +35,13 @@ class Menu():
         self.select.set_volume(0.3)
         self.hover = pygame.mixer.Sound('./Menu/menu-hover.wav')
 
+        pygame.mixer.music.load('./SFX/menu_music.mp3')
+        pygame.mixer.music.play()
 
         button_list = [False, False, False]
 
         while self.running:
+            
             display_surface.fill((0,0,0))
 
             bg = pygame.image.load('./Menu/test_bg.png')
@@ -62,6 +65,7 @@ class Menu():
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 75, 235), (settings.DISPLAY_WIDTH // 2 + 89, 235), 4)
                 if self.click:
                     pygame.mixer.Sound.play(self.select)
+                    pygame.mixer.music.stop()
                     self.game()
             else:
                 button_list[0] = False

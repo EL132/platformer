@@ -52,6 +52,8 @@ class LevelOne():
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
 
+        self.oof = pygame.mixer.Sound("./SFX/oof.wav")
+
 
     def update(self):
         self.check_collisions(self.player, self.boss_chomper)
@@ -271,6 +273,7 @@ class LevelOne():
 
     
     def player_lives_update(self, lives):
+        pygame.mixer.Sound.play(self.oof)
         self.player_lives -= lives
         self.update_needed = True
 
