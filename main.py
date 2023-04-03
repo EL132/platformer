@@ -3,9 +3,13 @@ import settings
 from LevelSelector.code.debug import debug
 from LevelSelector.code.levelSelector import Level
 from Levels.LevelOne.levelOne import LevelOne
+from GameSave.SaveLoadManager import SaveLoadSystem
 from menu import Menu
 
 sys.dont_write_bytecode = True
+
+save_load_manager = SaveLoadSystem(".save", "save_data")
+settings.save_level = save_load_manager.load_game_data(["save_level"], [0])
 
 class Game:
 	def __init__(self):
@@ -32,7 +36,11 @@ class Game:
 		self.fadeIn()
 
 	def fadeIn(self):
-		image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+		if settings.game_state == 0: 
+			image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+		elif settings.game_state == 1:
+			image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+			
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0, 0, 0))
 		for alpha in range(275, 0, -1):
@@ -52,6 +60,7 @@ class Game:
 		while True:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
+					save_load_manager.save_game_data([settings.save_level], ["save_level"])
 					pygame.quit()
 				if event.type == pygame.KEYDOWN:
 					if settings.game_state == 1:
@@ -77,6 +86,8 @@ class Game:
 					self.fadeOut()
 					settings.transtion = False
 					self.menu.started_game = False
+					pygame.mixer.music.load('./SFX/level_selector_background.mp3')
+					pygame.mixer.music.play()
 
 			#Level Selector 
 			if settings.game_state == 0: 
@@ -88,6 +99,7 @@ class Game:
 
 			#Level 1
 			elif settings.game_state == 1: 
+				pygame.mixer.music.stop()
 				self.levelOne.run()
 
 			pygame.display.update()

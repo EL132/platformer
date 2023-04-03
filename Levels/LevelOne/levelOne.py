@@ -1,6 +1,7 @@
 from colorsys import rgb_to_hls
 import pygame, time, random, math
 from pytmx.util_pygame import load_pygame
+import settings
 
 
 from Levels.LevelOne.tile import Tile
@@ -51,12 +52,15 @@ class LevelOne():
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
 
+        self.oof = pygame.mixer.Sound("./SFX/oof.wav")
+
 
     def update(self):
         self.check_collisions(self.player, self.boss_chomper)
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
+        print("save level: ", settings.save_level)
 
 
     def draw_health_bar(self):
@@ -82,7 +86,7 @@ class LevelOne():
             pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self):
-        self.boss_health -= 0.1
+        self.boss_health -= 0.05
 
 
     def draw_hearts(self):
@@ -134,6 +138,7 @@ class LevelOne():
             self.boss_chomper.is_dying = True
             self.boss_chomper.able_to_move = False
             self.boss_death_animation()
+            settings.save_level = 1
             self.show_player_win_screen()
 
 
@@ -180,7 +185,7 @@ class LevelOne():
             sprite_group.draw(display_surface)
 
         # pause the animation for a few seconds
-        pygame.time.wait(3000)
+        pygame.time.wait(2000)
 
 
     def show_player_loss_screen(self):
@@ -239,6 +244,8 @@ class LevelOne():
         display_surface.blit(main_text, main_rect)
         display_surface.blit(continue_text, continue_rect)
         
+        print("made it before while loop in player win screen")
+
         pygame.display.update()
         while game_over:
             for event in pygame.event.get():    
@@ -266,6 +273,7 @@ class LevelOne():
 
     
     def player_lives_update(self, lives):
+        pygame.mixer.Sound.play(self.oof)
         self.player_lives -= lives
         self.update_needed = True
 

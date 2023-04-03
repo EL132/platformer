@@ -58,6 +58,8 @@ class Player(pygame.sprite.Sprite):
 
         self.able_to_move = True
 
+        self.axe_swing = pygame.mixer.Sound("./SFX/axe_swing.mp3")
+
 
     def update(self):
         self.move()
@@ -211,6 +213,9 @@ class Player(pygame.sprite.Sprite):
 
     
     def attack(self, number):
+        # this if statement is needed so the user can't just spam the attack button to have the sound play 
+        if not self.is_attacking:
+            pygame.mixer.Sound.play(self.axe_swing)
         self.is_attacking = True
         self.attack_number = number
 

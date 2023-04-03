@@ -31,20 +31,24 @@ class Menu():
 
         self.running = True
 
-        self.select = pygame.mixer.Sound('./Menu/menu-select.mp3')
+        self.select = pygame.mixer.Sound('./SFX/menu-select.mp3')
         self.select.set_volume(0.3)
-        self.hover = pygame.mixer.Sound('./Menu/menu-hover.wav')
+        self.hover = pygame.mixer.Sound('./SFX/menu-hover.wav')
+        self.transition = pygame.mixer.Sound('./SFX/transition_sound.wav')
 
+        pygame.mixer.music.load('./SFX/menu_music.mp3')
+        pygame.mixer.music.play()
 
         button_list = [False, False, False]
 
         while self.running:
+            
             display_surface.fill((0,0,0))
 
             bg = pygame.image.load('./Menu/test_bg.png')
             display_surface.blit(bg, (0, 0))
 
-            draw_text('Name of Game', title_font, (0, 0, 0), display_surface, settings.DISPLAY_WIDTH // 2 - 225, 100)
+            draw_text('Platformer', title_font, (0, 0, 0), display_surface, settings.DISPLAY_WIDTH // 2 - 225, 100)
             draw_text('Start game', font, (0, 0, 0), display_surface, settings.DISPLAY_WIDTH // 2 - 75, 200)
             draw_text('Options', font, (0, 0, 0), display_surface, settings.DISPLAY_WIDTH // 2 - 50, 250)
             draw_text('Quit', font, (0, 0, 0), display_surface, settings.DISPLAY_WIDTH // 2 - 25, 300)
@@ -62,6 +66,9 @@ class Menu():
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 75, 235), (settings.DISPLAY_WIDTH // 2 + 89, 235), 4)
                 if self.click:
                     pygame.mixer.Sound.play(self.select)
+                    pygame.mixer.music.stop()
+                    pygame.time.delay(150)
+                    pygame.mixer.Sound.play(self.transition)
                     self.game()
             else:
                 button_list[0] = False
@@ -119,8 +126,6 @@ class Menu():
 
         running = True
         while running:
-            print("FPS: " + str(settings.FPS))
-            print("difficulty: " + str(settings.difficulty))
             # will need to do the mx, my stuff that i did for the original screen, but for now this is fine
             
             display_surface.fill((0,0,0))
