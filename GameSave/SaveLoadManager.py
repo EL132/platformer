@@ -6,7 +6,6 @@ class SaveLoadSystem:
         self.save_folder = save_folder
 
     def save_data(self, data, name):
-        # 
         data_file = open("./GameSave/"+self.save_folder+"/"+name+self.file_extension, "wb")
         pickle.dump(data, data_file)
 

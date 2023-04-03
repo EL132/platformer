@@ -1,6 +1,5 @@
 import pygame
 from SaveLoadManager import SaveLoadSystem
-from settings import save_level
 
 pygame.init()
 
@@ -11,7 +10,6 @@ clock = pygame.time.Clock()
 
 save_load_manager = SaveLoadSystem(".save", "save_data")
 
-print(save_level)
 
 entities, number = save_load_manager.load_game_data(["entities", "number"], [[], 1])
 

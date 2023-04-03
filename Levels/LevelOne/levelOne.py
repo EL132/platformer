@@ -1,6 +1,7 @@
 from colorsys import rgb_to_hls
 import pygame, time, random, math
 from pytmx.util_pygame import load_pygame
+import settings
 
 
 from Levels.LevelOne.tile import Tile
@@ -57,6 +58,7 @@ class LevelOne():
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
+        print("save level: ", settings.save_level)
 
 
     def draw_health_bar(self):
@@ -82,7 +84,7 @@ class LevelOne():
             pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self):
-        self.boss_health -= 0.1
+        self.boss_health -= 0.4
 
 
     def draw_hearts(self):
@@ -134,6 +136,7 @@ class LevelOne():
             self.boss_chomper.is_dying = True
             self.boss_chomper.able_to_move = False
             self.boss_death_animation()
+            settings.save_level = 1
             self.show_player_win_screen()
 
 
@@ -239,6 +242,8 @@ class LevelOne():
         display_surface.blit(main_text, main_rect)
         display_surface.blit(continue_text, continue_rect)
         
+        print("made it before while loop in player win screen")
+
         pygame.display.update()
         while game_over:
             for event in pygame.event.get():    

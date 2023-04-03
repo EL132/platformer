@@ -3,9 +3,13 @@ import settings
 from LevelSelector.code.debug import debug
 from LevelSelector.code.levelSelector import Level
 from Levels.LevelOne.levelOne import LevelOne
+from GameSave.SaveLoadManager import SaveLoadSystem
 from menu import Menu
 
 sys.dont_write_bytecode = True
+
+save_load_manager = SaveLoadSystem(".save", "save_data")
+settings.save_level = save_load_manager.load_game_data(["save_level"], [0])
 
 class Game:
 	def __init__(self):
@@ -56,6 +60,7 @@ class Game:
 		while True:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
+					save_load_manager.save_game_data([settings.save_level], ["save_level"])
 					pygame.quit()
 				if event.type == pygame.KEYDOWN:
 					if settings.game_state == 1:
