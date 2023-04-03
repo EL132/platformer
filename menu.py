@@ -126,8 +126,6 @@ class Menu():
 
         running = True
         while running:
-            print("FPS: " + str(settings.FPS))
-            print("difficulty: " + str(settings.difficulty))
             # will need to do the mx, my stuff that i did for the original screen, but for now this is fine
             
             display_surface.fill((0,0,0))
