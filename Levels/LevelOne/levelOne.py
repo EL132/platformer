@@ -84,7 +84,7 @@ class LevelOne():
             pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self):
-        self.boss_health -= 0.4
+        self.boss_health -= 0.05
 
 
     def draw_hearts(self):
@@ -183,7 +183,7 @@ class LevelOne():
             sprite_group.draw(display_surface)
 
         # pause the animation for a few seconds
-        pygame.time.wait(3000)
+        pygame.time.wait(2000)
 
 
     def show_player_loss_screen(self):
