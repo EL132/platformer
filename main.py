@@ -80,12 +80,11 @@ class Game:
 
 			#Level Selector 
 			if settings.game_state == 0: 
+				if not settings.transition: 
+					self.level.run()
 				if settings.transition: 
 					self.fadeOut()
-					settings.transtion = False
-				else: 
-					self.level.run()
-				
+					settings.transtion = False				
 
 			#Level 1
 			elif settings.game_state == 1: 
