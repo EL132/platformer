@@ -60,6 +60,9 @@ class Player(pygame.sprite.Sprite):
 
         self.axe_swing = pygame.mixer.Sound("./SFX/axe_swing.mp3")
         self.footstep = pygame.mixer.Sound("./SFX/footstep.wav")
+        self.footstep.set_volume(0.3)
+
+        self.temp_x = self.x
 
 
     def update(self):
@@ -130,8 +133,6 @@ class Player(pygame.sprite.Sprite):
             if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
                 self.right = False
                 self.is_sprinting = True
-                if not self.is_jumping:
-                    pygame.mixer.Sound.play(self.footstep)
                 if self.position.x < 0:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
@@ -152,7 +153,14 @@ class Player(pygame.sprite.Sprite):
                 self.is_sprinting = False
                 if self.position.x > WINDOW_WIDTH:
                     self.position.x = 0
-                self.acceleration.x = self.HORIZONTAL_ACCELERATION    
+                self.acceleration.x = self.HORIZONTAL_ACCELERATION
+            if not self.is_jumping:
+                # this still plays the sound too many times, this is because 
+                # print("inside not jumping if")
+                if self.position.x - self.temp_x > 10:
+                    print("temp_x value: ", self.temp_x)
+                    self.footstep.play()
+                    self.temp_x = self.position.x
             else:
                 if self.velocity.x > 0:
                     self.right = True

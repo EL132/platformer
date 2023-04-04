@@ -60,7 +60,6 @@ class LevelOne():
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
-        print("save level: ", settings.save_level)
 
 
     def draw_health_bar(self):
