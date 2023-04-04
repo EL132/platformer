@@ -54,8 +54,16 @@ class LevelOne():
 
         self.oof = pygame.mixer.Sound("./SFX/oof.wav")
 
+        # i want to play the level one background music when the user enters this level
+        self.loaded_up = False
+
+
 
     def update(self):
+        if self.loaded_up:
+            pygame.mixer.music.load("./SFX/level_one_bg.mp3")
+            pygame.mixer.music.play(-1)
+            self.loaded_up = False
         self.check_collisions(self.player, self.boss_chomper)
         self.check_game_over()
         self.draw_hearts()

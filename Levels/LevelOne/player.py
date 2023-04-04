@@ -59,10 +59,12 @@ class Player(pygame.sprite.Sprite):
         self.able_to_move = True
 
         self.axe_swing = pygame.mixer.Sound("./SFX/axe_swing.mp3")
-        self.footstep = pygame.mixer.Sound("./SFX/footstep.wav")
+        self.footstep = pygame.mixer.Sound("./SFX/footstep_two.wav")
         self.footstep.set_volume(0.3)
 
         self.temp_x = self.x
+
+        self.is_on_grass = True
 
 
     def update(self):
@@ -124,6 +126,9 @@ class Player(pygame.sprite.Sprite):
 
 
     def move(self):
+        sprint_distance_footstep = 150
+        walk_distance_footstep = 100
+
         if self.able_to_move:
 
             self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
@@ -133,34 +138,45 @@ class Player(pygame.sprite.Sprite):
             if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
                 self.right = False
                 self.is_sprinting = True
+                if not self.is_jumping:
+                    if abs(self.position.x - self.temp_x) > sprint_distance_footstep:
+                        self.footstep.play()
+                        self.temp_x = self.position.x
                 if self.position.x < 0:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
                 self.right = True
                 self.is_sprinting = True
+                if not self.is_jumping:
+                    if abs(self.position.x - self.temp_x) > sprint_distance_footstep:
+                        self.footstep.play()
+                        self.temp_x = self.position.x
                 if self.position.x > WINDOW_WIDTH:
                     self.position.x = 0
                 self.acceleration.x = 1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
                 self.right = False
                 self.is_sprinting = False
+                if not self.is_jumping:
+                    if abs(self.position.x - self.temp_x) > walk_distance_footstep:
+                        self.footstep.play()
+                        self.temp_x = self.position.x
                 if self.position.x < 0:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
                 self.right = True
                 self.is_sprinting = False
+                # i only want to play the sound if the player is in contact with the grass
+                if not self.is_jumping:
+                # and self.is_on_grass:
+                    if abs(self.position.x - self.temp_x) > walk_distance_footstep:
+                        self.footstep.play()
+                        self.temp_x = self.position.x
                 if self.position.x > WINDOW_WIDTH:
                     self.position.x = 0
                 self.acceleration.x = self.HORIZONTAL_ACCELERATION
-            if not self.is_jumping:
-                # this still plays the sound too many times, this is because 
-                # print("inside not jumping if")
-                if self.position.x - self.temp_x > 10:
-                    print("temp_x value: ", self.temp_x)
-                    self.footstep.play()
-                    self.temp_x = self.position.x
             else:
                 if self.velocity.x > 0:
                     self.right = True
@@ -197,7 +213,14 @@ class Player(pygame.sprite.Sprite):
                     else:
                         self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
-    
+            # if self.rect.colliderect(tile.rect):
+            #     self.is_on_grass = True
+            # else:
+            #     self.is_on_grass = False
+            
+            # print("on grass value: ", self.is_on_grass)
+
+
     def jump(self):
         self.is_jumping = True
         for tile in self.land_tiles:
