@@ -59,6 +59,7 @@ class Player(pygame.sprite.Sprite):
         self.able_to_move = True
 
         self.axe_swing = pygame.mixer.Sound("./SFX/axe_swing.mp3")
+        self.footstep = pygame.mixer.Sound("./SFX/footstep.wav")
 
 
     def update(self):
@@ -129,6 +130,8 @@ class Player(pygame.sprite.Sprite):
             if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
                 self.right = False
                 self.is_sprinting = True
+                if not self.is_jumping:
+                    pygame.mixer.Sound.play(self.footstep)
                 if self.position.x < 0:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
