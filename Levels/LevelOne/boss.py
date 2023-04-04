@@ -21,7 +21,9 @@ class Boss(pygame.sprite.Sprite):
         self.move_speed = 1
         self.right = False
         self.starting_time = pygame.time.get_ticks()
-        self.attacking = False
+
+        self.attacking_basic = False
+        self.attacking_special = False
 
         self.set = 0
 
@@ -31,9 +33,9 @@ class Boss(pygame.sprite.Sprite):
         self.is_dying = False
         self.able_to_move = True
 
-    
+
     def update(self):
-        self.move()
+        self.move(True, self.move_speed)
         self.check_animations()
         self.mask_maintenance()
 
@@ -45,70 +47,94 @@ class Boss(pygame.sprite.Sprite):
         pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)
 
 
-    def move(self):
+    def move(self, animate, speed):
         if self.able_to_move:
-            if not self.attacking: 
+            if not self.attacking_basic: 
             # and self.set != 1 or self.set != 2:
-
-                timePassed = pygame.time.get_ticks() - self.starting_time
-
-                # note: end conditions of rect.x prevents boss from attacking on side of the screen
-                if timePassed % 3000 > 0 and timePassed % 3000 < 100 and not self.attacking and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
-                    self.attacking = True   
-                    self.set = random.randint(1, 3)
-
                 if self.right:
-                    self.rect.centerx += self.move_speed
+                    self.rect.centerx += speed
+                    if animate:
+                        self.animate(self.walk_right_frames, 0.125)
+
                     if self.rect.x > 600:
                         self.right = False
                 else:
-                    self.rect.x -= self.move_speed
+                    self.rect.x -= speed
+                    if animate:
+                        self.animate(self.walk_left_frames, 0.125)
+
                     if self.rect.x < 0:
                         self.right = True
 
 
     def check_animations(self):
+
+        timePassed = pygame.time.get_ticks() - self.starting_time
+
+        # note: end conditions of rect.x prevents boss from attacking on side of the screen
+            # and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
+
+        if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
+            print("special")
+            print(timePassed)
+            self.attacking_special = True
+            self.current_sprite = 0
+
+        elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
+            print("basic")
+            print(timePassed)
+            self.attacking_basic = True   
+            self.current_sprite = 0
+
+            self.set = random.randint(1, 2)
+
+        if self.attacking_special: 
+            if self.right:
+                self.attack_special('right', 0.1)
+            else: 
+                self.attack_special('left', 0.1)
+
+        elif self.attacking_basic:
+            if self.right:
+                self.attack_basic(self.set, 'right', 0.1)  
+            else:    
+                self.attack_basic(self.set, 'left', 0.1)
+
         if self.is_hurting:
             if self.right:
                 self.animate(self.hurt_right_frames, 0.1)
             else:
                 self.animate(self.hurt_left_frames, 0.1)
-        elif self.attacking:
-            if self.right:
-                self.attack(self.set, 'right', 0.1)  
-            else:    
-                self.attack(self.set, 'left', 0.1)
+
         elif self.is_dying:
             if self.right:
                 self.animate(self.death_right_frames, 0.1)
             else:
                 self.animate(self.death_left_frames, 0.1)
-        else:
-            if self.right: 
-                self.animate(self.walk_right_frames, 0.125)
-            else: 
-                self.animate(self.walk_left_frames, 0.125)
 
 
     # right now, the attack animation is not functional as the animations 
     # move too fast, but there is a place to start working on it if you go 
     # to chatGPT and take a look at the stuff it said 
-    def attack(self, number, orientation, speed):
-        if True:
+    def attack_basic(self, set, orientation, speed):
+        if set == 1:
             if orientation == 'left':
                 self.animate(self.attack_one_left_frames, speed)
             elif orientation == 'right':
                 self.animate(self.attack_one_right_frames, speed)
-        elif number == 2: 
+        elif set == 2: 
             if orientation == 'left':
                 self.animate(self.attack_two_left_frames, speed)
             elif orientation == 'right':
                 self.animate(self.attack_two_right_frames, speed)
-        elif number == 3:
-            if orientation == 'left':
-                self.animate(self.attack_three_left_frames, speed)
-            elif orientation == 'right':
-                self.animate(self.attack_three_right_frames, speed)                  
+
+
+    def attack_special(self, orientation, speed): 
+        if orientation == 'left':
+            self.animate(self.attack_three_left_frames, speed)
+            self.move(False, self.move_speed * 2)
+        else:
+            self.animate(self.attack_three_right_frames, speed)                  
 
     def animate(self, sprite_list, speed):
         # loop through sprite list and change current sprite 
@@ -116,8 +142,11 @@ class Boss(pygame.sprite.Sprite):
             self.current_sprite += speed
         else:
             self.current_sprite = 0
-            if self.attacking: 
-                self.attacking = False
+
+            if self.attacking_basic: 
+                self.attacking_basic = False
+            if self.attacking_special: 
+                self.attacking_special = False
             if self.is_hurting:
                 self.is_hurting = False
 

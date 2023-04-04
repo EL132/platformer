@@ -328,9 +328,9 @@ class LevelOne():
                     self.player.jump()
                 if event.key == pygame.K_ESCAPE:
                     self.pause_game("Paused", "Press    enter     to     play")
-                if event.key == pygame.K_1:
+                if event.key == pygame.K_1 or event.key == pygame.K_k:
                     self.player.attack(1)
-                if event.key == pygame.K_2:
+                if event.key == pygame.K_2 or event.key == pygame.K_l:
                     self.player.attack(2)
 
         sprite_group.draw(display_surface)
