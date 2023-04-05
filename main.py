@@ -10,6 +10,8 @@ sys.dont_write_bytecode = True
 
 save_load_manager = SaveLoadSystem(".save", "save_data")
 settings.save_level = save_load_manager.load_game_data(["save_level"], [0])
+settings.FPS = save_load_manager.load_game_data(["FPS"], [60])
+settings.difficulty = save_load_manager.load_game_data(["difficulty"], [2])
 
 class Game:
 	def __init__(self):
@@ -73,7 +75,7 @@ class Game:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_2:
 							self.levelOne.player.attack(2)
-					if settings.game_state == 0: 
+					if settings.game_state == 0:
 						pass
 
 			self.screen.fill('black')
