@@ -44,7 +44,7 @@ class Boss(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image, 4)
         self.mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
         # self.mask = self.mask.scale((64, 80))
-        pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)
+        # pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)
 
 
     def move(self, animate, speed):
