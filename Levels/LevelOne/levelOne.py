@@ -27,7 +27,7 @@ for layer in tmx_data.visible_layers:
             # for tile in layer.tiles():
                 # NOTE: here i need to check if the tile is an edge tile , use the ID of the edge tile to check this, just am not sure 
                 # how to do that because the documentation is so shit and basic 
-            pos = (x * 31, y * 32)
+            pos = (x * 32, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
             if layer.name in ('Collisions'):
                 land_sprite_group.add(temp)
