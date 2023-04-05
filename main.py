@@ -87,13 +87,14 @@ class Game:
 					settings.transtion = False
 					self.menu.started_game = False
 					pygame.mixer.music.load('./SFX/level_selector_background.mp3')
-					pygame.mixer.music.play()
+					pygame.mixer.music.play(-1)
 
 			#Level Selector 
 			if settings.game_state == 0: 
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 
+					# self.levelOne.loaded_up = True
 					self.fadeOut()
 					settings.transtion = False				
 
