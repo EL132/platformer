@@ -102,7 +102,6 @@ class Game:
 
 			#Level 1
 			elif settings.game_state == 1: 
-				pygame.mixer.music.stop()
 				self.levelOne.run()
 
 			pygame.display.update()

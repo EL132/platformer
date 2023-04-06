@@ -60,10 +60,6 @@ class LevelOne():
 
 
     def update(self):
-        if self.loaded_up:
-            pygame.mixer.music.load("./SFX/level_one_bg.mp3")
-            pygame.mixer.music.play(-1)
-            self.loaded_up = False
         self.check_collisions(self.player, self.boss_chomper)
         self.check_game_over()
         self.draw_hearts()
@@ -288,7 +284,7 @@ class LevelOne():
         """Pause the game"""
         global running
 
-        pygame.mixer.music.pause()
+        # pygame.mixer.music.pause()
 
         #Set colors
         WHITE = (255, 255, 255)
@@ -321,12 +317,11 @@ class LevelOne():
                     #User wants to continue
                     if event.key == pygame.K_RETURN:
                         is_paused = False
-                        pygame.mixer.music.unpause()
+                        # pygame.mixer.music.unpause()
                 #User wants to quit
                 if event.type == pygame.QUIT:
                     is_paused = False
                     running = False
-                    pygame.mixer.music.stop()
 
     def run(self): 
         for event in pygame.event.get():

@@ -46,8 +46,8 @@ class Menu():
 
         while self.running:
             
-            print("fps: ", settings.FPS)
-            print("difficulty: ", settings.difficulty)
+            # print("fps: ", settings.FPS)
+            # print("difficulty: ", settings.difficulty)
             
             display_surface.fill((0,0,0))
 
