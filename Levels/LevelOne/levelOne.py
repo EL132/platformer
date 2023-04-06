@@ -56,14 +56,32 @@ class LevelOne():
 
         # i want to play the level one background music when the user enters this level
         self.loaded_up = False
+        self.starting_time = 0
+
+        self.display_time = 0
 
 
 
     def update(self):
+        if not self.loaded_up:
+            self.starting_time = time.time()
+            self.loaded_up = True
         self.check_collisions(self.player, self.boss_chomper)
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
+        self.draw_time()
+
+
+    def draw_time(self):
+        self.display_time = time.time() - self.starting_time
+        self.display_time = round(self.display_time)
+
+        time_text = self.custom_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
+        time_rect = time_text.get_rect()
+        time_rect.center = (WINDOW_WIDTH - 150, 35)
+        
+        display_surface.blit(time_text, time_rect)
 
 
     def draw_health_bar(self):
