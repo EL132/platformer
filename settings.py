@@ -16,3 +16,6 @@ difficulty = 2
 
 global save_level
 save_level = 0
+
+global level_one_score
+level_one_score = 0
