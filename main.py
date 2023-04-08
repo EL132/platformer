@@ -32,7 +32,7 @@ class Game:
 			self.redrawScreen(image)
 			self.screen.blit(fade, (0,0))
 			pygame.display.update()
-			pygame.time.delay(3)
+			pygame.time.delay(1)
 		self.fadeIn()
 
 	def fadeIn(self):
@@ -48,7 +48,7 @@ class Game:
 			self.redrawScreen(image)
 			self.screen.blit(fade, (0,0))
 			pygame.display.update()
-			pygame.time.delay(3)
+			pygame.time.delay(1)
 
 	def redrawScreen(self, fade_image): 
 		self.screen.fill((255, 255, 255))

@@ -118,15 +118,15 @@ class LevelOne():
         # collision_list is either empty or contains just the boss sprite
         for collided in collision_list:
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
-            if not collided.collision_occurred and player.is_attacking and not boss.attacking:
+            if not collided.collision_occurred and player.is_attacking and not boss.attacking_basic and not boss.attacking_special:
                 boss.is_hurting = True
                 self.boss_hurt()
                 collided.collision_occurred = True
-            elif not collided.collision_occurred and not player.is_attacking and boss.attacking:
+            elif not collided.collision_occurred and not player.is_attacking and boss.attacking_basic:
                 player.is_hurting = True
                 self.player_lives_update(0.5)
                 collided.collision_occurred = True
-            elif player.is_attacking and boss.attacking and not collided.collision_occurred:
+            elif player.is_attacking and boss.attacking_basic and not collided.collision_occurred:
                 self.player_lives_update(0.5)
                 self.boss_hurt()
                 boss.is_hurting = True
