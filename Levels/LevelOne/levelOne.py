@@ -143,19 +143,11 @@ class LevelOne():
                 boss.is_hurting = True
                 self.boss_hurt()
                 collided.collision_occurred = True
-<<<<<<< HEAD
-            elif not collided.collision_occurred and not player.is_attacking and boss.attacking_basic:
-                player.is_hurting = True
-                self.player_lives_update(0.5)
-                collided.collision_occurred = True
-            elif player.is_attacking and boss.attacking_basic and not collided.collision_occurred:
-=======
             elif not collided.collision_occurred and not player.is_attacking and boss.attacking_basic and not boss.attacking_special:
                 player.is_hurting = True
                 self.player_lives_update(0.5)
                 collided.collision_occurred = True
             elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
->>>>>>> 59606f9ee22a873b9269238f0385ccd14959593f
                 self.player_lives_update(0.5)
                 self.boss_hurt()
                 boss.is_hurting = True

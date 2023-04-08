@@ -6,10 +6,10 @@ global transition
 transition = False
 
 FPS      = 60
-TILESIZE = 16
+TILESIZE = 32
 
 global game_state
-game_state = 1
+game_state = 0
 
 global difficulty
 difficulty = 2
@@ -19,3 +19,6 @@ save_level = 0
 
 global level_one_score
 level_one_score = 0
+
+#colors 
+BLACK = (0, 0, 0)
