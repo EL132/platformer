@@ -9,7 +9,7 @@ class Player(pygame.sprite.Sprite):
 		self.hitbox = self.rect.inflate(-10, 0)
 
 		self.direction = pygame.math.Vector2()
-		self.speed = 1.5
+		self.speed = 3
 
 		self.obstacle_sprites = obstacle_sprites
 		self.entrance_sprites = entrance_sprites
@@ -30,6 +30,7 @@ class Player(pygame.sprite.Sprite):
 			self.direction.x = -1
 		else: 
 			self.direction.x = 0
+
 
 	def move(self, speed): 
 		if self.direction.magnitude() != 0: 
