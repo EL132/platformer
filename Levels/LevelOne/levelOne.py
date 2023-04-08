@@ -352,7 +352,7 @@ class LevelOne():
                         self.reset()
                         # THIS SHOULD GO TO THE LEVEL SELECTOR
                         pygame.mixer.music.stop()
-                        settings.game_state = 0
+                        # settings.game_state = 0
 
     def reset(self):
         self.player_lives = 3
