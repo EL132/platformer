@@ -4,6 +4,7 @@ from pytmx.util_pygame import load_pygame
 import settings
 
 
+from GameSave.SaveLoadManager import SaveLoadSystem
 from Levels.LevelOne.tile import Tile
 from Levels.LevelOne.player import Player
 from Levels.LevelOne.boss import Boss
@@ -17,6 +18,10 @@ sprite_group = pygame.sprite.Group()
 # video tmx code
 tmx_data = load_pygame('./Levels/levelOne/maps/levelOne.tmx')
 
+save_load_manager = SaveLoadSystem(".save", "save_data")
+
+settings.level_one_score = save_load_manager.load_game_data(["level_one_score"], [0])
+
 
 land_sprite_group = pygame.sprite.Group()
 
@@ -27,7 +32,7 @@ for layer in tmx_data.visible_layers:
             # for tile in layer.tiles():
                 # NOTE: here i need to check if the tile is an edge tile , use the ID of the edge tile to check this, just am not sure 
                 # how to do that because the documentation is so shit and basic 
-            pos = (x * 31, y * 32)
+            pos = (x * 32, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
             if layer.name in ('Collisions'):
                 land_sprite_group.add(temp)
@@ -40,6 +45,7 @@ class LevelOne():
         self.player_lives = 3
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
+        self.title_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 64)
 
         self.player_lives_text = self.custom_font.render("Lives", True, BEIGE)
         self.player_lives_text_rect = self.player_lives_text.get_rect()
@@ -56,18 +62,33 @@ class LevelOne():
 
         # i want to play the level one background music when the user enters this level
         self.loaded_up = False
+        self.starting_time = 0
 
+        self.display_time = 0
+
+        self.score = 0
 
 
     def update(self):
-        if self.loaded_up:
-            pygame.mixer.music.load("./SFX/level_one_bg.mp3")
-            pygame.mixer.music.play(-1)
-            self.loaded_up = False
+        if not self.loaded_up:
+            self.starting_time = time.time()
+            self.loaded_up = True
         self.check_collisions(self.player, self.boss_chomper)
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
+        self.draw_time()
+
+
+    def draw_time(self):
+        self.display_time = time.time() - self.starting_time
+        self.display_time = round(self.display_time)
+
+        time_text = self.custom_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
+        time_rect = time_text.get_rect()
+        time_rect.center = (WINDOW_WIDTH - 150, 35)
+        
+        display_surface.blit(time_text, time_rect)
 
 
     def draw_health_bar(self):
@@ -93,7 +114,7 @@ class LevelOne():
             pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self):
-        self.boss_health -= 0.05
+        self.boss_health -= 0.5
 
 
     def draw_hearts(self):
@@ -122,11 +143,19 @@ class LevelOne():
                 boss.is_hurting = True
                 self.boss_hurt()
                 collided.collision_occurred = True
+<<<<<<< HEAD
             elif not collided.collision_occurred and not player.is_attacking and boss.attacking_basic:
                 player.is_hurting = True
                 self.player_lives_update(0.5)
                 collided.collision_occurred = True
             elif player.is_attacking and boss.attacking_basic and not collided.collision_occurred:
+=======
+            elif not collided.collision_occurred and not player.is_attacking and boss.attacking_basic and not boss.attacking_special:
+                player.is_hurting = True
+                self.player_lives_update(0.5)
+                collided.collision_occurred = True
+            elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
+>>>>>>> 59606f9ee22a873b9269238f0385ccd14959593f
                 self.player_lives_update(0.5)
                 self.boss_hurt()
                 boss.is_hurting = True
@@ -238,20 +267,87 @@ class LevelOne():
         game_over = True
 
         #Create main pause text
-        main_text = self.custom_font.render("YOU WON", True, WHITE)
+        main_text = self.title_font.render("YOU WON", True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+        main_rect.center = (WINDOW_WIDTH//2 + 15, WINDOW_HEIGHT//2 - 150)
+
+        new_high_score = False
+        # and how fast they completed the level 
+        if ((self.player_lives * 1000 - (self.display_time) * 10) < 0):
+            score = 0
+        elif (self.player_lives * 1000 - (self.display_time) * 10) > settings.level_one_score:
+            print("new high score!!!")
+            new_high_score = True
+            # score is their score during this round 
+            score = self.player_lives * 1000 - (self.display_time) * 10
+        else:
+            score = self.player_lives * 1000 - (self.display_time) * 10
+        
+        # print("level one score : ", level_one_score)
+
+        display_surface.fill(BLACK)
+
+        if new_high_score and settings.level_one_score != 0:
+            print("inside first if")
+            print("previous high score: " + str(settings.level_one_score))
+            print("new high score: " + str(int(score)))
+            # if there is a new high score, i want it to say : "old high score: score"
+            # and then underneath it, it will say "new high score: score"
+            old_high_score_text = self.custom_font.render("OLD HIGH SCORE " + str(int(settings.level_one_score)), True, WHITE)
+            old_high_score_text_rect = old_high_score_text.get_rect()
+            old_high_score_text_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 75)
+
+            new_high_score = self.custom_font.render("NEW HIGH SCORE " + str(int(score)), True, WHITE)
+            new_high_score_rect = new_high_score.get_rect()
+            new_high_score_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 25)
+
+            # save the new high score with the "score" variable
+            settings.level_one_score = score
+
+            display_surface.blit(old_high_score_text, old_high_score_text_rect)
+            display_surface.blit(new_high_score, new_high_score_rect)
+        elif new_high_score and settings.level_one_score == 0:
+            print("inside second if")
+            # if there is no old high score, i want it to say "your score: score"
+            # and then underneath it, it will say "high score: score"
+            player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
+            player_score_text_rect = player_score_text.get_rect()
+            player_score_text_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 75)
+
+            high_score_text = self.custom_font.render("HIGH SCORE " + str(int(score)), True, WHITE)
+            high_score_text_rect = high_score_text.get_rect()
+            high_score_text_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 25)
+
+            settings.level_one_score = score
+
+            display_surface.blit(player_score_text, player_score_text_rect)
+            display_surface.blit(high_score_text, high_score_text_rect)
+        else:
+            print("inside else")
+            # if there is no new high score, i want it to say "your score: score"
+            # and then underneath it, it will say "high score: score"
+            player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
+            player_score_text_rect = player_score_text.get_rect()
+            player_score_text_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 75)
+
+            high_score_text = self.custom_font.render("HIGH SCORE " + str(int(settings.level_one_score)), True, WHITE)
+            high_score_text_rect = high_score_text.get_rect()
+            high_score_text_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 25)
+
+            display_surface.blit(player_score_text, player_score_text_rect)
+            display_surface.blit(high_score_text, high_score_text_rect)
+        
+
+        save_load_manager.save_game_data([settings.level_one_score], ["level_one_score"])
 
         continue_text = self.custom_font.render("PRESS ENTER TO CONTINUE", True, WHITE)
         continue_rect = main_text.get_rect()
-        continue_rect.center = (WINDOW_WIDTH//2 - 150, WINDOW_HEIGHT//2 + 50)
+        continue_rect.center = (WINDOW_WIDTH//2 - 55, WINDOW_HEIGHT//2 + 100)
         
         #Display the pause text
-        display_surface.fill(BLACK)
         display_surface.blit(main_text, main_rect)
         display_surface.blit(continue_text, continue_rect)
         
-        print("made it before while loop in player win screen")
 
         pygame.display.update()
         while game_over:
@@ -259,11 +355,12 @@ class LevelOne():
                 #User wants to quit
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
+                        save_load_manager.save_game_data([settings.level_one_score], ["level_one_score"])
                         game_over = False
                         self.reset()
-                        # go to the level selector
-                        pass
-
+                        # THIS SHOULD GO TO THE LEVEL SELECTOR
+                        pygame.mixer.music.stop()
+                        settings.game_state = 0
 
     def reset(self):
         self.player_lives = 3
@@ -277,6 +374,7 @@ class LevelOne():
         self.boss_chomper.able_to_move = True
         self.boss_chomper.is_hurting = False
         self.boss_chomper.attacking = False
+        self.starting_time = time.time()
 
     
     def player_lives_update(self, lives):
@@ -288,7 +386,7 @@ class LevelOne():
         """Pause the game"""
         global running
 
-        pygame.mixer.music.pause()
+        # pygame.mixer.music.pause()
 
         #Set colors
         WHITE = (255, 255, 255)
@@ -321,12 +419,11 @@ class LevelOne():
                     #User wants to continue
                     if event.key == pygame.K_RETURN:
                         is_paused = False
-                        pygame.mixer.music.unpause()
+                        # pygame.mixer.music.unpause()
                 #User wants to quit
                 if event.type == pygame.QUIT:
                     is_paused = False
                     running = False
-                    pygame.mixer.music.stop()
 
     def run(self): 
         for event in pygame.event.get():

@@ -9,10 +9,13 @@ FPS      = 60
 TILESIZE = 16
 
 global game_state
-game_state = -1
+game_state = 1
 
 global difficulty
 difficulty = 2
 
 global save_level
 save_level = 0
+
+global level_one_score
+level_one_score = 0

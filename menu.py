@@ -1,6 +1,7 @@
 import pygame, sys
 from pygame.locals import *
 import settings
+from GameSave.SaveLoadManager import SaveLoadSystem
 
 pygame.init()
 
@@ -12,7 +13,9 @@ font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
 medium_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 64)
 title_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 84)
 
-
+save_load_manager = SaveLoadSystem(".save", "save_data")
+settings.FPS = save_load_manager.load_game_data(["FPS"], [60])
+settings.difficulty = save_load_manager.load_game_data(["difficulty"], [2])
 
 
 def draw_text(text, font, color, surface, x, y):
@@ -42,6 +45,9 @@ class Menu():
         button_list = [False, False, False]
 
         while self.running:
+            
+            # print("fps: ", settings.FPS)
+            # print("difficulty: ", settings.difficulty)
             
             display_surface.fill((0,0,0))
 
@@ -90,6 +96,8 @@ class Menu():
                     button_list[2] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 25, 335), (settings.DISPLAY_WIDTH // 2 + 40, 335), 4)
                 if self.click:
+                    save_load_manager.save_game_data([settings.FPS], ["FPS"])
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
                     pygame.quit()
             else:
                 button_list[2] = False
