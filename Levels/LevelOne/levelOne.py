@@ -71,7 +71,6 @@ class LevelOne():
 
     def update(self):
         if not self.loaded_up:
-            print("inside loaded up")
             self.starting_time = time.time()
             self.loaded_up = True
         self.check_collisions(self.player, self.boss_chomper)
@@ -84,8 +83,6 @@ class LevelOne():
     def draw_time(self):
         self.display_time = time.time() - self.starting_time
         self.display_time = round(self.display_time)
-        print(self.loaded_up)
-        print('display time:' + str(self.display_time))
 
         time_text = self.custom_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
         time_rect = time_text.get_rect()
@@ -146,9 +143,12 @@ class LevelOne():
                 boss.is_hurting = True
                 self.boss_hurt()
                 collided.collision_occurred = True
-            elif not collided.collision_occurred and not player.is_attacking and boss.attacking_basic and not boss.attacking_special:
+            elif not collided.collision_occurred and not player.is_attacking and (boss.attacking_basic or boss.attacking_special):
+                if boss.attacking_special:
+                    self.player_lives_update(1)
+                else:
+                    self.player_lives_update(0.5)
                 player.is_hurting = True
-                self.player_lives_update(0.5)
                 collided.collision_occurred = True
             elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
                 self.player_lives_update(0.5)

@@ -66,6 +66,8 @@ class Player(pygame.sprite.Sprite):
 
         self.is_on_grass = True
 
+        self.reverse = False
+
 
     def update(self):
         self.move()
@@ -86,14 +88,10 @@ class Player(pygame.sprite.Sprite):
                     self.animate(self.attack_one_right_frames, 0.1)
                 elif self.attack_number == 2:
                     self.animate(self.attack_two_right_frames, 0.1)
-                else:
-                    self.animate(self.attack_two_right_frames, 0.1)
             else:
                 if self.attack_number == 1:
                     self.animate(self.attack_one_left_frames, 0.1)
                 elif self.attack_number == 2:
-                    self.animate(self.attack_two_left_frames, 0.1)
-                else:
                     self.animate(self.attack_two_left_frames, 0.1)
         elif self.is_hurting:
             if self.right:
@@ -230,18 +228,38 @@ class Player(pygame.sprite.Sprite):
     def animate(self, sprite_list, speed):
         # speed parameter used to limit how fast the animation goes 
 
-        # loop through sprite list and change current sprite 
-        if self.current_sprite < len(sprite_list) - 1:
-            self.current_sprite += speed
+        # loop through sprite list and change current sprite
+        # if self.is_attacking:
+        #     if int(self.current_sprite) > len(sprite_list) - 1:
+        #         self.current_sprite -= speed
+        #     else:
+        #         self.current_sprite = 0
+        #         self.is_attacking = False 
+
+        print("current sprite: ", str(self.current_sprite))
+
+        if self.is_attacking:
+            if self.current_sprite < len(sprite_list) - 1 and not self.reverse:
+                self.current_sprite += speed
+            else:    
+                self.reverse = True
+                if self.reverse:
+                    self.current_sprite -= (speed) * 2
+                    if self.current_sprite < 0:
+                        self.current_sprite = 0
+                        self.is_attacking = False
+                        self.reverse = False
         else:
-            self.current_sprite = 0
-            if self.is_attacking:
-                self.is_attacking = False
-            if self.is_hurting:
-                self.is_hurting = False
-            if self.is_dying:
-                self.is_dying = False
-        
+            if self.current_sprite < len(sprite_list) - 1:
+                self.current_sprite += speed
+            else:    
+                self.current_sprite = 0
+                if self.is_hurting:
+                    self.is_hurting = False
+                if self.is_dying:
+                    self.is_dying = False
+
+
         self.image = sprite_list[int(self.current_sprite)]
 
     
