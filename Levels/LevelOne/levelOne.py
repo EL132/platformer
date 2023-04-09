@@ -71,6 +71,7 @@ class LevelOne():
 
     def update(self):
         if not self.loaded_up:
+            print("inside loaded up")
             self.starting_time = time.time()
             self.loaded_up = True
         self.check_collisions(self.player, self.boss_chomper)
@@ -83,6 +84,8 @@ class LevelOne():
     def draw_time(self):
         self.display_time = time.time() - self.starting_time
         self.display_time = round(self.display_time)
+        print(self.loaded_up)
+        print('display time:' + str(self.display_time))
 
         time_text = self.custom_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
         time_rect = time_text.get_rect()

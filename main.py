@@ -107,7 +107,7 @@ class Game:
 					self.level.run()
 				if settings.transition: 
 					self.fade_counter = 0 
-					self.levelOne.loaded_up = True
+					# self.levelOne.loaded_up = True
 					# self.screen.fill('white')
 					self.curtain()
 					# self.fadeOut()
