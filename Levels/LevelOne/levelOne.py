@@ -114,7 +114,7 @@ class LevelOne():
             pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self):
-        self.boss_health -= 0.5
+        self.boss_health -= 0.02
 
 
     def draw_hearts(self):
@@ -145,10 +145,11 @@ class LevelOne():
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and (boss.attacking_basic or boss.attacking_special):
                 if boss.attacking_special:
-                    self.player_lives_update(1)
+                    self.player_lives_update(0.3)
                 else:
-                    self.player_lives_update(0.5)
+                    self.player_lives_update(0.1)
                 player.is_hurting = True
+                player.started_hurting = True
                 collided.collision_occurred = True
             elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
                 self.player_lives_update(0.5)

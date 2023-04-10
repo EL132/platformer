@@ -51,6 +51,7 @@ class Player(pygame.sprite.Sprite):
         self.is_hurting = False
         self.is_dying = False
         self.is_sprinting = False
+        self.started_hurting = False
 
         self.right = True
 
@@ -82,6 +83,11 @@ class Player(pygame.sprite.Sprite):
                 self.animate(self.jump_right_frames, 0.1)
             else:
                 self.animate(self.jump_left_frames, 0.1)
+        elif self.is_hurting:
+            if self.right:
+                self.animate(self.hurt_right_frames, 0.1)
+            else:
+                self.animate(self.hurt_left_frames, 0.1)
         elif self.is_attacking: # this is true right now  
             if self.right:
                 if self.attack_number == 1:
@@ -93,11 +99,6 @@ class Player(pygame.sprite.Sprite):
                     self.animate(self.attack_one_left_frames, 0.1)
                 elif self.attack_number == 2:
                     self.animate(self.attack_two_left_frames, 0.1)
-        elif self.is_hurting:
-            if self.right:
-                self.animate(self.hurt_right_frames, 0.1)
-            else:
-                self.animate(self.hurt_left_frames, 0.1)
         else:
             keys = pygame.key.get_pressed()
             
@@ -226,10 +227,6 @@ class Player(pygame.sprite.Sprite):
 
 
     def animate(self, sprite_list, speed):
-        # print("current sprite: ", str(self.current_sprite))
-        # print("is attacking: ", str(self.is_attacking))
-
-
         if self.is_attacking:
             if self.current_sprite < len(sprite_list) - 1 and not self.reverse:
                 self.current_sprite += speed
@@ -243,6 +240,16 @@ class Player(pygame.sprite.Sprite):
                         self.current_sprite = 0
                         self.is_attacking = False
                         self.reverse = False
+        elif self.is_hurting:
+            if self.started_hurting:
+                self.current_sprite = 0
+                self.started_hurting = False
+
+            if self.current_sprite < len(sprite_list) - 1:
+                self.current_sprite += speed
+            else:
+                self.current_sprite = 0
+                self.is_hurting = False
         else:
             if self.current_sprite < len(sprite_list) - 1:
                 self.current_sprite += speed
@@ -255,6 +262,9 @@ class Player(pygame.sprite.Sprite):
 
 
         # YES, the problem is that the fifth sprite animation happens too quickly, so it looks jerky 
+        if self.is_hurting and self.current_sprite > 2:
+            self.current_sprite = 2
+            self.is_hurting = False
         self.image = sprite_list[int(self.current_sprite)]
 
     
