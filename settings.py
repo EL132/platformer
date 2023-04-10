@@ -9,7 +9,7 @@ FPS      = 60
 TILESIZE = 32
 
 global game_state
-game_state = 0
+game_state = 1
 
 global difficulty
 difficulty = 2

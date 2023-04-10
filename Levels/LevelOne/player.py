@@ -226,23 +226,17 @@ class Player(pygame.sprite.Sprite):
 
 
     def animate(self, sprite_list, speed):
-        # speed parameter used to limit how fast the animation goes 
+        # print("current sprite: ", str(self.current_sprite))
+        # print("is attacking: ", str(self.is_attacking))
 
-        # loop through sprite list and change current sprite
-        # if self.is_attacking:
-        #     if int(self.current_sprite) > len(sprite_list) - 1:
-        #         self.current_sprite -= speed
-        #     else:
-        #         self.current_sprite = 0
-        #         self.is_attacking = False 
-
-        print("current sprite: ", str(self.current_sprite))
 
         if self.is_attacking:
             if self.current_sprite < len(sprite_list) - 1 and not self.reverse:
                 self.current_sprite += speed
+                if self.current_sprite > len(sprite_list) - 1:
+                    self.current_sprite = 4.4
+                    self.reverse = True
             else:    
-                self.reverse = True
                 if self.reverse:
                     self.current_sprite -= (speed) * 2
                     if self.current_sprite < 0:
@@ -260,6 +254,7 @@ class Player(pygame.sprite.Sprite):
                     self.is_dying = False
 
 
+        # YES, the problem is that the fifth sprite animation happens too quickly, so it looks jerky 
         self.image = sprite_list[int(self.current_sprite)]
 
     
