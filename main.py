@@ -19,7 +19,9 @@ class Game:
 		self.screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
 		pygame.display.set_caption('Level Selector')
 		self.clock = pygame.time.Clock()
-		self.fade_counter = 0
+
+		self.curtain_counter = 0
+		self.curtain_closed = False
 
 		self.level = Level()
 		self.levelOne = LevelOne()
@@ -59,18 +61,34 @@ class Game:
 		self.fade_rect = self.fade_image.get_rect(topleft = (0, 0))
 		self.screen.blit(self.fade_image, self.fade_rect)
 
-	def curtain(self):
+	def curtainIn(self):
 		image = pygame.image.load("LevelSelector/screenshot.jpg")
-		image_rect = image.get_rect()
-		image_rect = (0, 0)
+		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
-		if self.fade_counter < settings.DISPLAY_WIDTH // 2: 
-			self.fade_counter += 4
-			pygame.draw.rect(self.screen, settings.BLACK, (0, 0, self.fade_counter, settings.DISPLAY_HEIGHT))
-			pygame.draw.rect(self.screen, settings.BLACK, (settings.DISPLAY_WIDTH - self.fade_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+		if self.curtain_counter < settings.DISPLAY_WIDTH // 2 and not self.curtain_closed: 
+			self.curtain_counter += 4
+			pygame.draw.rect(self.screen, settings.BLACK, (0, 0, self.curtain_counter, settings.DISPLAY_HEIGHT))
+			pygame.draw.rect(self.screen, settings.BLACK, (settings.DISPLAY_WIDTH - self.curtain_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		else:
-			settings.game_state = settings.next_game_state
+			self.curtainOut()
+			self.curtain_closed = True
 
+	
+	def curtainOut(self):
+		if settings.next_game_state == 1: 
+			image = pygame.image.load("LevelSelector/levelOneStart.jpg")
+			image_rect = image.get_rect(topleft = (0, 0))
+			self.screen.blit(image, image_rect)
+
+		if self.curtain_counter > 0: 
+			self.curtain_counter -= 4
+			print(self.curtain_counter)
+			pygame.draw.rect(self.screen, (0, 0, 0), (0, 0, self.curtain_counter, settings.DISPLAY_HEIGHT))
+			pygame.draw.rect(self.screen, (0, 0, 0), (settings.DISPLAY_WIDTH - self.curtain_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+		else: 
+			settings.game_state = settings.next_game_state
+			self.curtain_closed = False
+	
 
 	def run(self):
 		while True:
@@ -89,8 +107,8 @@ class Game:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_2:
 							self.levelOne.player.attack(2)
-						if event.key == pygame.K_k:
-							pygame.image.save(self.screen,"LevelSelector/levelOneStart.jpg")
+						# if event.key == pygame.K_k:
+							# pygame.image.save(self.screen,"LevelSelector/levelOneStart.jpg")
 
 					if settings.game_state == 0:
 						pass
@@ -113,8 +131,8 @@ class Game:
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 
-					# self.levelOne.loaded_up = True
-					self.curtain()
+					self.levelOne.loaded_up = True
+					self.curtainIn()
 					
 					# image = pygame.image.load("LevelSelector/levelOneStart.jpg")
 					# self.image_rect = self.fade_image.get_rect(topleft = (0, 0))
