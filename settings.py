@@ -9,7 +9,10 @@ FPS      = 60
 TILESIZE = 32
 
 global game_state
-game_state = 1
+game_state = 0
+
+global next_game_state
+next_game_state = -1
 
 global difficulty
 difficulty = 2
@@ -22,3 +25,4 @@ level_one_score = 0
 
 #colors 
 BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)

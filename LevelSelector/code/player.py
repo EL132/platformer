@@ -4,6 +4,8 @@ import settings
 class Player(pygame.sprite.Sprite):
 	def __init__(self, pos, groups, obstacle_sprites, entrance_sprites):
 		super().__init__(groups)
+
+		self.screen = pygame.display.get_surface()
 		self.image = pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/test/player.png').convert_alpha(), (settings.TILESIZE, settings.TILESIZE))
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(-10, 0)
@@ -75,9 +77,10 @@ class Player(pygame.sprite.Sprite):
 								pygame.mixer.music.load('./SFX/level_one_bg.mp3')
 								pygame.mixer.music.play(-1)
 								pygame.mixer.music.set_volume(0.1)
-								settings.game_state = collided_entrance.level_number
-								level_request = False
+								settings.next_game_state = collided_entrance.level_number
 								settings.transition = True
+								pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
+								level_request = False			
 							elif event.key == pygame.K_n: 
 								self.hitbox.y += 20
 								level_request = False

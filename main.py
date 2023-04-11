@@ -60,10 +60,17 @@ class Game:
 		self.screen.blit(self.fade_image, self.fade_rect)
 
 	def curtain(self):
+		image = pygame.image.load("LevelSelector/screenshot.jpg")
+		image_rect = image.get_rect()
+		image_rect = (0, 0)
+		self.screen.blit(image, image_rect)
 		if self.fade_counter < settings.DISPLAY_WIDTH // 2: 
 			self.fade_counter += 4
 			pygame.draw.rect(self.screen, settings.BLACK, (0, 0, self.fade_counter, settings.DISPLAY_HEIGHT))
 			pygame.draw.rect(self.screen, settings.BLACK, (settings.DISPLAY_WIDTH - self.fade_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+		else:
+			settings.game_state = settings.next_game_state
+
 
 	def run(self):
 		while True:
@@ -106,12 +113,16 @@ class Game:
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 
-					self.fade_counter = 0 
 					# self.levelOne.loaded_up = True
-					# self.screen.fill('white')
 					self.curtain()
+					
+					# image = pygame.image.load("LevelSelector/levelOneStart.jpg")
+					# self.image_rect = self.fade_image.get_rect(topleft = (0, 0))
+					# self.screen.blit(self.image_rect, self.image_rect)
+					
 					# self.fadeOut()
 					settings.transtion = False				
+
 
 			#Level 1
 			elif settings.game_state == 1: 
