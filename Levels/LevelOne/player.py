@@ -107,9 +107,9 @@ class Player(pygame.sprite.Sprite):
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
                 self.animate(self.run_right_frames, 0.1)
             elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
-                self.animate(self.walk_left_frames, 0.1)
+                self.animate(self.walk_left_frames, 0.15)
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
-                self.animate(self.walk_right_frames, 0.1)    
+                self.animate(self.walk_right_frames, 0.15)    
             else:
                 if self.velocity.x > 0:
                     self.animate(self.idle_right_frames, 0.05)
@@ -235,11 +235,12 @@ class Player(pygame.sprite.Sprite):
                     self.reverse = True
             else:    
                 if self.reverse:
-                    self.current_sprite -= (speed) * 2
+                    self.current_sprite -= (speed) * 1
                     if self.current_sprite < 0:
                         self.current_sprite = 0
                         self.is_attacking = False
                         self.reverse = False
+                        self.able_to_move = True
         elif self.is_hurting:
             if self.started_hurting:
                 self.current_sprite = 0
@@ -270,10 +271,11 @@ class Player(pygame.sprite.Sprite):
     
     def attack(self, number):
         # this if statement is needed so the user can't just spam the attack button to have the sound play 
-        if not self.is_attacking:
+        if not self.is_attacking and not self.is_jumping:
             pygame.mixer.Sound.play(self.axe_swing)
-        self.is_attacking = True
-        self.attack_number = number
+            self.is_attacking = True
+            self.able_to_move = False
+            self.attack_number = number
 
     
     def load_animation_sprites(self):

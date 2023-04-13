@@ -70,9 +70,9 @@ class LevelOne():
 
 
     def update(self):
-        if not self.loaded_up:
+        if self.loaded_up:
             self.starting_time = time.time()
-            self.loaded_up = True
+            self.loaded_up = False
         self.check_collisions(self.player, self.boss_chomper)
         self.check_game_over()
         self.draw_hearts()
