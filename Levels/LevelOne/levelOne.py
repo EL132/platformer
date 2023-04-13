@@ -8,6 +8,7 @@ from GameSave.SaveLoadManager import SaveLoadSystem
 from Levels.LevelOne.tile import Tile
 from Levels.LevelOne.player import Player
 from Levels.LevelOne.boss import Boss
+from Levels.LevelOne.creeper import MiniChomper
 from Levels.LevelOne.constants import *
 
 
@@ -55,6 +56,14 @@ class LevelOne():
         self.boss_group = pygame.sprite.Group()
         self.boss_group.add(self.boss_chomper)
 
+        self.creeper_group = pygame.sprite.Group()
+        self.creeper_one = MiniChomper(500, 179, 'right', 3500)
+        self.creeper_two = MiniChomper(200, 338, 'right', 2500)
+        self.creeper_three = MiniChomper(690, 115, 'left', 4500)
+        self.creeper_group.add(self.creeper_one)
+        self.creeper_group.add(self.creeper_two)
+        self.creeper_group.add(self.creeper_three)
+
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
 
@@ -62,7 +71,7 @@ class LevelOne():
 
         # i want to play the level one background music when the user enters this level
         self.loaded_up = False
-        self.starting_time = 0
+        self.starting_time = time.time()
 
         self.display_time = 0
 
@@ -73,11 +82,22 @@ class LevelOne():
         if self.loaded_up:
             self.starting_time = time.time()
             self.loaded_up = False
-        self.check_collisions(self.player, self.boss_chomper)
+        self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
         self.draw_time()
+        self.draw_portrait()
+
+    def draw_portrait(self):
+        portrait = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/player/Woodcutter/portrait.png").convert_alpha(), (25, 25))
+        portrait_rect = portrait.get_rect()
+        if self.player.right:
+            portrait_rect.center = (self.player.rect.x + 23, self.player.rect.y - 10)
+        else:
+            portrait_rect.center = (self.player.rect.x + 55, self.player.rect.y - 10)
+        
+        display_surface.blit(portrait, portrait_rect)
 
 
     def draw_time(self):
@@ -133,9 +153,9 @@ class LevelOne():
         
         display_surface.blit(self.player_lives_text, self.player_lives_text_rect)
 
-    def check_collisions(self, player, boss):
+    def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three):
         # Check for collisions between player and boss
-        collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
+        collision_list = pygame.sprite.spritecollide(player, [boss, creeper_one, creeper_two, creeper_three], False, pygame.sprite.collide_mask)
         # collision_list is either empty or contains just the boss sprite
         for collided in collision_list:
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
@@ -159,8 +179,21 @@ class LevelOne():
                 self.boss_hurt()
                 boss.is_hurting = True
                 player.is_hurting = True
+            elif not collided.collision_occurred and (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking):
+                # this if is so that the player only gets hurt if they are being attacked by the creeper they are closest to
+                # print("creeper two rect: ", creeper_two.rect.x)
+                # print("player rect: ", player.rect.x)
+                if (creeper_one.attacking and player.rect.x < (creeper_one.rect.x + 100) and player.rect.x > (creeper_one.rect.x - 100)) or (creeper_two.attacking and player.rect.x < (creeper_two.rect.x + 100) and player.rect.x > (creeper_two.rect.x - 100)) or (creeper_three.attacking and player.rect.x < (creeper_three.rect.x + 100) and player.rect.x > (creeper_three.rect.x - 100)):
+                    # print("player is being attacked by creeper")
+                    self.player_lives_update(0.25)
+                    player.is_hurting = True
+                    player.started_hurting = True
+                    collided.collision_occurred = True
         if len(collision_list) == 0:
             boss.collision_occurred = False
+            creeper_one.collision_occurred = False
+            creeper_two.collision_occurred = False
+            creeper_three.collision_occurred = False
 
     def check_game_over(self):
         if self.player_lives <= 0:
@@ -444,5 +477,8 @@ class LevelOne():
 
         self.boss_group.update()
         self.boss_group.draw(display_surface)
+
+        self.creeper_group.update()
+        self.creeper_group.draw(display_surface)
 
         self.update()
