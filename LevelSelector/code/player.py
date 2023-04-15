@@ -53,7 +53,6 @@ class Player(pygame.sprite.Sprite):
 					if self.direction.x < 0: 
 						self.hitbox.left = sprite.hitbox.right
 
-
 		if direction == 'vertical': 
 			for sprite in self.obstacle_sprites: 
 				if sprite.hitbox.colliderect(self.hitbox): 
@@ -63,27 +62,30 @@ class Player(pygame.sprite.Sprite):
 						self.hitbox.top = sprite.hitbox.bottom
 
 		collided_entrance = pygame.sprite.spritecollideany(self, self.entrance_sprites)
-		if collided_entrance:
-			if sprite.rect.colliderect(self.hitbox): 
-				level_request = True
-				print("Would you like to enter level " + str(collided_entrance.level_number) + "? (y/n)")
-				while level_request:
-					for event in pygame.event.get():
-						if event.type == pygame.KEYDOWN:
-							if event.key == pygame.K_y: 
-								pygame.mixer.music.stop()
-								pygame.mixer.Sound.play(pygame.mixer.Sound('./SFX/transition_sound.wav'))
-								pygame.time.delay(1000)
-								pygame.mixer.music.load('./SFX/level_one_bg.mp3')
-								pygame.mixer.music.play(-1)
-								pygame.mixer.music.set_volume(0.1)
-								settings.next_game_state = collided_entrance.level_number
-								settings.transition = True
-								pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
-								level_request = False			
-							elif event.key == pygame.K_n: 
-								self.hitbox.y += 20
-								level_request = False
+		if collided_entrance and not settings.transition:
+			level_request = True
+			print("Would you like to enter level " + str(collided_entrance.level_number) + "? (y/n)")
+			while level_request:
+				for event in pygame.event.get():
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_y: 
+							settings.next_game_state = collided_entrance.level_number
+							settings.transition = True
+							pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
+							level_request = False	
+							self.hitbox.y += 20
+
+
+							pygame.mixer.music.stop()
+							pygame.mixer.Sound.play(pygame.mixer.Sound('./SFX/transition_sound.wav'))
+							pygame.time.delay(1000)
+							pygame.mixer.music.load('./SFX/level_one_bg.mp3')
+							pygame.mixer.music.play(-1)
+							pygame.mixer.music.set_volume(0.1)
+
+						elif event.key == pygame.K_n: 
+							self.hitbox.y += 20
+							level_request = False
 
 
 	def update(self): 

@@ -90,9 +90,9 @@ class Boss(pygame.sprite.Sprite):
 
         if self.attacking_special: 
             if self.right:
-                self.attack_special('right', 0.1)
+                self.attack_special('right', 0.01)
             else: 
-                self.attack_special('left', 0.1)
+                self.attack_special('left', 0.01)
 
         elif self.attacking_basic:
             if self.right:
@@ -134,7 +134,10 @@ class Boss(pygame.sprite.Sprite):
             self.animate(self.attack_three_left_frames, speed)
             self.move(False, self.move_speed * 2)
         else:
-            self.animate(self.attack_three_right_frames, speed)                  
+            self.animate(self.attack_three_right_frames, speed)      
+            self.move(False, self.move_speed * 2)
+            
+
 
     def animate(self, sprite_list, speed):
         # loop through sprite list and change current sprite 
@@ -152,6 +155,7 @@ class Boss(pygame.sprite.Sprite):
 
         self.image = sprite_list[int(self.current_sprite)]
     
+
     def load_animation_sprites(self):
                 # animation frames ::
         self.walk_right_frames = []

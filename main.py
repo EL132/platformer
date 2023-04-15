@@ -104,9 +104,9 @@ class Game:
 							self.levelOne.player.jump()
 						if event.key == pygame.K_ESCAPE:
 							self.levelOne.pause_game("Paused", "Press    enter     to     play")
-						if event.key == pygame.K_1:
+						if event.key == pygame.K_1 or event.key == pygame.K_k:
 							self.levelOne.player.attack(1)
-						if event.key == pygame.K_2:
+						if event.key == pygame.K_2 or event.key == pygame.K_l:
 							self.levelOne.player.attack(2)
 						# if event.key == pygame.K_k:
 							# pygame.image.save(self.screen,"LevelSelector/levelOneStart.jpg")
@@ -134,12 +134,7 @@ class Game:
 				if settings.transition: 
 					self.levelOne.loaded_up = True
 					self.curtainIn()
-					
-					# image = pygame.image.load("LevelSelector/levelOneStart.jpg")
-					# self.image_rect = self.fade_image.get_rect(topleft = (0, 0))
-					# self.screen.blit(self.image_rect, self.image_rect)
-					
-					# self.fadeOut()
+
 					settings.transtion = False				
 
 
