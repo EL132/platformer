@@ -144,10 +144,35 @@ class Boss(pygame.sprite.Sprite):
     def attack_special(self, orientation, speed): 
         if orientation == 'left':
             self.animate(self.attack_three_left_frames, speed)
-            self.move(False, self.move_speed * 2)
+            # i want the boss to look like it is accelerating when it attacks
+            # before:
+            # self.move(False, self.move_speed * 2)
+            if self.current_sprite > 0 and self.current_sprite < 1:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 1 and self.current_sprite < 2:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 2 and self.current_sprite < 3:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 3 and self.current_sprite < 4:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 4 and self.current_sprite < 5:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 5 and self.current_sprite < 6:
+                self.move(False, self.move_speed * 2)  
         else:
             self.animate(self.attack_three_right_frames, speed)      
-            self.move(False, self.move_speed * 2)
+            if self.current_sprite > 0 and self.current_sprite < 1:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 1 and self.current_sprite < 2:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 2 and self.current_sprite < 3:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 3 and self.current_sprite < 4:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 4 and self.current_sprite < 5:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 5 and self.current_sprite < 6:
+                self.move(False, self.move_speed * 2)
             
 
 
