@@ -33,18 +33,30 @@ class Boss(pygame.sprite.Sprite):
         self.is_dying = False
         self.able_to_move = True
 
+        self.head_rect = pygame.Rect(self.rect.x, self.rect.y, 64, 60)
+        self.butt_rect = pygame.Rect(self.rect.x, self.rect.y, 64, 60)
+
 
     def update(self):
         self.move(True, self.move_speed)
         self.check_animations()
-        self.mask_maintenance()
+        self.collision_maintenance()
 
     
-    def mask_maintenance(self):
+
+    def collision_maintenance(self):
         self.mask = pygame.mask.from_surface(self.image, 4)
         self.mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
-        # self.mask = self.mask.scale((64, 80))
-        # pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)
+        
+
+        if self.right:
+            self.head_rect.x = self.rect.x + 75
+            self.butt_rect.x = self.rect.x + 5
+        else:
+            self.head_rect.x = self.rect.x + 60
+            self.butt_rect.x = self.rect.x + 130
+        self.head_rect.y = self.rect.y + 105
+        self.butt_rect.y = self.rect.y + 125
 
 
     def move(self, animate, speed):

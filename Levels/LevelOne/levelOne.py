@@ -74,17 +74,20 @@ class LevelOne():
 
         self.score = 0
 
+        self.flashing_red = False
+        self.word_present = False
+
 
     def update(self):
         if self.loaded_up:
             self.starting_time = time.time()
             self.loaded_up = False
-        self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
         self.draw_time()
         self.draw_portrait()
+        self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
 
     def draw_portrait(self):
         portrait = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/player/Woodcutter/portrait.png").convert_alpha(), (48, 48))
@@ -126,8 +129,12 @@ class LevelOne():
             pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), 2)
             pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 2)
         
-            # outline for the health bar: 
-            pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x - (right_shift - 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+            # fill for the health bar: 
+            if self.flashing_red:
+                pygame.draw.rect(display_surface, (255, 0, 0), pygame.Rect(self.boss_chomper.rect.x - (12), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+                self.flashing_red = False
+            else:
+                pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x - (right_shift - 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
         else:
             pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), 2)
             pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
@@ -135,10 +142,41 @@ class LevelOne():
             pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
         
             # outline for the health bar: 
-            pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+            if self.flashing_red:
+                pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (33), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+                self.flashing_red = False
+            else:
+                pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
-    def boss_hurt(self):
-        self.boss_health -= 0.02
+    def boss_hurt(self, damage):
+        self.boss_health -= damage
+        self.flashing_red = True
+        
+        # Define the message to display
+        if damage == 0.1:
+            message = 'Weak Spot!'
+        elif damage == 0.05:
+            message = 'Oof!'
+        else:
+            message = ''
+            
+        # Display the message for 1 second
+        message_timer = time.time()
+        
+        self.word_present = True
+        
+        # while time.time() - message_timer < 1:
+        # Render the text to the screen
+        text = self.custom_font.render(message, True, (0, 0, 255))
+        text_rect = text.get_rect()
+        text_rect.center = (self.boss_chomper.rect.x + 100, self.boss_chomper.rect.y + 50)
+        display_surface.blit(text, text_rect)
+        pygame.display.update()
+        
+        # Clear the message after 1 second
+        self.word_present = False
+        message = ''
+
 
 
     def draw_hearts(self):
@@ -163,8 +201,15 @@ class LevelOne():
         for collided in collision_list:
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
             if not collided.collision_occurred and player.is_attacking and not boss.attacking_basic and not boss.attacking_special:
+                # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
+                if player.rect.colliderect(boss.butt_rect):
+                    self.boss_hurt(0.05)
+                elif player.rect.colliderect(boss.head_rect):
+                    self.boss_hurt(0.1)
+                else:
+                    self.boss_hurt(0.05)
+            
                 boss.is_hurting = True
-                self.boss_hurt()
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and (boss.attacking_basic or boss.attacking_special):
                 if boss.attacking_special:
@@ -179,7 +224,13 @@ class LevelOne():
                     self.player_lives_update(1)
                 else:
                     self.player_lives_update(0.5)
-                self.boss_hurt()
+
+                if player.rect.colliderect(boss.butt_rect):
+                    self.boss_hurt(0.05)
+                elif player.rect.colliderect(boss.head_rect):
+                    self.boss_hurt(0.1)
+                else:
+                    self.boss_hurt(0.05)
                 boss.is_hurting = True
                 player.is_hurting = True
             elif not collided.collision_occurred and (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking):
@@ -483,5 +534,8 @@ class LevelOne():
 
         self.creeper_group.update()
         self.creeper_group.draw(display_surface)
+
+        pygame.draw.rect(display_surface, (255, 0, 0), self.boss_chomper.butt_rect, 4)
+        pygame.draw.rect(display_surface, (255, 0, 0), self.boss_chomper.head_rect, 4)
 
         self.update()
