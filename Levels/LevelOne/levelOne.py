@@ -533,7 +533,4 @@ class LevelOne():
         self.creeper_group.update()
         self.creeper_group.draw(display_surface)
 
-        pygame.draw.rect(display_surface, (255, 0, 0), self.boss_chomper.butt_rect, 4)
-        pygame.draw.rect(display_surface, (255, 0, 0), self.boss_chomper.head_rect, 4)
-
         self.update()
