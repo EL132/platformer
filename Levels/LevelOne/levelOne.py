@@ -8,6 +8,7 @@ from GameSave.SaveLoadManager import SaveLoadSystem
 from Levels.LevelOne.tile import Tile
 from Levels.LevelOne.player import Player
 from Levels.LevelOne.boss import Boss
+from Levels.LevelOne.creeper import MiniChomper
 from Levels.LevelOne.constants import *
 
 
@@ -45,15 +46,20 @@ class LevelOne():
         self.player_lives = 3
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
+        self.medium_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 40)
         self.title_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 64)
-
-        self.player_lives_text = self.custom_font.render("Lives", True, BEIGE)
-        self.player_lives_text_rect = self.player_lives_text.get_rect()
-        self.player_lives_text_rect.center = (65, 35)
 
         self.boss_chomper = Boss(600, 385)
         self.boss_group = pygame.sprite.Group()
         self.boss_group.add(self.boss_chomper)
+
+        self.creeper_group = pygame.sprite.Group()
+        self.creeper_one = MiniChomper(500, 179, 'right', 3500)
+        self.creeper_two = MiniChomper(200, 338, 'right', 2500)
+        self.creeper_three = MiniChomper(690, 115, 'left', 4500)
+        self.creeper_group.add(self.creeper_one)
+        self.creeper_group.add(self.creeper_two)
+        self.creeper_group.add(self.creeper_three)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
@@ -62,7 +68,7 @@ class LevelOne():
 
         # i want to play the level one background music when the user enters this level
         self.loaded_up = False
-        self.starting_time = 0
+        self.starting_time = time.time()
 
         self.display_time = 0
 
@@ -70,23 +76,41 @@ class LevelOne():
 
 
     def update(self):
-        if not self.loaded_up:
+        if self.loaded_up:
             self.starting_time = time.time()
-            self.loaded_up = True
-        self.check_collisions(self.player, self.boss_chomper)
+            self.loaded_up = False
+        self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
         self.draw_time()
+        self.draw_portrait()
+
+    def draw_portrait(self):
+        portrait = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/player/Woodcutter/portrait.png").convert_alpha(), (48, 48))
+        portrait_rect = portrait.get_rect()
+        portrait_rect.topleft = (0, 0)
+        display_surface.blit(portrait, portrait_rect)
 
 
     def draw_time(self):
         self.display_time = time.time() - self.starting_time
         self.display_time = round(self.display_time)
+        
 
-        time_text = self.custom_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
+        if self.display_time == 0:
+            self.display_time = "0000"
+        elif self.display_time < 10:
+            self.display_time = "000" + str(self.display_time)
+        elif self.display_time < 100:
+            self.display_time = "00" + str(self.display_time)
+        elif self.display_time < 1000:
+            self.display_time = "0" + str(self.display_time)
+        
+
+        time_text = self.medium_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
         time_rect = time_text.get_rect()
-        time_rect.center = (WINDOW_WIDTH - 150, 35)
+        time_rect.center = (WINDOW_WIDTH - 75, 20)
         
         display_surface.blit(time_text, time_rect)
 
@@ -97,21 +121,21 @@ class LevelOne():
 
         # want to have this hover over the boss, so we need to access position of boss 
         if self.boss_chomper.right:
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), 4)
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 4)
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), 4)
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 4)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), 2)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 2)
         
             # outline for the health bar: 
-            pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x - (right_shift - 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+            pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x - (right_shift - 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
         else:
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), 4)
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 4)
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), 4)
-            pygame.draw.line(display_surface, (255, 20, 20), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 4)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), 2)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
         
             # outline for the health bar: 
-            pygame.draw.rect(display_surface, (0, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+            pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self):
         self.boss_health -= 0.02
@@ -128,14 +152,13 @@ class LevelOne():
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
 
             self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
-            self.heart_rect.topleft = (90 + (i * 52), 10) # can position multiple ways
+            self.heart_rect.topleft = (10 + (i * 52), 0) # can position multiple ways
             display_surface.blit(self.heart, self.heart_rect)
         
-        display_surface.blit(self.player_lives_text, self.player_lives_text_rect)
 
-    def check_collisions(self, player, boss):
+    def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three):
         # Check for collisions between player and boss
-        collision_list = pygame.sprite.spritecollide(player, [boss], False, pygame.sprite.collide_mask)
+        collision_list = pygame.sprite.spritecollide(player, [boss, creeper_one, creeper_two, creeper_three], False, pygame.sprite.collide_mask)
         # collision_list is either empty or contains just the boss sprite
         for collided in collision_list:
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
@@ -145,19 +168,35 @@ class LevelOne():
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and (boss.attacking_basic or boss.attacking_special):
                 if boss.attacking_special:
-                    self.player_lives_update(0.3)
+                    self.player_lives_update(1)
                 else:
-                    self.player_lives_update(0.1)
+                    self.player_lives_update(0.5)
                 player.is_hurting = True
                 player.started_hurting = True
                 collided.collision_occurred = True
             elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
-                self.player_lives_update(0.5)
+                if boss.attacking_special:
+                    self.player_lives_update(1)
+                else:
+                    self.player_lives_update(0.5)
                 self.boss_hurt()
                 boss.is_hurting = True
                 player.is_hurting = True
+            elif not collided.collision_occurred and (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking):
+                # this if is so that the player only gets hurt if they are being attacked by the creeper they are closest to
+                # print("creeper two rect: ", creeper_two.rect.x)
+                # print("player rect: ", player.rect.x)
+                if (creeper_one.attacking and player.rect.x < (creeper_one.rect.x + 100) and player.rect.x > (creeper_one.rect.x - 100)) or (creeper_two.attacking and player.rect.x < (creeper_two.rect.x + 100) and player.rect.x > (creeper_two.rect.x - 100)) or (creeper_three.attacking and player.rect.x < (creeper_three.rect.x + 100) and player.rect.x > (creeper_three.rect.x - 100)):
+                    # print("player is being attacked by creeper")
+                    self.player_lives_update(0.25)
+                    player.is_hurting = True
+                    player.started_hurting = True
+                    collided.collision_occurred = True
         if len(collision_list) == 0:
             boss.collision_occurred = False
+            creeper_one.collision_occurred = False
+            creeper_two.collision_occurred = False
+            creeper_three.collision_occurred = False
 
     def check_game_over(self):
         if self.player_lives <= 0:
@@ -441,5 +480,8 @@ class LevelOne():
 
         self.boss_group.update()
         self.boss_group.draw(display_surface)
+
+        self.creeper_group.update()
+        self.creeper_group.draw(display_surface)
 
         self.update()
