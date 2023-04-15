@@ -77,7 +77,7 @@ class Player(pygame.sprite.Sprite):
 				level_request = True
 				# video : 
 				messages = ['You are about to enter level ' + str(collided_entrance.level_number) + '.', 
-							'It is a challenge unlike any',
+							'It is not that hard',
 							'Are you sure you want to enter?',
 							'Yes (Y) or No (N)']
 				snip = self.custom_font.render('', True, (255, 255, 255))
