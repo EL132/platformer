@@ -1,6 +1,8 @@
 import pygame
 import settings
 
+display_surface = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+
 class Player(pygame.sprite.Sprite):
 	def __init__(self, pos, groups, obstacle_sprites, entrance_sprites):
 		super().__init__(groups)
@@ -20,6 +22,8 @@ class Player(pygame.sprite.Sprite):
 
 		self.obstacle_sprites = obstacle_sprites
 		self.entrance_sprites = entrance_sprites
+
+		self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ArcadeFont.ttf', 12)
 
 	def input(self): 
 		keys = pygame.key.get_pressed()
@@ -68,29 +72,59 @@ class Player(pygame.sprite.Sprite):
 
 		collided_entrance = pygame.sprite.spritecollideany(self, self.entrance_sprites)
 		if collided_entrance and not settings.transition:
-			level_request = True
-			print("Would you like to enter level " + str(collided_entrance.level_number) + "? (y/n)")
-			while level_request:
-				for event in pygame.event.get():
-					if event.type == pygame.KEYDOWN:
-						if event.key == pygame.K_y: 
-							settings.next_game_state = collided_entrance.level_number
-							settings.transition = True
-							pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
-							level_request = False	
-							self.hitbox.y += 20
+			if sprite.rect.colliderect(self.hitbox): 
+				level_request = True
+				# video : 
+				messages = ['You are about to enter level ' + str(collided_entrance.level_number) + '.', 
+							'It is not that hard',
+							'Are you sure you want to enter?',
+							'Yes (Y) or No (N)']
+				snip = self.custom_font.render('', True, (255, 255, 255))
+				counter = 0
+				# the bigger the speed variable, the slower it goes because of math
+				speed = 4
+				active_message = 0
+				message = messages[active_message]
+				done = False
+				
 
+				while level_request:
+					pygame.draw.rect(display_surface, (0, 0, 0), pygame.Rect(225, 70, 400, 70))
+					pygame.draw.rect(display_surface, (255, 255, 255), pygame.Rect(230, 75, 390, 60))
 
-							pygame.mixer.music.stop()
-							pygame.mixer.Sound.play(pygame.mixer.Sound('./SFX/transition_sound.wav'))
-							pygame.time.delay(1000)
-							pygame.mixer.music.load('./SFX/level_one_bg.mp3')
-							pygame.mixer.music.play(-1)
-							pygame.mixer.music.set_volume(0.1)
+					if counter < speed * len(message):
+						counter += 1
+					elif counter >= speed * len(message):
+						done = True
+					for event in pygame.event.get():
+						if event.type == pygame.KEYDOWN:
+							if event.key == pygame.K_RETURN and done and active_message < len(messages) - 1:
+								active_message += 1
+								done = False
+								message = messages[active_message]
+								counter = 0
+							elif event.key == pygame.K_y: 
+								pygame.mixer.music.stop()
+								pygame.mixer.Sound.play(pygame.mixer.Sound('./SFX/transition_sound.wav'))
+								pygame.time.delay(1000)
+								pygame.mixer.music.load('./SFX/level_one_bg.mp3')
+								pygame.mixer.music.play(-1)
+								pygame.mixer.music.set_volume(0.1)
+								settings.next_game_state = collided_entrance.level_number
+								settings.transition = True
+								pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
+								level_request = False			
+							elif event.key == pygame.K_n: 
+								self.hitbox.y += 20
+								level_request = False
+					
+					snip = self.custom_font.render(message[0:counter//speed], True, (0, 0, 0))
+					if active_message == 3:
+						display_surface.blit(snip, (330, 100))	
+					else:
+						display_surface.blit(snip, (240, 100))
 
-						elif event.key == pygame.K_n: 
-							self.hitbox.y += 20
-							level_request = False
+					pygame.display.flip()
 
 
 	def update(self): 
