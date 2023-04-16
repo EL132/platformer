@@ -58,7 +58,7 @@ class YSortCameraGroup(pygame.sprite.Group):
 		self.half_height = self.screen.get_size()[1] // 2 
 		self.offset = pygame.math.Vector2(100, 200)
 
-		self.map_image = pygame.transform.scale(pygame.image.load("./LevelSelector/Tilemaps/levelSelector.png"), (865 * 2, 769 * 2))
+		self.map_image = pygame.image.load("./levelSelectorTileMap/map.png")
 		self.map_rect = self.map_image.get_rect(topleft = (0, 0))
 
 	def custom_draw(self, player): 
