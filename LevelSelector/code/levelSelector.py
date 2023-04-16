@@ -23,8 +23,8 @@ class Level:
 	def create_map(self):
 		#add each csv into layout array
 		layout = {
-			'trail_border': import_csv_layout('./LevelSelector/Tilemaps/csv/LevelSelector._Trail Border.csv'),
-			'level_entrance': import_csv_layout('./LevelSelector/Tilemaps/csv/LevelSelector._Level Entrance.csv')
+			'trail_border': import_csv_layout('./levelSelectorTileMap/csv/map_Border.csv'),
+			'level_entrance': import_csv_layout('./levelSelectorTileMap/csv/map_Level Entrance.csv')
 		}
 
 		for style, layout in layout.items(): 

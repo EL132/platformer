@@ -130,7 +130,7 @@ class Player(pygame.sprite.Sprite):
 		self.input()
 		self.move(self.speed)
 		self.check_animations()
-		pygame.draw.rect(self.screen, settings.WHITE, (self.hitbox.topleft, self.hitbox.bottomright))
+		# pygame.draw.rect(self.screen, settings.WHITE, (self.hitbox.topleft, self.hitbox.bottomright))
 
 
 
