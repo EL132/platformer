@@ -29,22 +29,34 @@ class Boss(pygame.sprite.Sprite):
 
         self.collision_occurred = False
 
-        self.is_hurting = False
+        # self.is_hurting = False
         self.is_dying = False
         self.able_to_move = True
+
+        self.head_rect = pygame.Rect(self.rect.x, self.rect.y, 64, 60)
+        self.butt_rect = pygame.Rect(self.rect.x, self.rect.y, 64, 60)
 
 
     def update(self):
         self.move(True, self.move_speed)
         self.check_animations()
-        self.mask_maintenance()
+        self.collision_maintenance()
 
     
-    def mask_maintenance(self):
+
+    def collision_maintenance(self):
         self.mask = pygame.mask.from_surface(self.image, 4)
         self.mask_outline = self.mask.outline() # this gives a list of points that are on the mask 
-        # self.mask = self.mask.scale((64, 80))
-        # pygame.draw.lines(self.image, (255, 0, 0), True, self.mask_outline)
+        
+
+        if self.right:
+            self.head_rect.x = self.rect.x + 75
+            self.butt_rect.x = self.rect.x + 5
+        else:
+            self.head_rect.x = self.rect.x + 60
+            self.butt_rect.x = self.rect.x + 130
+        self.head_rect.y = self.rect.y + 105
+        self.butt_rect.y = self.rect.y + 125
 
 
     def move(self, animate, speed):
@@ -100,11 +112,11 @@ class Boss(pygame.sprite.Sprite):
             else:    
                 self.attack_basic(self.set, 'left', 0.1)
 
-        if self.is_hurting:
-            if self.right:
-                self.animate(self.hurt_right_frames, 0.1)
-            else:
-                self.animate(self.hurt_left_frames, 0.1)
+        # if self.is_hurting:
+        #     if self.right:
+        #         self.animate(self.hurt_right_frames, 0.1)
+        #     else:
+        #         self.animate(self.hurt_left_frames, 0.1)
 
         elif self.is_dying:
             if self.right:
@@ -132,10 +144,35 @@ class Boss(pygame.sprite.Sprite):
     def attack_special(self, orientation, speed): 
         if orientation == 'left':
             self.animate(self.attack_three_left_frames, speed)
-            self.move(False, self.move_speed * 2)
+            # i want the boss to look like it is accelerating when it attacks
+            # before:
+            # self.move(False, self.move_speed * 2)
+            if self.current_sprite > 0 and self.current_sprite < 1:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 1 and self.current_sprite < 2:
+                self.move(False, self.move_speed * 1.3)
+            elif self.current_sprite > 2 and self.current_sprite < 3:
+                self.move(False, self.move_speed * 1.5)
+            elif self.current_sprite > 3 and self.current_sprite < 4:
+                self.move(False, self.move_speed * 1.7)
+            elif self.current_sprite > 4 and self.current_sprite < 5:
+                self.move(False, self.move_speed * 1.9)
+            elif self.current_sprite > 5 and self.current_sprite < 6:
+                self.move(False, self.move_speed * 2)  
         else:
             self.animate(self.attack_three_right_frames, speed)      
-            self.move(False, self.move_speed * 2)
+            if self.current_sprite > 0 and self.current_sprite < 1:
+                self.move(False, self.move_speed * 1.1)
+            elif self.current_sprite > 1 and self.current_sprite < 2:
+                self.move(False, self.move_speed * 1.3)
+            elif self.current_sprite > 2 and self.current_sprite < 3:
+                self.move(False, self.move_speed * 1.5)
+            elif self.current_sprite > 3 and self.current_sprite < 4:
+                self.move(False, self.move_speed * 1.7)
+            elif self.current_sprite > 4 and self.current_sprite < 5:
+                self.move(False, self.move_speed * 1.9)
+            elif self.current_sprite > 5 and self.current_sprite < 6:
+                self.move(False, self.move_speed * 2)
             
 
 
@@ -150,8 +187,8 @@ class Boss(pygame.sprite.Sprite):
                 self.attacking_basic = False
             if self.attacking_special: 
                 self.attacking_special = False
-            if self.is_hurting:
-                self.is_hurting = False
+            # if self.is_hurting:
+            #     self.is_hurting = False
 
         self.image = sprite_list[int(self.current_sprite)]
     
@@ -173,8 +210,8 @@ class Boss(pygame.sprite.Sprite):
         self.attack_four_left_frames = []
         self.attack_four_right_frames = []
 
-        self.hurt_left_frames = []
-        self.hurt_right_frames = []
+        # self.hurt_left_frames = []
+        # self.hurt_right_frames = []
 
         self.death_left_frames = []
         self.death_right_frames = []
@@ -221,12 +258,12 @@ class Boss(pygame.sprite.Sprite):
             self.attack_three_right_frames.append(pygame.transform.flip(frame, True, False)) 
 
         # hurt frames
-        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 1.png').convert_alpha(), (200, 200)))
-        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 2.png').convert_alpha(), (200, 200)))
-        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 3.png').convert_alpha(), (200, 200)))
-        self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 4.png').convert_alpha(), (200, 200)))
-        for frame in self.hurt_left_frames:
-            self.hurt_right_frames.append(pygame.transform.flip(frame, True, False))
+        # self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 1.png').convert_alpha(), (200, 200)))
+        # self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 2.png').convert_alpha(), (200, 200)))
+        # self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 3.png').convert_alpha(), (200, 200)))
+        # self.hurt_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Hurt/hurt 4.png').convert_alpha(), (200, 200)))
+        # for frame in self.hurt_left_frames:
+        #     self.hurt_right_frames.append(pygame.transform.flip(frame, True, False))
         
         # death frames
         self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/boss/Death/death 1.png').convert_alpha(), (200, 200)))
