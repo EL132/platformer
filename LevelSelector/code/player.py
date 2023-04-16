@@ -13,7 +13,6 @@ class Player(pygame.sprite.Sprite):
 
 		self.current_sprite = 0
 		self.image = self.walk_front_frames[self.current_sprite]
-		# self.image = pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/test/player.png').convert_alpha(), (settings.TILESIZE, settings.TILESIZE))
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(-10, 0)
 
@@ -131,6 +130,8 @@ class Player(pygame.sprite.Sprite):
 		self.input()
 		self.move(self.speed)
 		self.check_animations()
+		pygame.draw.rect(self.screen, settings.WHITE, (self.hitbox.topleft, self.hitbox.bottomright))
+
 
 
 	def animate(self, sprite_list, speed):
