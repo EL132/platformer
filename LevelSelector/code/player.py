@@ -13,6 +13,8 @@ class Player(pygame.sprite.Sprite):
 
 		self.current_sprite = 0
 		self.image = self.walk_front_frames[self.current_sprite]
+		self.previous_sprite_list = self.walk_front_frames
+
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(-10, 0)
 
@@ -130,18 +132,23 @@ class Player(pygame.sprite.Sprite):
 		self.input()
 		self.move(self.speed)
 		self.check_animations()
-		# pygame.draw.rect(self.screen, settings.WHITE, (self.hitbox.topleft, self.hitbox.bottomright))
+		print(self.current_sprite)
 
 
-
-	def animate(self, sprite_list, speed):
+	def animate(self, sprite_list, speed, idle = False):
         # loop through sprite list and change current sprite 
-		if self.current_sprite < len(sprite_list) - 1:
-			self.current_sprite += speed
-		else:
-			self.current_sprite = 0
+		if idle: 
+			self.image = sprite_list[0]
 
-		self.image = sprite_list[int(self.current_sprite)]
+		if not idle: 
+			if self.current_sprite < len(sprite_list) - 0.1:
+				self.current_sprite += speed
+			else:
+				self.current_sprite = 0
+
+			self.image = sprite_list[int(self.current_sprite)]
+
+		self.previous_sprite_list = sprite_list
 
 
 	def check_animations(self):
@@ -155,6 +162,8 @@ class Player(pygame.sprite.Sprite):
 			self.animate(self.walk_back_frames, 0.1)
 		elif (keys[pygame.K_DOWN] or keys[pygame.K_s]):
 			self.animate(self.walk_front_frames, 0.1)
+		else: 
+			self.animate(self.previous_sprite_list, 0.1, True)
 
 
 
@@ -164,10 +173,10 @@ class Player(pygame.sprite.Sprite):
 		self.walk_right_frames = []
 		self.walk_left_frames = []
 
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png'), (200, 200)))
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(2).png'), (200, 200)))
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png'), (200, 200)))
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(3).png'), (200, 200)))
+		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha(), (200, 200)))
+		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(2).png').convert_alpha(), (200, 200)))
+		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha(), (200, 200)))
+		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(3).png').convert_alpha(), (200, 200)))
 
 		self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha(), (200, 200)))
 		self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(2).png').convert_alpha(), (200, 200)))
