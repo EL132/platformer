@@ -162,9 +162,9 @@ class LevelOne():
         if damage == 0.1:
             self.message = 'Critical Hit!'
         elif damage == 0.05:
-            self.message = 'Oof!'
+            self.message = 'Penetrated right in the ass!'
         else:
-            self.message = ''
+            self.message = 'Hit big ole boss somewhere else'
 
     def draw_word(self):
         if time.time() - self.word_draw_start_time < 1:
@@ -201,11 +201,11 @@ class LevelOne():
             if not collided.collision_occurred and player.is_attacking and not boss.attacking_basic and not boss.attacking_special:
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                 if player.rect.colliderect(boss.butt_rect):
-                    self.boss_hurt(1)
+                    self.boss_hurt(0.05)
                 elif player.rect.colliderect(boss.head_rect):
-                    self.boss_hurt(1)
+                    self.boss_hurt(0.1)
                 else:
-                    self.boss_hurt(1)
+                    self.boss_hurt(0.04)
             
                 boss.is_hurting = True
                 collided.collision_occurred = True
