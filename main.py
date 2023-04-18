@@ -116,6 +116,10 @@ class Game:
 
 			self.screen.fill('black')
 
+			if settings.leaving_level:
+				self.level.player.hitbox.y += 20
+				settings.leaving_level = False
+
 			#Main Menu
 			if settings.game_state == -1:
 				self.menu.run()
@@ -129,6 +133,7 @@ class Game:
 
 			#Level Selector 
 			if settings.game_state == 0: 
+				print("inside here")
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 

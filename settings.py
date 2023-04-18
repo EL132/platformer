@@ -23,6 +23,9 @@ save_level = 0
 global level_one_score
 level_one_score = 0
 
+global leaving_level
+leaving_level = False
+
 #colors 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
