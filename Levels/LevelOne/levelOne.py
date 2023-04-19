@@ -9,6 +9,7 @@ from Levels.LevelOne.tile import Tile
 from Levels.LevelOne.player import Player
 from Levels.LevelOne.boss import Boss
 from Levels.LevelOne.miniChomper import MiniChomper
+from Levels.LevelOne.grunt import Grunt
 from Levels.LevelOne.constants import *
 
 
@@ -22,7 +23,6 @@ tmx_data = load_pygame('./Levels/levelOne/maps/Test.tmx')
 save_load_manager = SaveLoadSystem(".save", "save_data")
 
 settings.level_one_score = save_load_manager.load_game_data(["level_one_score"], [0])
-
 
 land_sprite_group = pygame.sprite.Group()
 
@@ -62,6 +62,10 @@ class LevelOne():
         self.creeper_group.add(self.creeper_two)
         self.creeper_group.add(self.creeper_three)
         self.creeper_group.add(self.creeper_four)
+
+        self.grunt_group = pygame.sprite.Group()
+        self.grunt_one = Grunt(settings.DISPLAY_WIDTH // 2, 0, 'right', 3500, land_sprite_group)
+        self.grunt_group.add(self.grunt_one)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
@@ -557,5 +561,8 @@ class LevelOne():
 
         self.creeper_group.update()
         self.creeper_group.draw(display_surface)
+
+        self.grunt_group.update()
+        self.grunt_group.draw(display_surface)
 
         self.update()

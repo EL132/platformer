@@ -211,12 +211,6 @@ class Player(pygame.sprite.Sprite):
                     else:
                         self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
-            # if self.rect.colliderect(tile.rect):
-            #     self.is_on_grass = True
-            # else:
-            #     self.is_on_grass = False
-            
-            # print("on grass value: ", self.is_on_grass)
 
 
     def jump(self):

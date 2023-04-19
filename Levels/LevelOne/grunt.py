@@ -1,20 +1,24 @@
-import pygame
+import pygame, settings
 
 vector = pygame.math.Vector2
 
-class MiniChomper(pygame.sprite.Sprite):
-    def __init__(self, x, y, direction, attack_timing):
+class Grunt(pygame.sprite.Sprite):
+    def __init__(self, x, y, direction, attack_timing, tiles):
         super().__init__()
         self.load_animation_sprites()
-        
+        self.land_tiles = tiles
         self.current_sprite = 0
+        self.x = x
+        self.y = y
 
         self.direction = direction
 
         if self.direction == "right":
             self.image = self.walk_right_sprites[self.current_sprite]
+            self.right = True
         else:
             self.image = self.walk_left_sprites[self.current_sprite]
+            self.right = False
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -34,29 +38,36 @@ class MiniChomper(pygame.sprite.Sprite):
     
     def update(self):
         self.check_animations()
+        self.check_collisions()
         self.move()
 
     
     def move(self):
-        # i want this grunt to fall from the center of the screen and either
-        # walk left or right depending on the self.direction variable
-        if self.rect.y > 64:
-            # if this is true, then the gruny should fall
-            self.velocity.y = 1
-        else:
-            self.velocity.y = 0
+        self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
+
+
+        if self.position.y > settings.DISPLAY_HEIGHT - 100 and not self.attacking:
+            # only if the grunt is on the ground should it be moving
             if self.direction == 'left':
                 self.velocity.x = -1
             else:
                 self.velocity.x = 1
-
-
-        self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
         
         self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
         self.velocity += self.acceleration
         self.position += self.velocity + 0.5 * self.acceleration
 
+        if self.position.y > settings.DISPLAY_HEIGHT:
+            self.position.y = self.y
+        
+        self.rect.bottomleft = self.position
+
+    def check_collisions(self):
+        for tile in self.land_tiles:  
+            if self.rect.colliderect(tile.rect):
+                if self.velocity.y > 0:
+                    self.position.y = tile.rect.top + 1
+                    self.velocity.y = 0
 
 
     def load_animation_sprites(self):
@@ -86,14 +97,16 @@ class MiniChomper(pygame.sprite.Sprite):
         
 
     def animate(self, sprite_list, speed):
-        if self.current_sprite < len(sprite_list) - 1:
-            self.current_sprite += speed
-        else:    
-            self.current_sprite = 0
-            if self.attacking:
-                self.attacking = False
+        if self.position.y > settings.DISPLAY_HEIGHT - 100:
+            if self.current_sprite < len(sprite_list) - 1:
+                self.current_sprite += speed
+            else:    
+                self.current_sprite = 0
+                if self.attacking:
+                    self.attacking = False
 
-        self.image = sprite_list[int(self.current_sprite)]
+            self.image = sprite_list[int(self.current_sprite)]
+
 
     
     def check_animations(self):
@@ -110,6 +123,6 @@ class MiniChomper(pygame.sprite.Sprite):
                 self.animate(self.attack_left_sprites, 0.1)
         else:
             if self.right:
-                self.animate(self.idle_right_sprites, 0.07)
+                self.animate(self.walk_right_sprites, 0.07)
             else:
-                self.animate(self.idle_left_sprites, 0.07)
+                self.animate(self.walk_left_sprites, 0.07)
