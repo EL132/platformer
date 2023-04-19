@@ -10,7 +10,7 @@ sys.dont_write_bytecode = True
 
 save_load_manager = SaveLoadSystem(".save", "save_data")
 settings.save_level = save_load_manager.load_game_data(["save_level"], [0])
-settings.FPS = save_load_manager.load_game_data(["FPS"], [60])
+# settings.FPS = save_load_manager.load_game_data(["FPS"], [60])
 settings.FPS = 60
 settings.difficulty = save_load_manager.load_game_data(["difficulty"], [2])
 
