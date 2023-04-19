@@ -155,7 +155,7 @@ class Player(pygame.sprite.Sprite):
 		keys = pygame.key.get_pressed()
 
 		if (keys[pygame.K_LEFT] or keys[pygame.K_a]):
-			self.animate(self.walk_left_frames, 0.05)
+			self.animate(self.walk_left_frames, 0.1)
 		elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
 			self.animate(self.walk_right_frames, 0.1)
 		elif (keys[pygame.K_UP] or keys[pygame.K_w]):
@@ -173,36 +173,36 @@ class Player(pygame.sprite.Sprite):
 		self.walk_right_frames = []
 		self.walk_left_frames = []
 
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha(), (200, 200)))
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(2).png').convert_alpha(), (200, 200)))
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha(), (200, 200)))
-		self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(3).png').convert_alpha(), (200, 200)))
+		# self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha(), (200, 200)))
+		# self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(2).png').convert_alpha(), (200, 200)))
+		# self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha(), (200, 200)))
+		# self.walk_back_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(3).png').convert_alpha(), (200, 200)))
 
-		self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha(), (200, 200)))
-		self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(2).png').convert_alpha(), (200, 200)))
-		self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha(), (200, 200)))
-		self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(3).png').convert_alpha(), (200, 200)))
+		# self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha(), (200, 200)))
+		# self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(2).png').convert_alpha(), (200, 200)))
+		# self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha(), (200, 200)))
+		# self.walk_front_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(3).png').convert_alpha(), (200, 200)))
 
-		self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha(), (200, 200)))
-		self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(2).png').convert_alpha(), (200, 200)))
-		self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha(), (200, 200)))
-		self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(3).png').convert_alpha(), (200, 200)))
-		for frame in self.walk_right_frames:
-			self.walk_left_frames.append(pygame.transform.flip(frame, True, False))
-
-		# self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha())
-		# self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(2).png').convert_alpha())
-		# self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha())
-		# self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(3).png').convert_alpha())
-
-		# self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha())
-		# self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(2).png').convert_alpha())
-		# self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha())
-		# self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(3).png').convert_alpha())
-
-		# self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha())
-		# self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(2).png').convert_alpha())
-		# self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha())
-		# self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(3).png').convert_alpha())
+		# self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha(), (200, 200)))
+		# self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(2).png').convert_alpha(), (200, 200)))
+		# self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha(), (200, 200)))
+		# self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(3).png').convert_alpha(), (200, 200)))
 		# for frame in self.walk_right_frames:
 		# 	self.walk_left_frames.append(pygame.transform.flip(frame, True, False))
+
+		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha())
+		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(2).png').convert_alpha())
+		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha())
+		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(3).png').convert_alpha())
+
+		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha())
+		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(2).png').convert_alpha())
+		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha())
+		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(3).png').convert_alpha())
+
+		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha())
+		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(2).png').convert_alpha())
+		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha())
+		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(3).png').convert_alpha())
+		for frame in self.walk_right_frames:
+			self.walk_left_frames.append(pygame.transform.flip(frame, True, False))
