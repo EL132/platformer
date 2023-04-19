@@ -162,9 +162,9 @@ class LevelOne():
         if damage == 0.1:
             self.message = 'Critical Hit!'
         elif damage == 0.05:
-            self.message = 'Oof!'
+            self.message = 'Penetrated right in the ass!'
         else:
-            self.message = ''
+            self.message = 'Hit big ole boss somewhere else'
 
     def draw_word(self):
         if time.time() - self.word_draw_start_time < 1:
@@ -205,7 +205,7 @@ class LevelOne():
                 elif player.rect.colliderect(boss.head_rect):
                     self.boss_hurt(0.1)
                 else:
-                    self.boss_hurt(0.05)
+                    self.boss_hurt(0.04)
             
                 boss.is_hurting = True
                 collided.collision_occurred = True
@@ -335,14 +335,18 @@ class LevelOne():
 
         pygame.display.update()
         while game_over:
+            pygame.mixer.music.stop()
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_y:
                         self.reset()
                         game_over = False
                     if event.key == pygame.K_n:
-                        # here we need to go back to the level selector
-                        pass
+                        self.reset()
+                        settings.game_state = 0
+                        settings.transition = not settings.transition
+                        settings.leaving_level = True
+                        game_over = False
 
     def show_player_win_screen(self):
         WHITE = (255, 255, 255)
@@ -356,27 +360,22 @@ class LevelOne():
         main_rect.center = (WINDOW_WIDTH//2 + 15, WINDOW_HEIGHT//2 - 150)
 
         new_high_score = False
-        # and how fast they completed the level 
-        if ((self.player_lives * 1000 - (self.display_time) * 10) < 0):
+        display_time = time.time() - self.starting_time
+        # previous :
+        if ((self.player_lives * 1000 - int(display_time) * 10) < 0):
             score = 0
-        elif (self.player_lives * 1000 - (self.display_time) * 10) > settings.level_one_score:
+        elif (self.player_lives * 1000 - int(display_time) * 10) > settings.level_one_score:
             print("new high score!!!")
             new_high_score = True
             # score is their score during this round 
-            score = self.player_lives * 1000 - (self.display_time) * 10
+            score = self.player_lives * 1000 - (display_time) * 10
         else:
-            score = self.player_lives * 1000 - (self.display_time) * 10
+            score = self.player_lives * 1000 - (display_time) * 10
         
-        # print("level one score : ", level_one_score)
-
         display_surface.fill(BLACK)
 
         if new_high_score and settings.level_one_score != 0:
-            print("inside first if")
-            print("previous high score: " + str(settings.level_one_score))
-            print("new high score: " + str(int(score)))
-            # if there is a new high score, i want it to say : "old high score: score"
-            # and then underneath it, it will say "new high score: score"
+
             old_high_score_text = self.custom_font.render("OLD HIGH SCORE " + str(int(settings.level_one_score)), True, WHITE)
             old_high_score_text_rect = old_high_score_text.get_rect()
             old_high_score_text_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 75)
@@ -439,12 +438,14 @@ class LevelOne():
                 #User wants to quit
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
+                        # THIS SHOULD GO TO THE LEVEL SELECTOR
+                        pygame.mixer.music.stop()
+                        settings.game_state = 0
+                        settings.transition = not settings.transition
+                        settings.leaving_level = True
                         save_load_manager.save_game_data([settings.level_one_score], ["level_one_score"])
                         game_over = False
                         self.reset()
-                        # THIS SHOULD GO TO THE LEVEL SELECTOR
-                        pygame.mixer.music.stop()
-                        # settings.game_state = 0
 
     def reset(self):
         self.player_lives = 3

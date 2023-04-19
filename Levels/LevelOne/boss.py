@@ -87,14 +87,14 @@ class Boss(pygame.sprite.Sprite):
             # and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
 
         if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
-            print("special")
-            print(timePassed)
+            # print("special")
+            # print(timePassed)
             self.attacking_special = True
             self.current_sprite = 0
 
         elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
-            print("basic")
-            print(timePassed)
+            # print("basic")
+            # print(timePassed)
             self.attacking_basic = True   
             self.current_sprite = 0
 
