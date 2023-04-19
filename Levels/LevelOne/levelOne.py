@@ -199,6 +199,7 @@ class LevelOne():
         for collided in collision_list:
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
             if not collided.collision_occurred and player.is_attacking and not boss.attacking_basic and not boss.attacking_special:
+                print("scenario 1")
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                 if player.rect.colliderect(boss.butt_rect):
                     self.boss_hurt(0.05)
@@ -210,6 +211,7 @@ class LevelOne():
                 boss.is_hurting = True
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and (boss.attacking_basic or boss.attacking_special):
+                print("scenario 2")
                 if boss.attacking_special:
                     self.player_lives_update(1)
                 else:
@@ -218,6 +220,7 @@ class LevelOne():
                 player.started_hurting = True
                 collided.collision_occurred = True
             elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
+                print("scenario 3")
                 if boss.attacking_special:
                     self.player_lives_update(1)
                 else:
@@ -235,6 +238,7 @@ class LevelOne():
                 # this if is so that the player only gets hurt if they are being attacked by the creeper they are closest to
                 # print("creeper two rect: ", creeper_two.rect.x)
                 # print("player rect: ", player.rect.x)
+                print("scenario 4")
                 if (creeper_one.attacking and player.rect.x < (creeper_one.rect.x + 100) and player.rect.x > (creeper_one.rect.x - 100)) or (creeper_two.attacking and player.rect.x < (creeper_two.rect.x + 100) and player.rect.x > (creeper_two.rect.x - 100)) or (creeper_three.attacking and player.rect.x < (creeper_three.rect.x + 100) and player.rect.x > (creeper_three.rect.x - 100)):
                     # print("player is being attacked by creeper")
                     self.player_lives_update(0.25)

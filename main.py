@@ -17,8 +17,8 @@ settings.difficulty = save_load_manager.load_game_data(["difficulty"], [2])
 class Game:
 	def __init__(self):
 		pygame.init()
-		# self.screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
-		self.screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+		self.screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
+		# self.screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		pygame.display.set_caption('Level Selector')
 		self.clock = pygame.time.Clock()
 
@@ -133,7 +133,7 @@ class Game:
 
 			#Level Selector 
 			if settings.game_state == 0: 
-				print("inside here")
+				# print("inside here")
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 
