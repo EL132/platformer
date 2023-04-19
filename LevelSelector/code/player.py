@@ -132,7 +132,6 @@ class Player(pygame.sprite.Sprite):
 		self.input()
 		self.move(self.speed)
 		self.check_animations()
-		print(self.current_sprite)
 
 
 	def animate(self, sprite_list, speed, idle = False):

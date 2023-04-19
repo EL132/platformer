@@ -467,6 +467,16 @@ class LevelOne():
         self.player_lives -= lives
         self.update_needed = True
 
+    def blurSurf(self, surface, amt):
+        if amt < 1.0:
+            raise ValueError("Arg 'amt' must be greater than 1.0, passed in value is %s"%amt)
+        scale = 1.0/float(amt)
+        surf_size = surface.get_size()
+        scale_size = (int(surf_size[0]*scale), int(surf_size[1]*scale))
+        surf = pygame.transform.smoothscale(surface, scale_size)
+        surf = pygame.transform.smoothscale(surf, surf_size)
+        return surf
+
     def pause_game(self, main_text, sub_text):
         """Pause the game"""
         global running
@@ -489,7 +499,8 @@ class LevelOne():
         sub_rect = sub_text.get_rect()
         sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
 
-        blurred_background = pygame.transform.box_blur(display_surface, 4)
+        # blurred_background = pygame.transform.box_blur(display_surface, 5)
+        blurred_background = self.blurSurf(display_surface, 5)
         pygame.image.save(blurred_background, "blurred.jpg")
         blurred_rect = blurred_background.get_rect(topleft = (0, 0))
         display_surface.blit(blurred_background, blurred_rect)
