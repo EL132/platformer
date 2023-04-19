@@ -8,7 +8,7 @@ from GameSave.SaveLoadManager import SaveLoadSystem
 from Levels.LevelOne.tile import Tile
 from Levels.LevelOne.player import Player
 from Levels.LevelOne.boss import Boss
-from Levels.LevelOne.creeper import MiniChomper
+from Levels.LevelOne.miniChomper import MiniChomper
 from Levels.LevelOne.constants import *
 
 
@@ -17,7 +17,7 @@ display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 sprite_group = pygame.sprite.Group()
 
 # video tmx code
-tmx_data = load_pygame('./Levels/levelOne/maps/levelOne.tmx')
+tmx_data = load_pygame('./Levels/levelOne/maps/Test.tmx')
 
 save_load_manager = SaveLoadSystem(".save", "save_data")
 
@@ -54,12 +54,14 @@ class LevelOne():
         self.boss_group.add(self.boss_chomper)
 
         self.creeper_group = pygame.sprite.Group()
-        self.creeper_one = MiniChomper(500, 179, 'right', 3500)
-        self.creeper_two = MiniChomper(200, 338, 'right', 2500)
-        self.creeper_three = MiniChomper(690, 115, 'left', 4500)
+        self.creeper_one = MiniChomper(570, 112, 'right', 3500)
+        self.creeper_two = MiniChomper(265, 210, 'left', 2500)
+        self.creeper_three = MiniChomper(690, 242, 'left', 4500)
+        self.creeper_four = MiniChomper(28, 145, 'right', 3200)
         self.creeper_group.add(self.creeper_one)
         self.creeper_group.add(self.creeper_two)
         self.creeper_group.add(self.creeper_three)
+        self.creeper_group.add(self.creeper_four)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
@@ -169,7 +171,7 @@ class LevelOne():
     def draw_word(self):
         if time.time() - self.word_draw_start_time < 1:
             # Render the text to the screen
-            text = self.custom_font.render(self.message, True, (0, 0, 0))
+            text = self.custom_font.render(self.message, True, (255, 0, 0))
             text_rect = text.get_rect()
             text_rect.center = (self.boss_chomper.rect.x + 100, self.boss_chomper.rect.y + 25)
             display_surface.blit(text, text_rect)
