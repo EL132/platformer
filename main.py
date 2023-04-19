@@ -18,6 +18,7 @@ class Game:
 	def __init__(self):
 		pygame.init()
 		self.screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
+		# self.screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		pygame.display.set_caption('Level Selector')
 		self.clock = pygame.time.Clock()
 
@@ -54,7 +55,7 @@ class Game:
 			self.redrawScreen(image)
 			self.screen.blit(fade, (0,0))
 			pygame.display.update()
-			pygame.time.delay(1)
+			pygame.time.delay(3)
 
 	def redrawScreen(self, fade_image): 
 		self.screen.fill((255, 255, 255))
@@ -83,7 +84,6 @@ class Game:
 
 		if self.curtain_counter > 0: 
 			self.curtain_counter -= 4
-			print(self.curtain_counter)
 			pygame.draw.rect(self.screen, (0, 0, 0), (0, 0, self.curtain_counter, settings.DISPLAY_HEIGHT))
 			pygame.draw.rect(self.screen, (0, 0, 0), (settings.DISPLAY_WIDTH - self.curtain_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		else: 
@@ -133,7 +133,7 @@ class Game:
 
 			#Level Selector 
 			if settings.game_state == 0: 
-				print("inside here")
+				# print("inside here")
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 

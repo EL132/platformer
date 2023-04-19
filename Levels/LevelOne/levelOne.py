@@ -201,6 +201,7 @@ class LevelOne():
         for collided in collision_list:
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
             if not collided.collision_occurred and player.is_attacking and not boss.attacking_basic and not boss.attacking_special:
+                print("scenario 1")
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                 if player.rect.colliderect(boss.butt_rect):
                     self.boss_hurt(0.05)
@@ -212,6 +213,7 @@ class LevelOne():
                 boss.is_hurting = True
                 collided.collision_occurred = True
             elif not collided.collision_occurred and not player.is_attacking and (boss.attacking_basic or boss.attacking_special):
+                print("scenario 2")
                 if boss.attacking_special:
                     self.player_lives_update(1)
                 else:
@@ -220,6 +222,7 @@ class LevelOne():
                 player.started_hurting = True
                 collided.collision_occurred = True
             elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
+                print("scenario 3")
                 if boss.attacking_special:
                     self.player_lives_update(1)
                 else:
@@ -237,6 +240,7 @@ class LevelOne():
                 # this if is so that the player only gets hurt if they are being attacked by the creeper they are closest to
                 # print("creeper two rect: ", creeper_two.rect.x)
                 # print("player rect: ", player.rect.x)
+                print("scenario 4")
                 if (creeper_one.attacking and player.rect.x < (creeper_one.rect.x + 100) and player.rect.x > (creeper_one.rect.x - 100)) or (creeper_two.attacking and player.rect.x < (creeper_two.rect.x + 100) and player.rect.x > (creeper_two.rect.x - 100)) or (creeper_three.attacking and player.rect.x < (creeper_three.rect.x + 100) and player.rect.x > (creeper_three.rect.x - 100)):
                     # print("player is being attacked by creeper")
                     self.player_lives_update(0.25)
@@ -469,6 +473,16 @@ class LevelOne():
         self.player_lives -= lives
         self.update_needed = True
 
+    def blurSurf(self, surface, amt):
+        if amt < 1.0:
+            raise ValueError("Arg 'amt' must be greater than 1.0, passed in value is %s"%amt)
+        scale = 1.0/float(amt)
+        surf_size = surface.get_size()
+        scale_size = (int(surf_size[0]*scale), int(surf_size[1]*scale))
+        surf = pygame.transform.smoothscale(surface, scale_size)
+        surf = pygame.transform.smoothscale(surf, surf_size)
+        return surf
+
     def pause_game(self, main_text, sub_text):
         """Pause the game"""
         global running
@@ -491,6 +505,11 @@ class LevelOne():
         sub_rect = sub_text.get_rect()
         sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
 
+        # blurred_background = pygame.transform.box_blur(display_surface, 5)
+        blurred_background = self.blurSurf(display_surface, 5)
+        pygame.image.save(blurred_background, "blurred.jpg")
+        blurred_rect = blurred_background.get_rect(topleft = (0, 0))
+        display_surface.blit(blurred_background, blurred_rect)
 
         #Display the pause text
         # display_surface.fill(BLACK)
