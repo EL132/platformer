@@ -86,6 +86,8 @@ class LevelOne():
 
         self.word_draw_start_time = 0
 
+        self.spawned = False
+
     def update(self):
         if self.loaded_up:
             self.starting_time = time.time()
@@ -98,6 +100,19 @@ class LevelOne():
         self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
+        if int(self.display_time) % 5 == 0 and self.spawned == False and self.display_time != 1:
+            self.spawn_grunt()
+            self.spawned = True
+        if int(self.display_time) % 5 != 0:
+            self.spawned = False
+
+
+    def spawn_grunt(self):
+        # i want to randomize the direction and attack timing for each grunt
+        direction = random.choice(['left', 'right'])
+        attack_timing = random.randint(2000, 5000)
+        grunt = Grunt(settings.DISPLAY_WIDTH // 2, 0, direction, attack_timing, land_sprite_group)
+        self.grunt_group.add(grunt)
 
     def draw_portrait(self):
         portrait = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/player/Woodcutter/portrait.png").convert_alpha(), (48, 48))

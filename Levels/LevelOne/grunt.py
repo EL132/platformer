@@ -77,21 +77,21 @@ class Grunt(pygame.sprite.Sprite):
         self.walk_left_sprites = []
         self.walk_right_sprites = []
 
-        self.attack_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack1.png'))
-        self.attack_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack2.png'))
-        self.attack_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack3.png'))
-        self.attack_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack4.png'))
-        self.attack_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack5.png'))
-        self.attack_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack6.png'))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack1.png').convert_alpha(),(60, 60)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack2.png').convert_alpha(),(60, 60)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack3.png').convert_alpha(),(60, 60)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack4.png').convert_alpha(),(60, 60)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack5.png').convert_alpha(),(60, 60)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack6.png').convert_alpha(),(60, 60)))
         for sprite in self.attack_left_sprites:
             self.attack_right_sprites.append(pygame.transform.flip(sprite, True, False))
         
-        self.walk_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk1.png'))
-        self.walk_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk2.png'))
-        self.walk_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk3.png'))
-        self.walk_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk4.png'))
-        self.walk_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk5.png'))
-        self.walk_left_sprites.append(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk6.png'))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk1.png').convert_alpha(),(60, 60)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk2.png').convert_alpha(),(60, 60)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk3.png').convert_alpha(),(60, 60)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk4.png').convert_alpha(),(60, 60)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk5.png').convert_alpha(),(60, 60)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk6.png').convert_alpha(),(60, 60)))
         for sprite in self.walk_left_sprites:
             self.walk_right_sprites.append(pygame.transform.flip(sprite, True, False))
         
