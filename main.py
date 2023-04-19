@@ -29,8 +29,8 @@ class Game:
 		self.menu = Menu()
 
 	def fadeOut(self): 
-		pygame.image.save(self.screen,"LevelSelector/screenshot.jpg")
-		image = pygame.image.load("LevelSelector/screenshot.jpg")
+		pygame.image.save(self.screen,"screenshot.jpg")
+		image = pygame.image.load("screenshot.jpg")
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0,0,0))
 		for alpha in range(0, 275):
@@ -63,7 +63,7 @@ class Game:
 		self.screen.blit(self.fade_image, self.fade_rect)
 
 	def curtainIn(self):
-		image = pygame.image.load("LevelSelector/screenshot.jpg")
+		image = pygame.image.load("screenshot.jpg")
 		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
 		if self.curtain_counter < settings.DISPLAY_WIDTH // 2 and not self.curtain_closed: 
