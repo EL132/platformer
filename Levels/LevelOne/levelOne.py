@@ -499,14 +499,11 @@ class LevelOne():
         sub_rect = sub_text.get_rect()
         sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
 
-<<<<<<< HEAD
         # blurred_background = pygame.transform.box_blur(display_surface, 5)
         blurred_background = self.blurSurf(display_surface, 5)
         pygame.image.save(blurred_background, "blurred.jpg")
         blurred_rect = blurred_background.get_rect(topleft = (0, 0))
         display_surface.blit(blurred_background, blurred_rect)
-=======
->>>>>>> bf53d2ac4745c342590f88f5c4c42581a7698841
 
         #Display the pause text
         # display_surface.fill(BLACK)
