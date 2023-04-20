@@ -46,12 +46,14 @@ class Grunt(pygame.sprite.Sprite):
         self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
 
 
-        if self.position.y > settings.DISPLAY_HEIGHT - 100 and not self.attacking:
+        for tile in self.land_tiles:  
+            if self.rect.colliderect(tile.rect) and not self.attacking:
+        # if self.position.y > settings.DISPLAY_HEIGHT - 100 and not self.attacking:
             # only if the grunt is on the ground should it be moving
-            if self.direction == 'left':
-                self.velocity.x = -1
-            else:
-                self.velocity.x = 1
+                if self.direction == 'left':
+                    self.velocity.x = -1
+                else:
+                    self.velocity.x = 1
         
         self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
         self.velocity += self.acceleration

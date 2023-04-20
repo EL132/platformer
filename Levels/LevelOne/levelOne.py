@@ -55,9 +55,9 @@ class LevelOne():
 
         self.creeper_group = pygame.sprite.Group()
         self.creeper_one = MiniChomper(570, 112, 'right', 3500)
-        self.creeper_two = MiniChomper(265, 210, 'left', 2500)
+        self.creeper_two = MiniChomper(265, 242, 'left', 2500)
         self.creeper_three = MiniChomper(690, 242, 'left', 4500)
-        self.creeper_four = MiniChomper(28, 145, 'right', 3200)
+        self.creeper_four = MiniChomper(28, 209, 'right', 3200)
         self.creeper_group.add(self.creeper_one)
         self.creeper_group.add(self.creeper_two)
         self.creeper_group.add(self.creeper_three)
@@ -100,18 +100,20 @@ class LevelOne():
         self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
-        if int(self.display_time) % 5 == 0 and self.spawned == False and self.display_time != 1:
+        if int(self.display_time) % 7 == 0 and self.spawned == False and self.display_time != 1:
             self.spawn_grunt()
             self.spawned = True
-        if int(self.display_time) % 5 != 0:
+        if int(self.display_time) % 7 != 0:
             self.spawned = False
 
 
     def spawn_grunt(self):
         # i want to randomize the direction and attack timing for each grunt
+        # also want to randomize the starting x position within the center of the screen
         direction = random.choice(['left', 'right'])
         attack_timing = random.randint(2000, 5000)
-        grunt = Grunt(settings.DISPLAY_WIDTH // 2, 0, direction, attack_timing, land_sprite_group)
+        starting_x = random.randint(settings.DISPLAY_WIDTH // 2 - 20, settings.DISPLAY_WIDTH // 2 + 80)
+        grunt = Grunt(starting_x, 0, direction, attack_timing, land_sprite_group)
         self.grunt_group.add(grunt)
 
     def draw_portrait(self):
