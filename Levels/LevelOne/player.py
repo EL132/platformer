@@ -228,13 +228,12 @@ class Player(pygame.sprite.Sprite):
                     self.current_sprite = 4.4
                     self.reverse = True
             else:    
-                if self.reverse:
-                    self.current_sprite -= (speed) * 1
-                    if self.current_sprite < 0:
-                        self.current_sprite = 0
-                        self.is_attacking = False
-                        self.reverse = False
-                        self.able_to_move = True
+                self.current_sprite -= (speed) * 1
+                if self.current_sprite < 0:
+                    self.current_sprite = 0
+                    self.is_attacking = False
+                    self.reverse = False
+                    self.able_to_move = True
         elif self.is_hurting:
             if self.started_hurting:
                 self.current_sprite = 0

@@ -221,15 +221,16 @@ class LevelOne():
         # collision_list is either empty or contains just the boss sprite
         for collided in collision_list:
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
-            if not collided.collision_occurred and player.is_attacking and not boss.attacking_basic and not boss.attacking_special:
+            if player.is_attacking and not player.reverse and not boss.attacking_basic and not boss.attacking_special:
                 print("scenario 1")
+                if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
-                if player.rect.colliderect(boss.butt_rect):
-                    self.boss_hurt(0.05)
-                elif player.rect.colliderect(boss.head_rect):
-                    self.boss_hurt(0.1)
-                else:
-                    self.boss_hurt(0.04)
+                    if player.rect.colliderect(boss.butt_rect):
+                        self.boss_hurt(0.05)
+                    elif player.rect.colliderect(boss.head_rect):
+                        self.boss_hurt(0.1)
+                    else:
+                        self.boss_hurt(0.04)
             
                 boss.is_hurting = True
                 collided.collision_occurred = True
@@ -559,8 +560,10 @@ class LevelOne():
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
-                    self.player.is_jumping = True
-                    self.player.jump()
+                    print(self.player.is_attacking)
+                    if not self.player.is_attacking:
+                        self.player.is_jumping = True
+                        self.player.jump()
                 if event.key == pygame.K_ESCAPE:
                     self.pause_game("Paused", "Press    enter     to     play")
                 if event.key == pygame.K_1 or event.key == pygame.K_k:

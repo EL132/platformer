@@ -99,7 +99,8 @@ class Game:
 					pygame.quit()
 				if event.type == pygame.KEYDOWN:
 					if settings.game_state == 1:
-						if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
+						if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w and self.levelOne.player.is_attacking == False:
+							print(self.levelOne.player.is_attacking)
 							self.levelOne.player.is_jumping = True
 							self.levelOne.player.jump()
 						if event.key == pygame.K_ESCAPE:
