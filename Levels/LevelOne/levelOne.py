@@ -557,20 +557,6 @@ class LevelOne():
                     running = False
 
     def run(self): 
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w:
-                    print(self.player.is_attacking)
-                    if not self.player.is_attacking:
-                        self.player.is_jumping = True
-                        self.player.jump()
-                if event.key == pygame.K_ESCAPE:
-                    self.pause_game("Paused", "Press    enter     to     play")
-                if event.key == pygame.K_1 or event.key == pygame.K_k:
-                    self.player.attack(1)
-                if event.key == pygame.K_2 or event.key == pygame.K_l:
-                    self.player.attack(2)
-
         sprite_group.draw(display_surface)
 
         self.player_group.update()
