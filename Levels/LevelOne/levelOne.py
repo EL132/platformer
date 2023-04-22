@@ -64,8 +64,6 @@ class LevelOne():
         self.creeper_group.add(self.creeper_four)
 
         self.grunt_group = pygame.sprite.Group()
-        self.grunt_one = Grunt(settings.DISPLAY_WIDTH // 2, 0, 'right', 3500, land_sprite_group)
-        self.grunt_group.add(self.grunt_one)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
@@ -100,7 +98,7 @@ class LevelOne():
         self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
-        if int(self.display_time) % 7 == 0 and self.spawned == False and self.display_time != 1:
+        if int(self.display_time) % 7 == 0 and self.spawned == False:
             self.spawn_grunt()
             self.spawned = True
         if int(self.display_time) % 7 != 0:
@@ -110,6 +108,7 @@ class LevelOne():
     def spawn_grunt(self):
         # i want to randomize the direction and attack timing for each grunt
         # also want to randomize the starting x position within the center of the screen
+        print("spawning grunt")
         direction = random.choice(['left', 'right'])
         attack_timing = random.randint(2000, 5000)
         starting_x = random.randint(settings.DISPLAY_WIDTH // 2 - 20, settings.DISPLAY_WIDTH // 2 + 80)
