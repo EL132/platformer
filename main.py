@@ -100,11 +100,9 @@ class Game:
 				if event.type == pygame.KEYDOWN:
 					if settings.game_state == 1:
 						if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w and self.levelOne.player.is_attacking == False:
-							# print(self.levelOne.player.is_attacking)
-							# self.levelOne.player.is_jumping = True
 							self.levelOne.player.jump()
 						if event.key == pygame.K_ESCAPE:
-							self.levelOne.pause_game("Paused", "Press    enter     to     play")
+							self.levelOne.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
 						if event.key == pygame.K_1 or event.key == pygame.K_k:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_2 or event.key == pygame.K_l:

@@ -504,27 +504,30 @@ class LevelOne():
         surf = pygame.transform.smoothscale(surf, surf_size)
         return surf
 
-    def pause_game(self, main_text, sub_text):
-        """Pause the game"""
-        global running
+    def pause_game(self, main_text, sub_text1, sub_text2):
+        time_initial = time.time()
 
         # pygame.mixer.music.pause()
 
         #Set colors
-        WHITE = (255, 255, 255)
         BLACK = (0, 0, 0, 0)
         GREEN = (25, 200, 25)
-        BLUE = (240, 248, 255)
+        WHITE = (255, 255, 255)
 
         #Create main pause text
-        main_text = self.custom_font.render(main_text, True, GREEN)
+        main_text = self.custom_font.render(main_text, True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
+        main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 100)
 
         #Create sub pause text
-        sub_text = self.custom_font.render(sub_text, True, BLACK)
-        sub_rect = sub_text.get_rect()
-        sub_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 64)
+        sub_text1 = self.custom_font.render(sub_text1, True, WHITE)
+        sub_rect1 = sub_text1.get_rect()
+        sub_rect1.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 - 50)
+        
+        #Create sub pause text
+        sub_text2 = self.custom_font.render(sub_text2, True, WHITE)
+        sub_rect2 = sub_text2.get_rect()
+        sub_rect2.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
         # blurred_background = pygame.transform.box_blur(display_surface, 5)
         blurred_background = self.blurSurf(display_surface, 5)
@@ -534,9 +537,11 @@ class LevelOne():
 
         #Display the pause text
         # display_surface.fill(BLACK)
-        pygame.draw.rect(display_surface, BLUE, pygame.Rect(150, 110, 475, 300))
+        pygame.draw.rect(display_surface, BLACK, pygame.Rect(150, 80, 475, 180), 3)
+        pygame.draw.line(display_surface, WHITE, (153, 150), (621, 150), 3)
         display_surface.blit(main_text, main_rect)
-        display_surface.blit(sub_text, sub_rect)
+        display_surface.blit(sub_text1, sub_rect1)
+        display_surface.blit(sub_text2, sub_rect2)
         pygame.display.update()
 
         # pygame.image.save(self.screen,"screenshot.jpg")
@@ -548,12 +553,15 @@ class LevelOne():
                 if event.type == pygame.KEYDOWN:
                     #User wants to continue
                     if event.key == pygame.K_RETURN:
+                        time_passed = time.time() - time_initial
+                        self.display_time = int(self.display_time)
+                        self.display_time -= time_passed
                         is_paused = False
+                        self.starting_time = time.time()
                         # pygame.mixer.music.unpause()
                 #User wants to quit
                 if event.type == pygame.QUIT:
                     is_paused = False
-                    running = False
 
     def run(self): 
         sprite_group.draw(display_surface)
