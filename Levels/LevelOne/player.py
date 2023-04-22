@@ -214,10 +214,11 @@ class Player(pygame.sprite.Sprite):
 
 
     def jump(self):
-        self.is_jumping = True
-        for tile in self.land_tiles:
-            if self.leg_hitbox_rect.colliderect(tile.rect):
-                self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
+        if self.able_to_move:
+            self.is_jumping = True
+            for tile in self.land_tiles:
+                if self.leg_hitbox_rect.colliderect(tile.rect):
+                    self.velocity.y = -1 * self.VERTICAL_JUMP_SPEED
 
 
     def animate(self, sprite_list, speed):
