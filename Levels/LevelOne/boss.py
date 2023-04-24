@@ -8,6 +8,8 @@ class Boss(pygame.sprite.Sprite):
         self.load_animation_sprites()
 
         self.current_sprite = 0
+        self.attack_number = 0
+        self.enemy_id = 0
 
         self.image = self.walk_right_frames[self.current_sprite]
         self.mask = pygame.mask.from_surface(self.image, 4)
@@ -24,10 +26,6 @@ class Boss(pygame.sprite.Sprite):
 
         self.attacking_basic = False
         self.attacking_special = False
-
-        self.set = 0
-
-        self.collision_occurred = False
 
         # self.is_hurting = False
         self.is_dying = False
@@ -62,7 +60,6 @@ class Boss(pygame.sprite.Sprite):
     def move(self, animate, speed):
         if self.able_to_move:
             if not self.attacking_basic: 
-            # and self.set != 1 or self.set != 2:
                 if self.right:
                     self.rect.centerx += speed
                     if animate:
@@ -98,7 +95,7 @@ class Boss(pygame.sprite.Sprite):
             self.attacking_basic = True   
             self.current_sprite = 0
 
-            self.set = random.randint(1, 2)
+            self.attack_number = random.randint(1, 2)
 
         if self.attacking_special: 
             if self.right:
@@ -108,9 +105,9 @@ class Boss(pygame.sprite.Sprite):
 
         elif self.attacking_basic:
             if self.right:
-                self.attack_basic(self.set, 'right', 0.1)  
+                self.attack_basic(self.attack_number, 'right', 0.1)  
             else:    
-                self.attack_basic(self.set, 'left', 0.1)
+                self.attack_basic(self.attack_number, 'left', 0.1)
 
         # if self.is_hurting:
         #     if self.right:
@@ -128,13 +125,13 @@ class Boss(pygame.sprite.Sprite):
     # right now, the attack animation is not functional as the animations 
     # move too fast, but there is a place to start working on it if you go 
     # to chatGPT and take a look at the stuff it said 
-    def attack_basic(self, set, orientation, speed):
-        if set == 1:
+    def attack_basic(self, attack_number, orientation, speed):
+        if attack_number == 1:
             if orientation == 'left':
                 self.animate(self.attack_one_left_frames, speed)
             elif orientation == 'right':
                 self.animate(self.attack_one_right_frames, speed)
-        elif set == 2: 
+        elif attack_number == 2: 
             if orientation == 'left':
                 self.animate(self.attack_two_left_frames, speed)
             elif orientation == 'right':

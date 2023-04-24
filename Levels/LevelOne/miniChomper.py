@@ -6,6 +6,7 @@ class MiniChomper(pygame.sprite.Sprite):
         self.load_animation_sprites()
         
         self.current_sprite = 0
+        self.enemy_id = 1        
 
         if direction == 'right':
             self.right = True
@@ -24,7 +25,6 @@ class MiniChomper(pygame.sprite.Sprite):
 
         self.starting_time = pygame.time.get_ticks()
 
-        self.collision_occurred = False
     
     def update(self):
         self.check_animations()

@@ -153,9 +153,9 @@ class Player(pygame.sprite.Sprite):
 	def check_animations(self):
 		keys = pygame.key.get_pressed()
 
-		if (keys[pygame.K_LEFT] or keys[pygame.K_a]):
+		if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and self.direction.x < 0:
 			self.animate(self.walk_left_frames, 0.1)
-		elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+		elif (keys[pygame.K_RIGHT] or keys[pygame.K_d] and self.direction.x > 0):
 			self.animate(self.walk_right_frames, 0.1)
 		elif (keys[pygame.K_UP] or keys[pygame.K_w]):
 			self.animate(self.walk_back_frames, 0.1)

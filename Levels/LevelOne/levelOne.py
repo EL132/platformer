@@ -219,9 +219,9 @@ class LevelOne():
         collision_list = pygame.sprite.spritecollide(player, [boss, creeper_one, creeper_two, creeper_three], False, pygame.sprite.collide_mask)
         # collision_list is either empty or contains just the boss sprite
         for collided in collision_list:
+            print(collided.enemy_id)
             # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
-            if player.is_attacking and not player.reverse and not boss.attacking_basic and not boss.attacking_special:
-                print("scenario 1")
+            if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                     if player.rect.colliderect(boss.butt_rect):
@@ -232,42 +232,26 @@ class LevelOne():
                         self.boss_hurt(0.04)
             
                 boss.is_hurting = True
-                collided.collision_occurred = True
-            elif not collided.collision_occurred and not player.is_attacking and (boss.attacking_basic or boss.attacking_special):
-                print("scenario 2")
-                if boss.attacking_special:
-                    self.player_lives_update(1)
-                else:
-                    self.player_lives_update(0.5)
-                player.is_hurting = True
-                player.started_hurting = True
-                collided.collision_occurred = True
-            elif player.is_attacking and (boss.attacking_basic or boss.attacking_special) and not collided.collision_occurred:
-                print("scenario 3")
-                if boss.attacking_special:
-                    self.player_lives_update(1)
-                else:
-                    self.player_lives_update(0.5)
 
-                if player.rect.colliderect(boss.butt_rect):
-                    self.boss_hurt(0.05)
-                elif player.rect.colliderect(boss.head_rect):
-                    self.boss_hurt(0.1)
-                else:
-                    self.boss_hurt(0.05)
-                boss.is_hurting = True
-                player.is_hurting = True
-            elif not collided.collision_occurred and (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking):
+            if (boss.attacking_basic or boss.attacking_special) and collided.enemy_id == 0:
+                if boss.attacking_special and boss.current_sprite > 3.2 and boss.current_sprite < 3.3:
+                    print("special attack")
+                    self.player_lives_update(1)
+                elif boss.current_sprite > 4.2 and boss.current_sprite < 4.3:
+                    self.player_lives_update(0.5)
+                    print("basic attack")
+                # player.is_hurting = True
+                # player.started_hurting = True
+
+
+            elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking) and collided.enemy_id == 1:
                 # this if is so that the player only gets hurt if they are being attacked by the creeper they are closest to
-                # print("creeper two rect: ", creeper_two.rect.x)
-                # print("player rect: ", player.rect.x)
-                print("scenario 4")
-                if (creeper_one.attacking and player.rect.x < (creeper_one.rect.x + 100) and player.rect.x > (creeper_one.rect.x - 100)) or (creeper_two.attacking and player.rect.x < (creeper_two.rect.x + 100) and player.rect.x > (creeper_two.rect.x - 100)) or (creeper_three.attacking and player.rect.x < (creeper_three.rect.x + 100) and player.rect.x > (creeper_three.rect.x - 100)):
-                    # print("player is being attacked by creeper")
+                print("minichomp detected")
+                if collided.current_sprite > 4.2 and collided.current_sprite < 4.35:
                     self.player_lives_update(0.25)
-                    player.is_hurting = True
-                    player.started_hurting = True
-                    collided.collision_occurred = True
+                    # player.is_hurting = True
+                    # player.started_hurting = True
+
         if len(collision_list) == 0:
             boss.collision_occurred = False
             creeper_one.collision_occurred = False
@@ -374,6 +358,8 @@ class LevelOne():
                         settings.transition = not settings.transition
                         settings.leaving_level = True
                         game_over = False
+                if event.type == pygame.QUIT: 
+                    pygame.quit()
 
     def show_player_win_screen(self):
         WHITE = (255, 255, 255)
@@ -562,6 +548,7 @@ class LevelOne():
                 #User wants to quit
                 if event.type == pygame.QUIT:
                     is_paused = False
+                    pygame.quit()
 
     def run(self): 
         sprite_group.draw(display_surface)
