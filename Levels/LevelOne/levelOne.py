@@ -103,6 +103,10 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
+        # want to remove the grunt from group if it has walked off the screen
+        for grunt in self.grunt_group:
+            if grunt.rect.x > settings.DISPLAY_WIDTH or grunt.rect.x < 0:
+                self.grunt_group.remove(grunt)
 
 
     def spawn_grunt(self):
@@ -562,7 +566,7 @@ class LevelOne():
         self.creeper_group.update()
         self.creeper_group.draw(display_surface)
 
-        self.grunt_group.update()
+        self.grunt_group.update(self.player)
         self.grunt_group.draw(display_surface)
 
         self.update()

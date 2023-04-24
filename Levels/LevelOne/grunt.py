@@ -10,6 +10,7 @@ class Grunt(pygame.sprite.Sprite):
         self.current_sprite = 0
         self.x = x
         self.y = y
+        self.health = 1
 
         self.direction = direction
 
@@ -36,13 +37,22 @@ class Grunt(pygame.sprite.Sprite):
 
         self.collision_occurred = False
     
-    def update(self):
+    def update(self, player):
         self.check_animations()
         self.check_collisions()
-        self.move()
+        self.move(player)
 
     
-    def move(self):
+    def move(self, player):
+        # want the grunt to move towards the player
+        if self.position.x < player.position.x:
+            self.direction = 'right'
+            self.right = True
+        else:
+            self.direction = 'left'
+            self.right = False
+
+
         self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
 
 
@@ -70,6 +80,7 @@ class Grunt(pygame.sprite.Sprite):
                 if self.velocity.y > 0:
                     self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
+        
 
 
     def load_animation_sprites(self):
