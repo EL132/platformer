@@ -35,42 +35,54 @@ class Grunt(pygame.sprite.Sprite):
 
         self.starting_time = pygame.time.get_ticks()
 
-        self.collision_occurred = False
+        self.idle = False
+        self.death_started = False
+
+        self.enemy_id = 5
     
     def update(self, player):
         self.check_animations()
         self.check_collisions()
         self.move(player)
         if self.health == 0:
-            self.kill()
+            self.die()
 
+    def die(self):
+        if not self.death_started:
+            self.current_sprite = 0
+            self.death_started = True
     
     def move(self, player):
         # want the grunt to move towards the player, but if the grunt is right next to the player, it should stop moving
-        
-        if self.position.x < player.position.x:
-            self.direction = 'right'
-            self.right = True
+        if self.position.x < player.position.x + 40 and self.position.x > player.position.x - 40:
+            self.idle = True
+            if self.position.y < settings.DISPLAY_HEIGHT - 64:
+                self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
+                self.velocity += self.acceleration
+                self.position += self.velocity + 0.5 * self.acceleration
         else:
-            self.direction = 'left'
-            self.right = False
+            self.idle = False
+            if self.position.x < player.position.x:
+                self.direction = 'right'
+                self.right = True
+            else:
+                self.direction = 'left'
+                self.right = False
 
+            self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
 
-        self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
-
-
-        for tile in self.land_tiles:  
-            if self.rect.colliderect(tile.rect) and not self.attacking:
-        # if self.position.y > settings.DISPLAY_HEIGHT - 100 and not self.attacking:
-            # only if the grunt is on the ground should it be moving
-                if self.direction == 'left':
-                    self.velocity.x = -1
-                else:
-                    self.velocity.x = 1
+            for tile in self.land_tiles:  
+                if self.rect.colliderect(tile.rect) and not self.attacking:
+                    if self.direction == 'left':
+                        self.velocity.x = -1
+                    else:
+                        self.velocity.x = 1
         
-        self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
-        self.velocity += self.acceleration
-        self.position += self.velocity + 0.5 * self.acceleration
+
+
+            self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
+            self.velocity += self.acceleration
+            self.position += self.velocity + 0.5 * self.acceleration
 
         if self.position.y > settings.DISPLAY_HEIGHT:
             self.position.y = self.y
@@ -93,6 +105,12 @@ class Grunt(pygame.sprite.Sprite):
         self.walk_left_sprites = []
         self.walk_right_sprites = []
 
+        self.idle_left_sprites = []
+        self.idle_right_sprites = []
+
+        self.death_left_sprites = []
+        self.death_right_sprites = []
+
         self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack1.png').convert_alpha(),(55, 55)))
         self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack2.png').convert_alpha(),(55, 55)))
         self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/attack/attack3.png').convert_alpha(),(55, 55)))
@@ -110,7 +128,21 @@ class Grunt(pygame.sprite.Sprite):
         self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/walk/walk6.png').convert_alpha(),(55, 55)))
         for sprite in self.walk_left_sprites:
             self.walk_right_sprites.append(pygame.transform.flip(sprite, True, False))
-        
+
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/Idle/idle1.png').convert_alpha(),(55, 55)))
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/Idle/idle2.png').convert_alpha(),(55, 55)))
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/Idle/idle3.png').convert_alpha(),(55, 55)))
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/Idle/idle4.png').convert_alpha(),(55, 55)))
+        for sprite in self.idle_left_sprites:
+            self.idle_right_sprites.append(pygame.transform.flip(sprite, True, False))
+
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/death/death1.png').convert_alpha(),(55, 55)))
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/death/death2.png').convert_alpha(),(55, 55)))
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/death/death3.png').convert_alpha(),(55, 55)))
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelOne/images/creeps/person_melee/death/death4.png').convert_alpha(),(55, 55)))
+        for sprite in self.death_left_sprites:
+            self.death_right_sprites.append(pygame.transform.flip(sprite, True, False))
+
 
     def animate(self, sprite_list, speed):
         if self.position.y > settings.DISPLAY_HEIGHT - 100:
@@ -120,6 +152,8 @@ class Grunt(pygame.sprite.Sprite):
                 self.current_sprite = 0
                 if self.attacking:
                     self.attacking = False
+                if self.death_started:
+                    self.kill()
 
             self.image = sprite_list[int(self.current_sprite)]
 
@@ -127,18 +161,29 @@ class Grunt(pygame.sprite.Sprite):
     
     def check_animations(self):
         timePassed = pygame.time.get_ticks() - self.starting_time
-
+        
         if timePassed > self.attack_timing:
             self.attacking = True
             self.starting_time = pygame.time.get_ticks()
 
-        if self.attacking:
+        if self.death_started:
+            if self.right:
+                self.animate(self.death_right_sprites, 0.05)
+            else:
+                self.animate(self.death_left_sprites, 0.05)
+        elif self.attacking:
             if self.right:
                 self.animate(self.attack_right_sprites, 0.1)
             else:
                 self.animate(self.attack_left_sprites, 0.1)
         else:
             if self.right:
-                self.animate(self.walk_right_sprites, 0.07)
+                if self.idle:
+                    self.animate(self.idle_right_sprites, 0.07)
+                else:
+                    self.animate(self.walk_right_sprites, 0.07)
             else:
-                self.animate(self.walk_left_sprites, 0.07)
+                if self.idle:
+                    self.animate(self.idle_left_sprites, 0.07)
+                else:
+                    self.animate(self.walk_left_sprites, 0.07)
