@@ -41,10 +41,13 @@ class Grunt(pygame.sprite.Sprite):
         self.check_animations()
         self.check_collisions()
         self.move(player)
+        if self.health == 0:
+            self.kill()
 
     
     def move(self, player):
-        # want the grunt to move towards the player
+        # want the grunt to move towards the player, but if the grunt is right next to the player, it should stop moving
+        
         if self.position.x < player.position.x:
             self.direction = 'right'
             self.right = True
