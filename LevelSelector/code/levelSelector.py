@@ -1,6 +1,6 @@
 #this is on the new branch 
 import pygame
-from settings import *
+import settings
 from LevelSelector.code.tile import Tile
 from LevelSelector.code.player import Player
 from LevelSelector.code.debug import debug
@@ -31,8 +31,8 @@ class Level:
 			for row_index, row in enumerate(layout):
 				for col_index, col in enumerate(row):
 					if col != '-1':				#there should be a functional / visual tile 
-						x = col_index * TILESIZE
-						y = row_index * TILESIZE
+						x = col_index * settings.TILESIZE
+						y = row_index * settings.TILESIZE
 						if style == 'trail_border': 	
 							Tile((x, y), [self.obstacle_sprites], 'invisible')
 						if style == 'level_entrance': 
@@ -61,8 +61,10 @@ class YSortCameraGroup(pygame.sprite.Group):
 		self.map_image = pygame.image.load("./levelSelectorTileMap/map.png")
 		self.map_rect = self.map_image.get_rect(topleft = (0, 0))
 
-		self.stars_image = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/Stars.png")
-		self.stars_rect = self.stars_image.get_rect(topleft = (395, 183))
+		if settings.level_one_score < 5000:
+			self.stars_image_one = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/Star2.png")
+
+		self.stars_rect_one = self.stars_image_one.get_rect(topleft = (395, 183))
 
 	def custom_draw(self, player): 
 		#calculate offset based on player movement 
@@ -72,8 +74,8 @@ class YSortCameraGroup(pygame.sprite.Group):
 		map_offset = self.map_rect.topleft - self.offset
 		self.screen.blit(self.map_image, map_offset)
 
-		stars_offset = self.stars_rect.topleft - self.offset
-		self.screen.blit(self.stars_image, stars_offset)
+		stars_offset = self.stars_rect_one.topleft - self.offset
+		self.screen.blit(self.stars_image_one, stars_offset)
 
 		#loop through each sprite and blit according to offset position 
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):

@@ -107,9 +107,7 @@ class Game:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_2 or event.key == pygame.K_l:
 							self.levelOne.player.attack(2)
-						# if event.key == pygame.K_k:
-							# pygame.image.save(self.screen,"LevelSelector/levelOneStart.jpg")
-
+					
 					if settings.game_state == 0:
 						pass
 
@@ -132,7 +130,6 @@ class Game:
 
 			#Level Selector 
 			if settings.game_state == 0: 
-				# print("inside here")
 				if not settings.transition: 
 					self.level.run()
 				if settings.transition: 

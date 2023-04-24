@@ -11,7 +11,7 @@ class Boss(pygame.sprite.Sprite):
         self.attack_number = 0
         self.enemy_id = 0
 
-        self.image = self.walk_right_frames[self.current_sprite]
+        self.image = self.walk_left_frames[self.current_sprite]
         self.mask = pygame.mask.from_surface(self.image, 4)
 
         self.rect = self.image.get_rect()
@@ -39,6 +39,7 @@ class Boss(pygame.sprite.Sprite):
         self.move(True, self.move_speed)
         self.check_animations()
         self.collision_maintenance()
+        
 
     
 
