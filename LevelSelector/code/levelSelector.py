@@ -61,8 +61,8 @@ class YSortCameraGroup(pygame.sprite.Group):
 		self.map_image = pygame.image.load("./levelSelectorTileMap/map.png")
 		self.map_rect = self.map_image.get_rect(topleft = (0, 0))
 
-		# self.stars_image = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/Stars.png")
-		# self.stars_rect = self.stars_image.get_rect(topleft = (520, 150))
+		self.stars_image = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/Stars.png")
+		self.stars_rect = self.stars_image.get_rect(topleft = (395, 183))
 
 	def custom_draw(self, player): 
 		#calculate offset based on player movement 
@@ -72,8 +72,8 @@ class YSortCameraGroup(pygame.sprite.Group):
 		map_offset = self.map_rect.topleft - self.offset
 		self.screen.blit(self.map_image, map_offset)
 
-		# stars_offset = self.stars_rect.top - self.offset
-		# self.screen.blit(self.stars_image, stars_offset)
+		stars_offset = self.stars_rect.topleft - self.offset
+		self.screen.blit(self.stars_image, stars_offset)
 
 		#loop through each sprite and blit according to offset position 
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):
