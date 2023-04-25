@@ -1,7 +1,7 @@
 import pygame, sys
 import settings 
 from LevelSelector.code.debug import debug
-from LevelSelector.code.levelSelector import Level
+from LevelSelector.code.levelSelector import LevelSelector
 from Levels.LevelOne.levelOne import LevelOne
 from GameSave.SaveLoadManager import SaveLoadSystem
 from menu import Menu
@@ -25,7 +25,7 @@ class Game:
 		self.curtain_counter = 0
 		self.curtain_closed = False
 
-		self.level = Level()
+		self.level = LevelSelector()
 		self.levelOne = LevelOne()
 		self.menu = Menu()
 
