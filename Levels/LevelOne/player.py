@@ -201,7 +201,7 @@ class Player(pygame.sprite.Sprite):
 
     def check_collisions(self):
         for tile in self.land_tiles:  
-            if self.leg_hitbox_rect.colliderect(tile.rect):
+            if self.leg_hitbox_rect.colliderect(tile.rect) and (self.leg_hitbox_rect.top + 5) < tile.rect.top:
                 if self.velocity.y > 0:
                     # this is where i changed the jumping back to false to prevent infinite jumping 
                     if self.is_jumping:

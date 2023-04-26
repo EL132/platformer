@@ -40,7 +40,7 @@ for layer in tmx_data.visible_layers:
 
 class LevelOne():
     def __init__(self):
-        self.player = Player(164, 164, land_sprite_group)
+        self.player = Player(164, 290, land_sprite_group)
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
         self.player_lives = 3
@@ -105,6 +105,7 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
+        pygame.draw.rect(display_surface, (255, 0, 0), self.player.leg_hitbox_rect, 4)
 
 
     def spawn_grunt(self):
@@ -265,7 +266,7 @@ class LevelOne():
                 # player.started_hurting = True
 
             elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking or self.creeper_four.attacking) and collided.enemy_id == 1:
-                if collided.current_sprite > 3.9 and collided.current_sprite < 4.1:
+                if collided.current_sprite > 4 and collided.current_sprite < 4.1:
                     self.player_lives_update(0.5)
 
     def check_game_over(self):
