@@ -4,7 +4,7 @@ from LevelSelector.code.debug import debug
 from LevelSelector.code.levelSelector import LevelSelector
 from Levels.LevelOne.levelOne import LevelOne
 from GameSave.SaveLoadManager import SaveLoadSystem
-from menu import Menu
+from Menu.menu import Menu
 
 sys.dont_write_bytecode = True
 
