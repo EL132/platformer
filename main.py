@@ -25,7 +25,7 @@ class Game:
 		self.curtain_counter = 0
 		self.curtain_closed = False
 
-		self.level = LevelSelector()
+		self.levelSelector = LevelSelector()
 		self.levelOne = LevelOne()
 		self.menu = Menu()
 
@@ -72,8 +72,9 @@ class Game:
 			pygame.draw.rect(self.screen, settings.BLACK, (0, 0, self.curtain_counter, settings.DISPLAY_HEIGHT))
 			pygame.draw.rect(self.screen, settings.BLACK, (settings.DISPLAY_WIDTH - self.curtain_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		else:
-			self.curtainOut()
 			self.curtain_closed = True
+			self.curtainOut()
+			
 
 	
 	def curtainOut(self):
@@ -91,11 +92,12 @@ class Game:
 			pygame.draw.rect(self.screen, (0, 0, 0), (settings.DISPLAY_WIDTH - self.curtain_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		else: 
 			settings.game_state = settings.next_game_state
-			self.curtain_closed = False
-	
+			settings.transition = False
+			self.curtain_closed = False	
 
 	def run(self):
 		while True:
+			print(settings.game_state)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					save_load_manager.save_game_data([settings.save_level], ["save_level"])
@@ -116,6 +118,11 @@ class Game:
 
 			self.screen.fill('black')
 
+			# if settings.next_game_state == 0: 
+			# 	del self.levelSelector
+			# 	self.levelSelector = LevelSelector()
+			# 	settings.next_game_state = -1
+
 			#Main Menu
 			if settings.game_state == -1:
 				self.menu.run()
@@ -129,27 +136,20 @@ class Game:
 			#Level Selector 
 			elif settings.game_state == 0: 
 				if not settings.transition: 
-					self.level.run()
+					self.levelSelector.run()
 				else:
 					self.levelOne.loaded_up = True
+					self.levelOne.reset()
 					self.curtainIn()
-
-					settings.transtion = False				
-
 
 			#Level 1
 			elif settings.game_state == 1: 
 				if not settings.transition: 
 					self.levelOne.run()
 				else: 
-					print("we should see curtain")
 					self.curtainIn()
 
-					self.level.player.hitbox.y += 20
-
-
-					settings.transition = False
-				
+					self.levelSelector.player.hitbox.y += 20
 
 			pygame.display.update()
 
