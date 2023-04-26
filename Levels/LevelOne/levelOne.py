@@ -105,7 +105,6 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
-        pygame.draw.rect(display_surface, (255, 0, 0), self.player.leg_hitbox_rect, 4)
 
 
     def spawn_grunt(self):
@@ -236,10 +235,10 @@ class LevelOne():
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(0.05)
+                        self.boss_hurt(0.7)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
-                        self.boss_hurt(0.15)
+                        self.boss_hurt(0.7)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.rect):
                         self.boss_hurt(0.04)
