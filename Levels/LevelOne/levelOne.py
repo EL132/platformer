@@ -238,7 +238,7 @@ class LevelOne():
                         self.boss_hurt(0.05)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
-                        self.boss_hurt(0.1)
+                        self.boss_hurt(0.15)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.rect):
                         self.boss_hurt(0.04)
