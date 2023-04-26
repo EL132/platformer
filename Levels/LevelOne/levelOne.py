@@ -97,7 +97,7 @@ class LevelOne():
         self.draw_health_bar()
         self.draw_time()
         self.draw_portrait()
-        self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three, self.grunt_group)
+        self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
         if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
@@ -105,8 +105,6 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
-        pygame.draw.rect(screen, (0, 0, 0), self.creeper_one.collision_rect, 3)
-
 
     def spawn_grunt(self):
         # i want to randomize the direction and attack timing for each grunt
@@ -216,13 +214,16 @@ class LevelOne():
             screen.blit(self.heart, self.heart_rect)
         
 
-    def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three, grunt_group):
+    def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three):
         boss_list = pygame.sprite.groupcollide(self.boss_group, self.player_group, False, False, pygame.sprite.collide_mask)
         creeper_list = []
         for creeper in self.creeper_group:
             if pygame.Rect.colliderect(creeper.collision_rect, player.rect):
                 creeper_list.append(creeper)
-        grunt_list = pygame.sprite.groupcollide(self.grunt_group, self.player_group, False, False, pygame.sprite.collide_mask)
+        grunt_list = []
+        for grunt in self.grunt_group:
+            if pygame.Rect.colliderect(grunt.collision_rect, player.rect):
+                grunt_list.append(grunt)
         collision_list = []
         collision_list.extend(boss_list)
         collision_list.extend(creeper_list)
@@ -233,19 +234,19 @@ class LevelOne():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(0.7)
+                        self.boss_hurt(0.05)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
-                        self.boss_hurt(0.7)
+                        self.boss_hurt(0.1)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.rect):
                         self.boss_hurt(0.04)
                         boss.is_hurting = True
 
             
-            for grunt in grunt_group:
-                if player.is_attacking and pygame.sprite.collide_mask(player, grunt) and ((player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35)):
-                    print("grunt hit")
+            for grunt in self.grunt_group:
+                if player.is_attacking and grunt.collision_rect.colliderect(player.rect) and ((player.attack_number == 1 and player.current_sprite > 3.0 and player.current_sprite < 3.5) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35)):
+                    # had collidemask here before, but this colliderect is better for making it easier for the player to hit the grunt
                     grunt.health = 0
                 elif pygame.sprite.collide_mask(player, grunt) and grunt.attacking and grunt.current_sprite > 3 and grunt.current_sprite < 3.1:
                     self.player_lives_update(0.5)
@@ -254,15 +255,17 @@ class LevelOne():
 
             if (boss.attacking_basic or boss.attacking_special) and collided.enemy_id == 0:
                 if boss.attacking_special and boss.current_sprite > 3.2 and boss.current_sprite < 3.3:
-                    print("special attack")
+                    # print("special attack")
                     self.player_lives_update(1)
                 elif boss.current_sprite > 4.2 and boss.current_sprite < 4.3:
                     self.player_lives_update(0.5)
-                    print("basic attack")
+                    # print("basic attack")
 
             elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking or self.creeper_four.attacking) and collided.enemy_id == 1:
                 if collided.current_sprite > 4 and collided.current_sprite < 4.1:
-                    self.player_lives_update(0.5)
+                    # way to verify that the chomper is facing the player 
+                    if (collided.right and player.rect.x > collided.rect.x) or (not collided.right and player.rect.x < collided.rect.x):
+                        self.player_lives_update(0.5)
 
     def check_game_over(self):
         if self.player_lives <= 0:

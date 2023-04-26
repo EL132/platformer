@@ -91,14 +91,14 @@ class Player(pygame.sprite.Sprite):
         elif self.is_attacking: # this is true right now  
             if self.right:
                 if self.attack_number == 1:
-                    self.animate(self.attack_one_right_frames, 0.1)
+                    self.animate(self.attack_one_right_frames, 0.19)
                 elif self.attack_number == 2:
-                    self.animate(self.attack_two_right_frames, 0.1)
+                    self.animate(self.attack_two_right_frames, 0.19)
             else:
                 if self.attack_number == 1:
-                    self.animate(self.attack_one_left_frames, 0.1)
+                    self.animate(self.attack_one_left_frames, 0.19)
                 elif self.attack_number == 2:
-                    self.animate(self.attack_two_left_frames, 0.1)
+                    self.animate(self.attack_two_left_frames, 0.19)
         else:
             keys = pygame.key.get_pressed()
             

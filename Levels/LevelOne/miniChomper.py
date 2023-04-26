@@ -6,7 +6,7 @@ class MiniChomper(pygame.sprite.Sprite):
         self.load_animation_sprites()
         
         self.current_sprite = 0
-        self.enemy_id = 1        
+        self.enemy_id = 1 
 
         if direction == 'right':
             self.right = True
