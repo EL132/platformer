@@ -6,7 +6,6 @@ vector = pygame.math.Vector2
 
 
 class Player(pygame.sprite.Sprite):
-    # parameters are TBD for grass and water tiles
     def __init__(self, x, y, land_tiles):
         super().__init__()
 
@@ -209,7 +208,7 @@ class Player(pygame.sprite.Sprite):
                     if self.is_sprinting:
                         self.position.y = tile.rect.top
                     else:
-                        self.position.y = tile.rect.top + 1
+                        self.position.y = tile.rect.top
                     self.velocity.y = 0
 
 
