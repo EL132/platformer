@@ -13,7 +13,7 @@ from Levels.LevelOne.grunt import Grunt
 from Levels.LevelOne.constants import *
 
 
-display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 sprite_group = pygame.sprite.Group()
 
@@ -120,7 +120,7 @@ class LevelOne():
         portrait = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/player/Woodcutter/portrait.png").convert_alpha(), (48, 48))
         portrait_rect = portrait.get_rect()
         portrait_rect.topleft = (0, 0)
-        display_surface.blit(portrait, portrait_rect)
+        screen.blit(portrait, portrait_rect)
 
 
     def draw_time(self):
@@ -142,7 +142,7 @@ class LevelOne():
         time_rect = time_text.get_rect()
         time_rect.center = (WINDOW_WIDTH - 75, 20)
         
-        display_surface.blit(time_text, time_rect)
+        screen.blit(time_text, time_rect)
 
 
     def draw_health_bar(self):
@@ -151,29 +151,29 @@ class LevelOne():
 
         # want to have this hover over the boss, so we need to access position of boss 
         if self.boss_chomper.right:
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), 2)
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 2)
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), 2)
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x - right_shift, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 165, self.boss_chomper.rect.y + 80), 2)
         
             # fill for the health bar: 
             if time.time() - self.word_draw_start_time < 0.35:
-                pygame.draw.rect(display_surface, (255, 0, 0), pygame.Rect(self.boss_chomper.rect.x - (12), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_chomper.rect.x - (12), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
                 self.flashing_red = False
             else:
-                pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x - (right_shift - 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x - (right_shift - 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
         else:
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), 2)
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), 2)
-            pygame.draw.line(display_surface, (0, 0, 0), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + left_shift, self.boss_chomper.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 60), (self.boss_chomper.rect.x + 210, self.boss_chomper.rect.y + 80), 2)
         
             # outline for the health bar: 
             if time.time() - self.word_draw_start_time < 0.35:
-                pygame.draw.rect(display_surface, (255, 0, 0), pygame.Rect(self.boss_chomper.rect.x + (33), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_chomper.rect.x + (33), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
                 self.flashing_red = False
             else:
-                pygame.draw.rect(display_surface, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_chomper.rect.x + (left_shift + 3), self.boss_chomper.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self, damage):
         self.boss_health -= damage
@@ -195,7 +195,7 @@ class LevelOne():
             text = self.custom_font.render(self.message, True, (255, 0, 0))
             text_rect = text.get_rect()
             text_rect.center = (self.boss_chomper.rect.x + 100, self.boss_chomper.rect.y + 25)
-            display_surface.blit(text, text_rect)
+            screen.blit(text, text_rect)
         else:
             self.displaying_word = False
 
@@ -212,7 +212,7 @@ class LevelOne():
 
             self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
             self.heart_rect.topleft = (10 + (i * 52), 0) # can position multiple ways
-            display_surface.blit(self.heart, self.heart_rect)
+            screen.blit(self.heart, self.heart_rect)
         
 
     def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three, grunt_group):
@@ -235,7 +235,7 @@ class LevelOne():
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(0.05)
+                        self.boss_hurt(10000000)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
                         self.boss_hurt(0.15)
@@ -296,11 +296,11 @@ class LevelOne():
             # currently have it so that everything goes away except the player 
             self.player.image = frame
             # redraw the screen
-            self.player_group.draw(display_surface)
+            self.player_group.draw(screen)
             pygame.display.flip()
             pygame.time.delay(delay)
-            display_surface.fill('black')
-            sprite_group.draw(display_surface)
+            screen.fill('black')
+            sprite_group.draw(screen)
 
     
     def boss_death_animation(self):
@@ -317,13 +317,13 @@ class LevelOne():
             # currently have it so that everything goes away except the player 
             self.boss_chomper.image = frame
             # redraw the screen
-            self.boss_group.draw(display_surface)
-            self.player_group.draw(display_surface)
+            self.boss_group.draw(screen)
+            self.player_group.draw(screen)
 
             pygame.display.flip()
             pygame.time.delay(delay)
-            display_surface.fill('black')
-            sprite_group.draw(display_surface)
+            screen.fill('black')
+            sprite_group.draw(screen)
 
         # pause the animation for a few seconds
         pygame.time.wait(2000)
@@ -349,10 +349,10 @@ class LevelOne():
         exit_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 100)
 
         #Display the pause text
-        display_surface.fill(BLACK)
-        display_surface.blit(main_text, main_rect)
-        display_surface.blit(retry_text, retry_rect)
-        display_surface.blit(exit_text, exit_rect)
+        screen.fill(BLACK)
+        screen.blit(main_text, main_rect)
+        screen.blit(retry_text, retry_rect)
+        screen.blit(exit_text, exit_rect)
 
         pygame.display.update()
         while game_over:
@@ -366,7 +366,6 @@ class LevelOne():
                         self.reset()
                         settings.game_state = 0
                         settings.transition = not settings.transition
-                        settings.leaving_level = True
                         game_over = False
                 if event.type == pygame.QUIT: 
                     pygame.quit()
@@ -395,7 +394,7 @@ class LevelOne():
         else:
             score = self.player_lives * 1000 - (display_time) * 10
         
-        display_surface.fill(BLACK)
+        screen.fill(BLACK)
 
         if new_high_score and settings.level_one_score != 0:
 
@@ -410,8 +409,8 @@ class LevelOne():
             # save the new high score with the "score" variable
             settings.level_one_score = score
 
-            display_surface.blit(old_high_score_text, old_high_score_text_rect)
-            display_surface.blit(new_high_score, new_high_score_rect)
+            screen.blit(old_high_score_text, old_high_score_text_rect)
+            screen.blit(new_high_score, new_high_score_rect)
         elif new_high_score and settings.level_one_score == 0:
             print("inside second if")
             # if there is no old high score, i want it to say "your score: score"
@@ -426,8 +425,8 @@ class LevelOne():
 
             settings.level_one_score = score
 
-            display_surface.blit(player_score_text, player_score_text_rect)
-            display_surface.blit(high_score_text, high_score_text_rect)
+            screen.blit(player_score_text, player_score_text_rect)
+            screen.blit(high_score_text, high_score_text_rect)
         else:
             print("inside else")
             # if there is no new high score, i want it to say "your score: score"
@@ -440,8 +439,8 @@ class LevelOne():
             high_score_text_rect = high_score_text.get_rect()
             high_score_text_rect.center = (WINDOW_WIDTH//2 + 20, WINDOW_HEIGHT//2 - 25)
 
-            display_surface.blit(player_score_text, player_score_text_rect)
-            display_surface.blit(high_score_text, high_score_text_rect)
+            screen.blit(player_score_text, player_score_text_rect)
+            screen.blit(high_score_text, high_score_text_rect)
         
 
         save_load_manager.save_game_data([settings.level_one_score], ["level_one_score"])
@@ -451,8 +450,8 @@ class LevelOne():
         continue_rect.center = (WINDOW_WIDTH//2 - 55, WINDOW_HEIGHT//2 + 100)
         
         #Display the pause text
-        display_surface.blit(main_text, main_rect)
-        display_surface.blit(continue_text, continue_rect)
+        screen.blit(main_text, main_rect)
+        screen.blit(continue_text, continue_rect)
         
 
         pygame.display.update()
@@ -462,13 +461,14 @@ class LevelOne():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         # THIS SHOULD GO TO THE LEVEL SELECTOR
-                        pygame.mixer.music.stop()
-                        settings.game_state = 0
-                        settings.transition = not settings.transition
-                        settings.leaving_level = True
                         save_load_manager.save_game_data([settings.level_one_score], ["level_one_score"])
+                        
+                        pygame.mixer.music.stop()
+
+                        settings.next_game_state = 0
+                        settings.transition = True
+                        pygame.image.save(screen,"screenshot.jpg")
                         game_over = False
-                        self.reset()
 
     def reset(self):
         self.player_lives = 3
@@ -526,19 +526,19 @@ class LevelOne():
         sub_rect2 = sub_text2.get_rect()
         sub_rect2.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-        # blurred_background = pygame.transform.box_blur(display_surface, 5)
-        blurred_background = self.blurSurf(display_surface, 5)
-        pygame.image.save(blurred_background, "blurred.jpg")
+        # blurred_background = pygame.transform.box_blur(screen, 5)
+        blurred_background = self.blurSurf(screen, 5)
+        pygame.image.save(blurred_background, "./Levels/LevelOne/blurred.jpg")
         blurred_rect = blurred_background.get_rect(topleft = (0, 0))
-        display_surface.blit(blurred_background, blurred_rect)
+        screen.blit(blurred_background, blurred_rect)
 
         #Display the pause text
-        # display_surface.fill(BLACK)
-        pygame.draw.rect(display_surface, BLACK, pygame.Rect(150, 80, 475, 180), 3)
-        pygame.draw.line(display_surface, WHITE, (153, 150), (621, 150), 3)
-        display_surface.blit(main_text, main_rect)
-        display_surface.blit(sub_text1, sub_rect1)
-        display_surface.blit(sub_text2, sub_rect2)
+        # screen.fill(BLACK)
+        pygame.draw.rect(screen, BLACK, pygame.Rect(150, 80, 475, 180), 3)
+        pygame.draw.line(screen, WHITE, (153, 150), (621, 150), 3)
+        screen.blit(main_text, main_rect)
+        screen.blit(sub_text1, sub_rect1)
+        screen.blit(sub_text2, sub_rect2)
         pygame.display.update()
 
         # pygame.image.save(self.screen,"screenshot.jpg")
@@ -562,18 +562,18 @@ class LevelOne():
                     pygame.quit()
 
     def run(self): 
-        sprite_group.draw(display_surface)
+        sprite_group.draw(screen)
 
         self.player_group.update()
-        self.player_group.draw(display_surface)
+        self.player_group.draw(screen)
 
         self.boss_group.update()
-        self.boss_group.draw(display_surface)
+        self.boss_group.draw(screen)
 
         self.creeper_group.update()
-        self.creeper_group.draw(display_surface)
+        self.creeper_group.draw(screen)
 
         self.grunt_group.update(self.player)
-        self.grunt_group.draw(display_surface)
+        self.grunt_group.draw(screen)
 
         self.update()

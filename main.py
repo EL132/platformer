@@ -77,10 +77,13 @@ class Game:
 
 	
 	def curtainOut(self):
-		if settings.next_game_state == 1: 
+		if settings.next_game_state == 0:
+			image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+		elif settings.next_game_state == 1: 
 			image = pygame.image.load("LevelSelector/levelOneStart.jpg")
-			image_rect = image.get_rect(topleft = (0, 0))
-			self.screen.blit(image, image_rect)
+
+		image_rect = image.get_rect(topleft = (0, 0))
+		self.screen.blit(image, image_rect)
 
 		if self.curtain_counter > 0: 
 			self.curtain_counter -= 4
@@ -113,26 +116,21 @@ class Game:
 
 			self.screen.fill('black')
 
-			if settings.leaving_level:
-				self.level.player.hitbox.y += 20
-				settings.leaving_level = False
-
 			#Main Menu
 			if settings.game_state == -1:
 				self.menu.run()
 
-				if self.menu.started_game:
+				if settings.transition:
 					self.fadeOut()
-					settings.transtion = False
-					self.menu.started_game = False
+					settings.transition = False
 					pygame.mixer.music.load('./SFX/level_selector_background.mp3')
 					pygame.mixer.music.play(-1)
 
 			#Level Selector 
-			if settings.game_state == 0: 
+			elif settings.game_state == 0: 
 				if not settings.transition: 
 					self.level.run()
-				if settings.transition: 
+				else:
 					self.levelOne.loaded_up = True
 					self.curtainIn()
 
@@ -141,7 +139,17 @@ class Game:
 
 			#Level 1
 			elif settings.game_state == 1: 
-				self.levelOne.run()
+				if not settings.transition: 
+					self.levelOne.run()
+				else: 
+					print("we should see curtain")
+					self.curtainIn()
+
+					self.level.player.hitbox.y += 20
+
+
+					settings.transition = False
+				
 
 			pygame.display.update()
 

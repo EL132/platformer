@@ -105,12 +105,15 @@ class Player(pygame.sprite.Sprite):
 								message = messages[active_message]
 								counter = 0
 							elif event.key == pygame.K_y: 
+								#change music
 								pygame.mixer.music.stop()
 								pygame.mixer.Sound.play(pygame.mixer.Sound('./SFX/transition_sound.wav'))
 								pygame.time.delay(1000)
 								pygame.mixer.music.load('./SFX/level_one_bg.mp3')
 								pygame.mixer.music.play(-1)
 								pygame.mixer.music.set_volume(0.1)
+
+								#transition and change game state
 								settings.next_game_state = collided_entrance.level_number
 								settings.transition = True
 								pygame.image.save(self.screen,"screenshot.jpg")

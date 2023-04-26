@@ -27,7 +27,6 @@ def draw_text(text, font, color, surface, x, y):
 
 class Menu():
     def main_menu(self):
-        self.started_game = False
         self.fade_counter = 0
         self.click = False
         self.transitioned = False
@@ -121,10 +120,8 @@ class Menu():
         # the game state goes to 0, so we need to transition in the main.py once game has been started
 
         self.running = False
-        self.started_game = True
+        settings.transition = True
         settings.game_state = 0
-        # self.started_game = True
-
 
     def options(self):
         # only want to deal with options that we can change in our settings basically
