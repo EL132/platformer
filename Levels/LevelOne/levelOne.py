@@ -40,7 +40,7 @@ for layer in tmx_data.visible_layers:
 
 class LevelOne():
     def __init__(self):
-        self.player = Player(164, 164, land_sprite_group)
+        self.player = Player(164, 290, land_sprite_group)
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
         self.player_lives = 3
@@ -235,10 +235,10 @@ class LevelOne():
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                 # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(10000000)
+                        self.boss_hurt(0.7)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
-                        self.boss_hurt(0.15)
+                        self.boss_hurt(0.7)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.rect):
                         self.boss_hurt(0.04)
@@ -265,7 +265,7 @@ class LevelOne():
                 # player.started_hurting = True
 
             elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking or self.creeper_four.attacking) and collided.enemy_id == 1:
-                if collided.current_sprite > 3.9 and collided.current_sprite < 4.1:
+                if collided.current_sprite > 4 and collided.current_sprite < 4.1:
                     self.player_lives_update(0.5)
 
     def check_game_over(self):
