@@ -105,6 +105,7 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
+        pygame.draw.rect(screen, (0, 0, 0), self.creeper_one.collision_rect, 3)
 
 
     def spawn_grunt(self):
@@ -210,30 +211,27 @@ class LevelOne():
             else:
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
 
-            self.heart_rect = self.heart.get_rect(  ) # sets a rectangle that surrounds the surface, use this to position
-            self.heart_rect.topleft = (10 + (i * 52), 0) # can position multiple ways
+            self.heart_rect = self.heart.get_rect() # sets a rectangle that surrounds the surface, use this to position
+            self.heart_rect.topleft = (10 + (i * 52), 0)
             screen.blit(self.heart, self.heart_rect)
         
 
     def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three, grunt_group):
-        # right now, i have a group of grunts
-
-        # collision_list = pygame.sprite.groupcollide(self.player_group, [self.boss_group, self.creeper_group, self.grunt_group], False, False, pygame.sprite.collide_mask)
         boss_list = pygame.sprite.groupcollide(self.boss_group, self.player_group, False, False, pygame.sprite.collide_mask)
-        creeper_list = pygame.sprite.groupcollide(self.creeper_group, self.player_group, False, False, pygame.sprite.collide_mask)
+        creeper_list = []
+        for creeper in self.creeper_group:
+            if pygame.Rect.colliderect(creeper.collision_rect, player.rect):
+                creeper_list.append(creeper)
         grunt_list = pygame.sprite.groupcollide(self.grunt_group, self.player_group, False, False, pygame.sprite.collide_mask)
         collision_list = []
         collision_list.extend(boss_list)
         collision_list.extend(creeper_list)
         collision_list.extend(grunt_list)
 
-        # collision_list = pygame.sprite.spritecollide(player, [boss, creeper_one, creeper_two, creeper_three, grunt_group], False, pygame.sprite.collide_mask)
         for collided in collision_list:
             # print(collided.enemy_id)
-            # essentially looping through an array or 0 or 1 and checking the collision_occurred variable in the boss class
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
-                # now want to check if the player hit the butt or head rect to determine how much damage the boss takes
                     if player.rect.colliderect(boss.butt_rect):
                         self.boss_hurt(0.7)
                         boss.is_hurting = True
@@ -261,8 +259,6 @@ class LevelOne():
                 elif boss.current_sprite > 4.2 and boss.current_sprite < 4.3:
                     self.player_lives_update(0.5)
                     print("basic attack")
-                # player.is_hurting = True
-                # player.started_hurting = True
 
             elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking or self.creeper_four.attacking) and collided.enemy_id == 1:
                 if collided.current_sprite > 4 and collided.current_sprite < 4.1:
@@ -270,7 +266,6 @@ class LevelOne():
 
     def check_game_over(self):
         if self.player_lives <= 0:
-            # player lost 
             self.player.is_dying = True
             self.player.able_to_move = False
             self.player_death_animation()

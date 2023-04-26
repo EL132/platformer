@@ -16,13 +16,15 @@ class MiniChomper(pygame.sprite.Sprite):
             self.image = self.idle_left_sprites[0]
 
         self.rect = self.image.get_rect()
-        print(self.rect)
-        self.rect.width = self.rect.width * 2
-        self.rect.height = self.rect.height * 2
-        print(self.rect)
         self.rect.x = x
         self.rect.y = y
         self.mask = pygame.mask.from_surface(self.image, 4)
+
+        self.collision_rect = self.rect.copy()
+        self.collision_rect.width = self.rect.width * 1.15
+        self.collision_rect.height = self.rect.height * 1.15
+        self.collision_rect.x = self.rect.x - 10
+
         self.attack_timing = attack_timing
 
         self.attacking = False
