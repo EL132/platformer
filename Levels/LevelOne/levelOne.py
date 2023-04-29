@@ -100,11 +100,11 @@ class LevelOne():
         self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
-        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
-            self.spawn_grunt()
-            self.spawned = True
-        if int(self.display_time) % 7 != 0:
-            self.spawned = False
+        # if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
+        #     self.spawn_grunt()
+        #     self.spawned = True
+        # if int(self.display_time) % 7 != 0:
+        #     self.spawned = False
 
     def spawn_grunt(self):
         # i want to randomize the direction and attack timing for each grunt
@@ -234,7 +234,7 @@ class LevelOne():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(0.05)
+                        self.boss_hurt(10000)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
                         self.boss_hurt(0.1)
@@ -371,6 +371,7 @@ class LevelOne():
     def show_player_win_screen(self):
         WHITE = (255, 255, 255)
         BLACK = (0, 0, 0)
+        GREEN = (100, 255, 100)
 
         game_over = True
 
@@ -392,7 +393,7 @@ class LevelOne():
         else:
             score = self.player_lives * 1000 - (display_time) * 10
         
-        screen.fill(BLACK)
+        screen.fill(GREEN)
 
         if new_high_score and settings.level_one_score != 0:
 
@@ -456,6 +457,8 @@ class LevelOne():
         while game_over:
             for event in pygame.event.get():    
                 #User wants to quit
+                if event.type == pygame.QUIT:
+                    pygame.quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         # THIS SHOULD GO TO THE LEVEL SELECTOR
@@ -465,7 +468,7 @@ class LevelOne():
 
                         settings.next_game_state = 0
                         settings.transition = True
-                        pygame.image.save(screen,"screenshot.jpg")
+                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
                         game_over = False
 
     def reset(self):
@@ -538,8 +541,6 @@ class LevelOne():
         screen.blit(sub_text1, sub_rect1)
         screen.blit(sub_text2, sub_rect2)
         pygame.display.update()
-
-        # pygame.image.save(self.screen,"screenshot.jpg")
 
         #Pause the game until user hits enter or quits
         is_paused = True
