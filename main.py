@@ -97,7 +97,7 @@ class Game:
 
 	def run(self):
 		while True:
-			print(settings.game_state)
+			# print(settings.game_state)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					save_load_manager.save_game_data([settings.save_level], ["save_level"])

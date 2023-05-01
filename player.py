@@ -140,7 +140,7 @@ class Player(pygame.sprite.Sprite):
                     if abs(self.position.x - self.temp_x) > sprint_distance_footstep:
                         self.footstep.play()
                         self.temp_x = self.position.x
-                if self.position.x < 0:
+                if self.position.x < -32:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
@@ -160,7 +160,7 @@ class Player(pygame.sprite.Sprite):
                     if abs(self.position.x - self.temp_x) > walk_distance_footstep:
                         self.footstep.play()
                         self.temp_x = self.position.x
-                if self.position.x < 0:
+                if self.position.x < -32:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
@@ -205,8 +205,8 @@ class Player(pygame.sprite.Sprite):
                     # this is where i changed the jumping back to false to prevent infinite jumping 
                     if self.is_jumping:
                         self.is_jumping = False
-                    if self.is_sprinting:
-                        self.position.y = tile.rect.top
+                    if tile.rect.y == WINDOW_HEIGHT - 32:
+                        self.position.y = tile.rect.top + 32
                     else:
                         self.position.y = tile.rect.top
                     self.velocity.y = 0
