@@ -7,6 +7,7 @@ from tile import Tile
 from player import Player
 from boss import Boss
 from grunt import Grunt
+from miniChomper import MiniChomper
 
 pygame.init()
 
@@ -80,24 +81,33 @@ class LevelTwo():
         self.player_group.add(self.player)
         self.player_lives = 3
 
-        self.boss = Boss(650, 385)
-        self.boss_group = pygame.sprite.Group()
-        self.boss_group.add(self.boss)
-
-        self.grunt_group = pygame.sprite.Group()
-        self.grunt_one = Grunt(DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
-
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
         self.medium_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 40)
         self.title_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 64)
 
+        self.boss = Boss(650, 385)
+        self.boss_group = pygame.sprite.Group()
+        self.boss_group.add(self.boss)
+
+        self.creeper_group = pygame.sprite.Group()
+        self.creeper_one = MiniChomper(570, 112, 'right', 3500)
+        self.creeper_two = MiniChomper(265, 242, 'left', 2500)
+        self.creeper_three = MiniChomper(690, 242, 'left', 4500)
+        self.creeper_four = MiniChomper(28, 209, 'right', 3200)
+        self.creeper_group.add(self.creeper_one)
+        self.creeper_group.add(self.creeper_two)
+        self.creeper_group.add(self.creeper_three)
+        self.creeper_group.add(self.creeper_four)
+
+        self.grunt_group = pygame.sprite.Group()
+        self.grunt_one = Grunt(DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
+
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
 
-        self.grunt_group = pygame.sprite.Group()
-
         self.oof = pygame.mixer.Sound("./SFX/oof.wav")
 
+        self.loaded_up = False
         self.starting_time = time.time()
 
         self.display_time = 0
@@ -113,15 +123,15 @@ class LevelTwo():
         self.spawned = False
 
     def update(self):
-        # if self.loaded_up:
-        #     self.starting_time = time.time()
-        #     self.loaded_up = False
+        if self.loaded_up:
+            self.starting_time = time.time()
+            self.loaded_up = False
         self.check_game_over()
         self.draw_hearts()
         self.draw_health_bar()
         self.draw_time()
         self.draw_portrait()
-        # self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
+        self.check_collisions(self.player, self.boss, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
         if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
@@ -131,8 +141,6 @@ class LevelTwo():
             self.spawned = False
 
     def spawn_grunt(self):
-        # i want to randomize the direction and attack timing for each grunt
-        # also want to randomize the starting x position within the center of the screen
         direction = random.choice(['left', 'right'])
         attack_timing = random.randint(2000, 5000)
         starting_x = random.randint(DISPLAY_WIDTH // 2 - 20, DISPLAY_WIDTH // 2 + 80)
@@ -172,7 +180,30 @@ class LevelTwo():
         left_shift = 30
         right_shift = 15
 
-        pass
+        if self.boss.right:
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 60), (self.boss.rect.x + 165, self.boss.rect.y + 60), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 80), (self.boss.rect.x + 165, self.boss.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 60), (self.boss.rect.x - right_shift, self.boss.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 165, self.boss.rect.y + 60), (self.boss.rect.x + 165, self.boss.rect.y + 80), 2)
+        
+            # fill for the health bar: 
+            if time.time() - self.word_draw_start_time < 0.35:
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x - (12), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
+                self.flashing_red = False
+            else:
+                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss.rect.x - (right_shift - 3), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
+        else:
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 60), (self.boss.rect.x + 210, self.boss.rect.y + 60), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 80), (self.boss.rect.x + 210, self.boss.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 60), (self.boss.rect.x + left_shift, self.boss.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 210, self.boss.rect.y + 60), (self.boss.rect.x + 210, self.boss.rect.y + 80), 2)
+        
+            # outline for the health bar: 
+            if time.time() - self.word_draw_start_time < 0.35:
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x + (33), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
+                self.flashing_red = False
+            else:
+                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss.rect.x + (left_shift + 3), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self, damage):
         self.boss_health -= damage
@@ -189,13 +220,18 @@ class LevelTwo():
             self.message = 'Hit big ole boss somewhere else'
 
     def draw_word(self):
-        pass
+        if time.time() - self.word_draw_start_time < 1:
+            text = self.custom_font.render(self.message, True, (255, 0, 0))
+            text_rect = text.get_rect()
+            text_rect.center = (self.boss.rect.x + 100, self.boss.rect.y + 25)
+            screen.blit(text, text_rect)
+        else:
+            self.displaying_word = False
 
 
     def draw_hearts(self):
         for i in range(1, 4):
             if math.ceil(self.player_lives) < i:
-                # if player has two lives and we are on the third heart location, then load empty heart
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/empty-heart.png").convert_alpha(), (48, 48))            
             elif self.player_lives % 1 != 0 and i == math.ceil(self.player_lives):
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/half-heart.png").convert_alpha(), (48, 48))
@@ -208,7 +244,57 @@ class LevelTwo():
         
 
     def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three):
-        pass
+        boss_list = pygame.sprite.groupcollide(self.boss_group, self.player_group, False, False, pygame.sprite.collide_mask)
+        creeper_list = []
+        for creeper in self.creeper_group:
+            if pygame.Rect.colliderect(creeper.collision_rect, player.rect):
+                creeper_list.append(creeper)
+        grunt_list = []
+        for grunt in self.grunt_group:
+            if pygame.Rect.colliderect(grunt.collision_rect, player.rect):
+                grunt_list.append(grunt)
+        collision_list = []
+        collision_list.extend(boss_list)
+        collision_list.extend(creeper_list)
+        collision_list.extend(grunt_list)
+
+        for collided in collision_list:
+            # print(collided.enemy_id)
+            if player.is_attacking and not player.reverse:
+                if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
+                    if player.rect.colliderect(boss.butt_rect):
+                        self.boss_hurt(0.05)
+                        boss.is_hurting = True
+                    elif player.rect.colliderect(boss.head_rect):
+                        self.boss_hurt(0.1)
+                        boss.is_hurting = True
+                    elif player.rect.colliderect(boss.rect):
+                        self.boss_hurt(0.04)
+                        boss.is_hurting = True
+
+            
+            for grunt in self.grunt_group:
+                if player.is_attacking and grunt.collision_rect.colliderect(player.rect) and ((player.attack_number == 1 and player.current_sprite > 3.0 and player.current_sprite < 3.5) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35)):
+                    # had collidemask here before, but this colliderect is better for making it easier for the player to hit the grunt
+                    grunt.health = 0
+                elif pygame.sprite.collide_mask(player, grunt) and grunt.attacking and grunt.current_sprite > 3 and grunt.current_sprite < 3.1:
+                    self.player_lives_update(0.5)
+                    pass
+
+
+            if (boss.attacking_basic or boss.attacking_special) and collided.enemy_id == 0:
+                if boss.attacking_special and boss.current_sprite > 3.2 and boss.current_sprite < 3.3:
+                    # print("special attack")
+                    self.player_lives_update(1)
+                elif boss.current_sprite > 4.2 and boss.current_sprite < 4.3:
+                    self.player_lives_update(0.5)
+                    # print("basic attack")
+
+            elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking or self.creeper_four.attacking) and collided.enemy_id == 1:
+                if collided.current_sprite > 4 and collided.current_sprite < 4.1:
+                    # way to verify that the chomper is facing the player 
+                    if (collided.right and player.rect.x > collided.rect.x) or (not collided.right and player.rect.x < collided.rect.x):
+                        self.player_lives_update(0.5)
 
     def check_game_over(self):
         if self.player_lives <= 0:
@@ -217,16 +303,14 @@ class LevelTwo():
             self.player_death_animation()
             self.show_player_loss_screen()
         elif self.boss_health <= 0.09:
-            # self.boss_chomper.is_dying = True
-            # self.boss_chomper.able_to_move = False
+            self.boss.is_dying = True
+            self.boss.able_to_move = False
             self.boss_death_animation()
             save_level = 2
             self.show_player_win_screen()
 
 
     def player_death_animation(self):
-        # here i just want the player to go through a whole cycle of animations, and 
-        # then i want the game to show the death screen 
         if self.player.right:
             death_frames = self.player.death_right_frames # a list of death frames
         else:
@@ -245,7 +329,29 @@ class LevelTwo():
 
     
     def boss_death_animation(self):
-        pass
+        # here i just want the player to go through a whole cycle of animations, and 
+        # then i want the game to show the death screen 
+        if self.boss_chomper.right:
+            death_frames = self.boss_chomper.death_right_frames # a list of death frames
+        else:
+            death_frames = self.boss_chomper.death_left_frames # a list of death frames
+
+        delay = 400 # the delay between each frame in milliseconds
+
+        for frame in death_frames:
+            # currently have it so that everything goes away except the player 
+            self.boss_chomper.image = frame
+            # redraw the screen
+            self.boss_group.draw(screen)
+            self.player_group.draw(screen)
+
+            pygame.display.flip()
+            pygame.time.delay(delay)
+            screen.fill('black')
+            sprite_group.draw(screen)
+
+        # pause the animation for a few seconds
+        pygame.time.wait(2000)
 
 
     def show_player_loss_screen(self):
@@ -392,15 +498,15 @@ class LevelTwo():
     def reset(self):
         self.player_lives = 3
         self.boss_health = 1
-        # self.boss_chomper.rect.bottomleft = (600, 385)
+        self.boss.rect.bottomleft = (600, 385)
         self.player.position = (164, 164)
         self.player.able_to_move = True
         self.player.is_hurting = False
         self.player.is_attacking = False
-        # self.boss_chomper.is_dying = False
-        # self.boss_chomper.able_to_move = True
-        # self.boss_chomper.is_hurting = False
-        # self.boss_chomper.attacking = False
+        self.boss.is_dying = False
+        self.boss.able_to_move = True
+        self.boss.is_hurting = False
+        self.boss.attacking = False
         self.starting_time = time.time()
         self.grunt_group = pygame.sprite.Group()
 
@@ -489,8 +595,8 @@ class LevelTwo():
         self.boss_group.update()
         self.boss_group.draw(screen)
 
-        # self.creeper_group.update()
-        # self.creeper_group.draw(screen)
+        self.creeper_group.update()
+        self.creeper_group.draw(screen)
 
         self.grunt_group.update(self.player)
         self.grunt_group.draw(screen)

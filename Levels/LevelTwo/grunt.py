@@ -29,6 +29,7 @@ class Grunt(pygame.sprite.Sprite):
         self.rect.y = y
         self.mask = pygame.mask.from_surface(self.image, 4)
         self.attack_timing = attack_timing
+
         self.VERTICAL_ACCELERATION = 0.25 # gravity 
         self.HORIZONTAL_FRICTION = 0.10 # friction
         self.position = vector(x, y)
@@ -73,7 +74,6 @@ class Grunt(pygame.sprite.Sprite):
                 #     self.velocity += self.acceleration
                 #     self.position += self.velocity + 0.5 * self.acceleration
             else:
-                print("inside else , currently moving")
                 self.idle = False
                 if self.position.x < player.position.x:
                     self.direction = 'right'
@@ -84,11 +84,15 @@ class Grunt(pygame.sprite.Sprite):
 
                 self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
 
-                if self.colliding_with_ground and not self.attacking:
-                    if self.direction == 'left':
-                        self.velocity.x = -1
-                    else:
-                        self.velocity.x = 1
+                # print("colliding with ground: " + str(self.colliding_with_ground))
+                # print("attacking: " + str(self.attacking))
+
+                for tile in self.land_tiles:  
+                    if self.rect.colliderect(tile.rect) and not self.attacking:
+                        if self.direction == 'left':
+                            self.velocity.x = -1
+                        else:
+                            self.velocity.x = 1
             
 
 
@@ -108,70 +112,20 @@ class Grunt(pygame.sprite.Sprite):
                 if self.velocity.y > 0:
                     self.position.y = tile.rect.top + 1
                     self.velocity.y = 0
-                self.colliding_with_ground = True
-            else:
-                self.colliding_with_ground = False
-        
 
-
-    def load_animation_sprites(self):
-        self.attack_right_sprites = []
-        self.attack_left_sprites = []
-
-        self.walk_left_sprites = []
-        self.walk_right_sprites = []
-
-        self.idle_left_sprites = []
-        self.idle_right_sprites = []
-
-        self.death_left_sprites = []
-        self.death_right_sprites = []
-
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-1.png').convert_alpha(),(55, 55)))
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-2.png').convert_alpha(),(55, 55)))
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-3.png').convert_alpha(),(55, 55)))
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-4.png').convert_alpha(),(55, 55)))
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-5.png').convert_alpha(),(55, 55)))
-        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-6.png').convert_alpha(),(55, 55)))
-        for sprite in self.attack_left_sprites:
-            self.attack_right_sprites.append(pygame.transform.flip(sprite, True, False))
-        
-        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-1.png').convert_alpha(),(55, 55)))
-        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-2.png').convert_alpha(),(55, 55)))
-        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-3.png').convert_alpha(),(55, 55)))
-        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-4.png').convert_alpha(),(55, 55)))
-        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-5.png').convert_alpha(),(55, 55)))
-        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-6.png').convert_alpha(),(55, 55)))
-        for sprite in self.walk_left_sprites:
-            self.walk_right_sprites.append(pygame.transform.flip(sprite, True, False))
-
-        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-1.png').convert_alpha(),(55, 55)))
-        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-2.png').convert_alpha(),(55, 55)))
-        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-3.png').convert_alpha(),(55, 55)))
-        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-4.png').convert_alpha(),(55, 55)))
-        for sprite in self.idle_left_sprites:
-            self.idle_right_sprites.append(pygame.transform.flip(sprite, True, False))
-
-        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-1.png').convert_alpha(),(55, 55)))
-        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-2.png').convert_alpha(),(55, 55)))
-        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-3.png').convert_alpha(),(55, 55)))
-        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-4.png').convert_alpha(),(55, 55)))
-        for sprite in self.death_left_sprites:
-            self.death_right_sprites.append(pygame.transform.flip(sprite, True, False))
 
 
     def animate(self, sprite_list, speed):
-        if self.colliding_with_ground:
-            if self.current_sprite < len(sprite_list) - 1:
-                self.current_sprite += speed
-            else:    
-                self.current_sprite = 0
-                if self.attacking:
-                    self.attacking = False
-                if self.death_started:
-                    self.kill()
+        if self.current_sprite < len(sprite_list) - 1:
+            self.current_sprite += speed
+        else:    
+            self.current_sprite = 0
+            if self.attacking:
+                self.attacking = False
+            if self.death_started:
+                self.kill()
 
-            self.image = sprite_list[int(self.current_sprite)]
+        self.image = sprite_list[int(self.current_sprite)]
 
 
     
@@ -203,3 +157,49 @@ class Grunt(pygame.sprite.Sprite):
                     self.animate(self.idle_left_sprites, 0.07)
                 else:
                     self.animate(self.walk_left_sprites, 0.07)
+
+        
+    def load_animation_sprites(self):
+        self.attack_right_sprites = []
+        self.attack_left_sprites = []
+
+        self.walk_left_sprites = []
+        self.walk_right_sprites = []
+
+        self.idle_left_sprites = []
+        self.idle_right_sprites = []
+
+        self.death_left_sprites = []
+        self.death_right_sprites = []
+
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-1.png').convert_alpha(),(65, 65)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-2.png').convert_alpha(),(65, 65)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-3.png').convert_alpha(),(65, 65)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-4.png').convert_alpha(),(65, 65)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-5.png').convert_alpha(),(65, 65)))
+        self.attack_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Attack/row-1-column-6.png').convert_alpha(),(65, 65)))
+        for sprite in self.attack_left_sprites:
+            self.attack_right_sprites.append(pygame.transform.flip(sprite, True, False))
+        
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-1.png').convert_alpha(),(65, 65)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-2.png').convert_alpha(),(65, 65)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-3.png').convert_alpha(),(65, 65)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-4.png').convert_alpha(),(65, 65)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-5.png').convert_alpha(),(65, 65)))
+        self.walk_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Walk/row-1-column-6.png').convert_alpha(),(65, 65)))
+        for sprite in self.walk_left_sprites:
+            self.walk_right_sprites.append(pygame.transform.flip(sprite, True, False))
+
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-1.png').convert_alpha(),(65, 65)))
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-2.png').convert_alpha(),(65, 65)))
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-3.png').convert_alpha(),(65, 65)))
+        self.idle_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Idle/row-1-column-4.png').convert_alpha(),(65, 65)))
+        for sprite in self.idle_left_sprites:
+            self.idle_right_sprites.append(pygame.transform.flip(sprite, True, False))
+
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-1.png').convert_alpha(),(65, 65)))
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-2.png').convert_alpha(),(65, 65)))
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-3.png').convert_alpha(),(65, 65)))
+        self.death_left_sprites.append(pygame.transform.scale(pygame.image.load('Levels/LevelTwo/images/creeps/Mummy/Death/row-1-column-4.png').convert_alpha(),(65, 65)))
+        for sprite in self.death_left_sprites:
+            self.death_right_sprites.append(pygame.transform.flip(sprite, True, False))

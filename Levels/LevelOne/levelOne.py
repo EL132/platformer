@@ -66,13 +66,11 @@ class LevelOne():
         self.grunt_group = pygame.sprite.Group()
         self.grunt_one = Grunt(settings.DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
 
-
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
 
         self.oof = pygame.mixer.Sound("./SFX/oof.wav")
 
-        # i want to play the level one background music when the user enters this level
         self.loaded_up = False
         self.starting_time = time.time()
 
@@ -107,8 +105,6 @@ class LevelOne():
         #     self.spawned = False
 
     def spawn_grunt(self):
-        # i want to randomize the direction and attack timing for each grunt
-        # also want to randomize the starting x position within the center of the screen
         direction = random.choice(['left', 'right'])
         attack_timing = random.randint(2000, 5000)
         starting_x = random.randint(settings.DISPLAY_WIDTH // 2 - 20, settings.DISPLAY_WIDTH // 2 + 80)
@@ -190,7 +186,6 @@ class LevelOne():
 
     def draw_word(self):
         if time.time() - self.word_draw_start_time < 1:
-            # Render the text to the screen
             text = self.custom_font.render(self.message, True, (255, 0, 0))
             text_rect = text.get_rect()
             text_rect.center = (self.boss_chomper.rect.x + 100, self.boss_chomper.rect.y + 25)
@@ -202,7 +197,6 @@ class LevelOne():
     def draw_hearts(self):
         for i in range(1, 4):
             if math.ceil(self.player_lives) < i:
-                # if player has two lives and we are on the third heart location, then load empty heart
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/empty-heart.png").convert_alpha(), (48, 48))            
             elif self.player_lives % 1 != 0 and i == math.ceil(self.player_lives):
                 self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/half-heart.png").convert_alpha(), (48, 48))
@@ -234,7 +228,7 @@ class LevelOne():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(0.1)
+                        self.boss_hurt(0.05)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
                         self.boss_hurt(0.1)
@@ -282,8 +276,6 @@ class LevelOne():
 
 
     def player_death_animation(self):
-        # here i just want the player to go through a whole cycle of animations, and 
-        # then i want the game to show the death screen 
         if self.player.right:
             death_frames = self.player.death_right_frames # a list of death frames
         else:

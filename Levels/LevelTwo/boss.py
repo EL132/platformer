@@ -61,12 +61,9 @@ class Boss(pygame.sprite.Sprite):
 
     def move(self, animate, speed):
         if self.able_to_move:
-            if not self.attacking_basic: 
+            if not self.attacking_basic:
                 if self.right:
-                    print("inside right")
-                    print(self.rect.centerx)
                     self.rect.centerx += speed
-                    print(self.rect.centerx)
                     if animate:
                         self.animate(self.walk_right_frames, 0.05)
 
@@ -85,16 +82,13 @@ class Boss(pygame.sprite.Sprite):
 
         timePassed = pygame.time.get_ticks() - self.starting_time
 
+        # note: end conditions of rect.x prevents boss from attacking on side of the screen
 
         if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
-            # print("special")
-            # print(timePassed)
             self.attacking_special = True
             self.current_sprite = 0
 
         elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
-            # print("basic")
-            # print(timePassed)
             self.attacking_basic = True   
             self.current_sprite = 0
 
@@ -165,7 +159,6 @@ class Boss(pygame.sprite.Sprite):
 
 
     def animate(self, sprite_list, speed):
-        # loop through sprite list and change current sprite 
         if self.current_sprite < len(sprite_list) - 1:
             self.current_sprite += speed
         else:
@@ -175,14 +168,12 @@ class Boss(pygame.sprite.Sprite):
                 self.attacking_basic = False
             if self.attacking_special: 
                 self.attacking_special = False
-            # if self.is_hurting:
-            #     self.is_hurting = False
 
         self.image = sprite_list[int(self.current_sprite)]
     
 
     def load_animation_sprites(self):
-                # animation frames ::
+        # animation frames ::
         self.walk_right_frames = []
         self.walk_left_frames = []
 
