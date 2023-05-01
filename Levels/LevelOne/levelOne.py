@@ -6,7 +6,7 @@ import settings
 
 from GameSave.SaveLoadManager import SaveLoadSystem
 from Levels.LevelOne.tile import Tile
-from Levels.LevelOne.player import Player
+from player import Player
 from Levels.LevelOne.boss import Boss
 from Levels.LevelOne.miniChomper import MiniChomper
 from Levels.LevelOne.grunt import Grunt

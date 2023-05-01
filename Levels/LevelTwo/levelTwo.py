@@ -3,7 +3,10 @@ from pytmx.util_pygame import load_pygame
 
 
 from tile import Tile
+
 from player import Player
+from boss import Boss
+from grunt import Grunt
 
 pygame.init()
 
@@ -67,15 +70,22 @@ for layer in tmx_data.visible_layers:
         for x, y, surf in layer.tiles():
             pos = (x * 32, y * 32)
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
-            # if layer.name in ('Main'):
-            #     land_sprite_group.add(temp)
+            if layer.name in ('Main'):
+                land_sprite_group.add(temp)
 
-# class LevelTwo():
+class LevelTwo():
     def __init__(self):
         self.player = Player(164, 290, land_sprite_group)
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
         self.player_lives = 3
+
+        self.boss = Boss(650, 385)
+        self.boss_group = pygame.sprite.Group()
+        self.boss_group.add(self.boss)
+
+        self.grunt_group = pygame.sprite.Group()
+        self.grunt_one = Grunt(DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
         self.medium_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 40)
@@ -121,7 +131,13 @@ for layer in tmx_data.visible_layers:
             self.spawned = False
 
     def spawn_grunt(self):
-        pass
+        # i want to randomize the direction and attack timing for each grunt
+        # also want to randomize the starting x position within the center of the screen
+        direction = random.choice(['left', 'right'])
+        attack_timing = random.randint(2000, 5000)
+        starting_x = random.randint(DISPLAY_WIDTH // 2 - 20, DISPLAY_WIDTH // 2 + 80)
+        grunt = Grunt(starting_x, 0, direction, attack_timing, land_sprite_group)
+        self.grunt_group.add(grunt)
 
     def draw_portrait(self):
         portrait = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/player/Woodcutter/portrait.png").convert_alpha(), (48, 48))
@@ -147,7 +163,7 @@ for layer in tmx_data.visible_layers:
 
         time_text = self.medium_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
         time_rect = time_text.get_rect()
-        time_rect.center = (DISPLAY_WIDTH - 75, 20)
+        time_rect.center = (DISPLAY_WIDTH - 95, 20)
         
         screen.blit(time_text, time_rect)
 
@@ -470,29 +486,38 @@ for layer in tmx_data.visible_layers:
         self.player_group.update()
         self.player_group.draw(screen)
 
-        # self.boss_group.update()
-        # self.boss_group.draw(screen)
+        self.boss_group.update()
+        self.boss_group.draw(screen)
 
         # self.creeper_group.update()
         # self.creeper_group.draw(screen)
 
-        # self.grunt_group.update(self.player)
-        # self.grunt_group.draw(screen)
+        self.grunt_group.update(self.player)
+        self.grunt_group.draw(screen)
 
         self.update()
 
-# levelTwo = LevelTwo()
+levelTwo = LevelTwo()
 
 clock = pygame.time.Clock()
 
 running = True
 while running:
     for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                levelTwo.pause_game("Paused", "Press enter to continue", "Press escape to quit")
+            elif event.key == pygame.K_SPACE:
+                levelTwo.player.jump()
+            if event.key == pygame.K_1 or event.key == pygame.K_k:
+                levelTwo.player.attack(1)
+            if event.key == pygame.K_2 or event.key == pygame.K_l:
+                levelTwo.player.attack(2)
         if event.type == pygame.QUIT:
             running = False
-    
-    sprite_group.draw(screen)
 
+    levelTwo.run()
+    
     pygame.display.flip()
     clock.tick()
 

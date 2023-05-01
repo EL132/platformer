@@ -1,8 +1,11 @@
 import pygame, random, sys
-DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 448
+
 #Use 2D vectors
 vector = pygame.math.Vector2
+
+
+DISPLAY_WIDTH = 800
+DISPLAY_HEIGHT = 448
 
 
 class Player(pygame.sprite.Sprite):
@@ -70,8 +73,8 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.check_collisions()
         self.move()
+        self.check_collisions()
         self.check_animations()
         self.mask_maintenance()
 
