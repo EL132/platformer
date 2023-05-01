@@ -70,8 +70,8 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.move()
         self.check_collisions()
+        self.move()
         self.check_animations()
         self.mask_maintenance()
 
