@@ -1,7 +1,7 @@
 import pygame
 
 class Vulture(pygame.sprite.Sprite):
-    def __init__(self, x, y, attack_timing, player, area):
+    def __init__(self, x, y, attack_timing):
         super().__init__()
         self.load_animation_sprites()
         
@@ -9,7 +9,7 @@ class Vulture(pygame.sprite.Sprite):
         self.enemy_id = 1 
 
         self.right = True
-        self.image = self.idle_right_sprites[0]
+        self.image = self.walk_right_sprites[0]
 
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -27,41 +27,26 @@ class Vulture(pygame.sprite.Sprite):
 
         self.starting_time = pygame.time.get_ticks()
 
-        self.player = player
-        self.area = area
 
         self.idle = False
 
     
     def update(self):
-        self.move(self.player)
+        self.move()
         self.check_animations()
         
 
-    def move(self, player):
-        if self.area == 'right':
-            if self.rect.x < 526:
-                self.idle = True
-            else:
-                self.idle = False
-                if self.rect.x > player.rect.x:
-                    self.rect.x -= 1
-                    self.right = False
-
-            if self.rect.x < player.rect.x and self.rect.x + 1 < 768:
-                self.rect.x += 1
-                self.right = True
-        elif self.area == 'left':
-            if self.rect.x > 220:
-                self.idle = True
-            else:
-                self.idle = False
-                if self.rect.x < player.rect.x:
-                    self.rect.x += 1
-                    self.right = True
-            if self.rect.x > player.rect.x and self.rect.x - 1 > 32:
-                    self.rect.x -= 1
-                    self.right = False
+    def move(self):
+        # i just want the vulture to fly back and forth across the screen, left to right
+        if self.rect.x + 1 > 760:
+            self.right = False
+        elif self.rect.x - 1 < 40:
+            self.right = True
+        
+        if self.right:
+            self.rect.x += 1
+        else:
+            self.rect.x -= 1
 
 
     def animate(self, sprite_list, speed):
@@ -87,11 +72,6 @@ class Vulture(pygame.sprite.Sprite):
                 self.animate(self.attack_right_sprites, 0.1)
             else:
                 self.animate(self.attack_left_sprites, 0.1)
-        elif self.idle:
-            if self.right:
-                self.animate(self.idle_right_sprites, 0.07)
-            else:
-                self.animate(self.idle_left_sprites, 0.07)
         else:
             if self.right:
                 self.animate(self.walk_right_sprites, 0.1)
@@ -107,15 +87,8 @@ class Vulture(pygame.sprite.Sprite):
         self.walk_right_sprites = []
 
         for i in range(1, 5):
-            self.death_left_sprites.append(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Death/row-1-column-{i}.png"))
-            self.death_right_sprites.append(pygame.transform.flip(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Death/row-1-column-{i}.png"), True, False))
-
-            self.idle_left_sprites.append(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Idle/row-1-column-{i}.png"))
-            self.idle_right_sprites.append(pygame.transform.flip(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Idle/row-1-column-{i}.png"), True, False))
-
             self.walk_left_sprites.append(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Walk/row-1-column-{i}.png"))
             self.walk_right_sprites.append(pygame.transform.flip(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Walk/row-1-column-{i}.png"), True, False))
 
-        for i in range(1, 7):
             self.attack_left_sprites.append(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Attack/row-1-column-{i}.png"))
             self.attack_right_sprites.append(pygame.transform.flip(pygame.image.load(f"./Levels/LevelTwo/images/creeps/Vulture/Attack/row-1-column-{i}.png"), True, False))

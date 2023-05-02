@@ -92,8 +92,8 @@ class LevelTwo():
 
         self.creeper_group = pygame.sprite.Group()
         self.creeper_one = Snake(100, 145, 3500, self.player, 'left')
-        self.creeper_two = Snake(370, 50, 2500, self.player, 'top')
-        self.creeper_three = Vulture(32, 40, 2000, self.player)
+        self.creeper_two = Snake(670, 145, 2500, self.player, 'right')
+        self.creeper_three = Vulture(20, 6, 3500)
         self.creeper_group.add(self.creeper_one)
         self.creeper_group.add(self.creeper_two)
         self.creeper_group.add(self.creeper_three)
