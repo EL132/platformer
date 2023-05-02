@@ -6,7 +6,7 @@ class MiniChomper(pygame.sprite.Sprite):
         self.load_animation_sprites()
         
         self.current_sprite = 0
-        self.enemy_id = 1        
+        self.enemy_id = 1 
 
         if direction == 'right':
             self.right = True
@@ -19,6 +19,12 @@ class MiniChomper(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
         self.mask = pygame.mask.from_surface(self.image, 4)
+
+        self.collision_rect = self.rect.copy()
+        self.collision_rect.width = self.rect.width * 1.15
+        self.collision_rect.height = self.rect.height * 1.15
+        self.collision_rect.x = self.rect.x - 10
+
         self.attack_timing = attack_timing
 
         self.attacking = False

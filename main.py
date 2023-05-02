@@ -4,7 +4,7 @@ from LevelSelector.code.debug import debug
 from LevelSelector.code.levelSelector import LevelSelector
 from Levels.LevelOne.levelOne import LevelOne
 from GameSave.SaveLoadManager import SaveLoadSystem
-from menu import Menu
+from Menu.menu import Menu
 
 sys.dont_write_bytecode = True
 
@@ -25,13 +25,13 @@ class Game:
 		self.curtain_counter = 0
 		self.curtain_closed = False
 
-		self.level = LevelSelector()
+		self.levelSelector = LevelSelector()
 		self.levelOne = LevelOne()
 		self.menu = Menu()
 
 	def fadeOut(self): 
-		pygame.image.save(self.screen,"screenshot.jpg")
-		image = pygame.image.load("screenshot.jpg")
+		pygame.image.save(self.screen,"./LevelSelector/screenshot.png")
+		image = pygame.image.load("./LevelSelector/screenshot.png")
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0,0,0))
 		for alpha in range(0, 275):
@@ -44,9 +44,9 @@ class Game:
 
 	def fadeIn(self):
 		if settings.game_state == 0: 
-			image = pygame.image.load("LevelSelector/levelSelectorStart.jpg")
+			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
 		elif settings.game_state == 1:
-			image = pygame.image.load("LevelSelector/levelOneStart.jpg")
+			image = pygame.image.load("LevelSelector/levelOneStart.png")
 			
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0, 0, 0))
@@ -64,7 +64,7 @@ class Game:
 		self.screen.blit(self.fade_image, self.fade_rect)
 
 	def curtainIn(self):
-		image = pygame.image.load("screenshot.jpg")
+		image = pygame.image.load("./LevelSelector/screenshot.png")
 		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
 		if self.curtain_counter < settings.DISPLAY_WIDTH // 2 and not self.curtain_closed: 
@@ -72,15 +72,19 @@ class Game:
 			pygame.draw.rect(self.screen, settings.BLACK, (0, 0, self.curtain_counter, settings.DISPLAY_HEIGHT))
 			pygame.draw.rect(self.screen, settings.BLACK, (settings.DISPLAY_WIDTH - self.curtain_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		else:
-			self.curtainOut()
 			self.curtain_closed = True
+			self.curtainOut()
+			
 
 	
 	def curtainOut(self):
-		if settings.next_game_state == 1: 
-			image = pygame.image.load("LevelSelector/levelOneStart.jpg")
-			image_rect = image.get_rect(topleft = (0, 0))
-			self.screen.blit(image, image_rect)
+		if settings.next_game_state == 0:
+			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
+		elif settings.next_game_state == 1: 
+			image = pygame.image.load("LevelSelector/levelOneStart.png")
+
+		image_rect = image.get_rect(topleft = (0, 0))
+		self.screen.blit(image, image_rect)
 
 		if self.curtain_counter > 0: 
 			self.curtain_counter -= 4
@@ -88,11 +92,12 @@ class Game:
 			pygame.draw.rect(self.screen, (0, 0, 0), (settings.DISPLAY_WIDTH - self.curtain_counter, 0, settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		else: 
 			settings.game_state = settings.next_game_state
-			self.curtain_closed = False
-	
+			settings.transition = False
+			self.curtain_closed = False	
 
 	def run(self):
 		while True:
+			# print(settings.game_state)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					save_load_manager.save_game_data([settings.save_level], ["save_level"])
@@ -107,41 +112,47 @@ class Game:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_2 or event.key == pygame.K_l:
 							self.levelOne.player.attack(2)
+						# if event.key == pygame.K_i: 
+						# 	pygame.image.save(self.screen, "./LevelSelector/levelOneStart.png")
 					
 					if settings.game_state == 0:
 						pass
 
 			self.screen.fill('black')
 
-			if settings.leaving_level:
-				self.level.player.hitbox.y += 20
-				settings.leaving_level = False
+			# if settings.next_game_state == 0: 
+			# 	del self.levelSelector
+			# 	self.levelSelector = LevelSelector()
+			# 	settings.next_game_state = -1
 
 			#Main Menu
 			if settings.game_state == -1:
 				self.menu.run()
 
-				if self.menu.started_game:
+				if settings.transition:
 					self.fadeOut()
-					settings.transtion = False
-					self.menu.started_game = False
+					settings.transition = False
 					pygame.mixer.music.load('./SFX/level_selector_background.mp3')
 					pygame.mixer.music.play(-1)
 
 			#Level Selector 
-			if settings.game_state == 0: 
+			elif settings.game_state == 0: 
 				if not settings.transition: 
-					self.level.run()
-				if settings.transition: 
+					self.levelSelector.run()
+				else:
 					self.levelOne.loaded_up = True
+					self.levelOne.reset()
 					self.curtainIn()
-
-					settings.transtion = False				
-
 
 			#Level 1
 			elif settings.game_state == 1: 
-				self.levelOne.run()
+				if not settings.transition: 
+					self.levelOne.run()
+				else: 
+					del self.levelSelector
+					self.levelSelector = LevelSelector()
+
+					self.curtainIn()
 
 			pygame.display.update()
 

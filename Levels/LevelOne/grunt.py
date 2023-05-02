@@ -31,6 +31,11 @@ class Grunt(pygame.sprite.Sprite):
         self.velocity = vector(0, 0)
         self.acceleration = vector(0, 0)
 
+        self.collision_rect = self.rect.copy()
+        self.collision_rect.width = self.rect.width * 1.15
+        self.collision_rect.height = self.rect.height * 1.15
+        self.collision_rect.x = self.rect.x - 10
+
         self.attacking = False
 
         self.starting_time = pygame.time.get_ticks()
@@ -53,41 +58,43 @@ class Grunt(pygame.sprite.Sprite):
             self.death_started = True
     
     def move(self, player):
-        # want the grunt to move towards the player, but if the grunt is right next to the player, it should stop moving
-        if self.position.x < player.position.x + 40 and self.position.x > player.position.x - 40:
-            self.idle = True
-            if self.position.y < settings.DISPLAY_HEIGHT - 64:
+        if self.health > 0:
+            # want the grunt to move towards the player, but if the grunt is right next to the player, it should stop moving
+            if self.position.x < player.position.x + 40 and self.position.x > player.position.x - 40:
+                self.idle = True
+                if self.position.y < settings.DISPLAY_HEIGHT - 64:
+                    self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
+                    self.velocity += self.acceleration
+                    self.position += self.velocity + 0.5 * self.acceleration
+            else:
+                self.idle = False
+                if self.position.x < player.position.x:
+                    self.direction = 'right'
+                    self.right = True
+                else:
+                    self.direction = 'left'
+                    self.right = False
+
+                self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
+
+                for tile in self.land_tiles:  
+                    if self.rect.colliderect(tile.rect) and not self.attacking:
+                        if self.direction == 'left':
+                            self.velocity.x = -1
+                        else:
+                            self.velocity.x = 1
+            
+
+
                 self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
                 self.velocity += self.acceleration
                 self.position += self.velocity + 0.5 * self.acceleration
-        else:
-            self.idle = False
-            if self.position.x < player.position.x:
-                self.direction = 'right'
-                self.right = True
-            else:
-                self.direction = 'left'
-                self.right = False
 
-            self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
-
-            for tile in self.land_tiles:  
-                if self.rect.colliderect(tile.rect) and not self.attacking:
-                    if self.direction == 'left':
-                        self.velocity.x = -1
-                    else:
-                        self.velocity.x = 1
-        
-
-
-            self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
-            self.velocity += self.acceleration
-            self.position += self.velocity + 0.5 * self.acceleration
-
-        if self.position.y > settings.DISPLAY_HEIGHT:
-            self.position.y = self.y
-        
-        self.rect.bottomleft = self.position
+            if self.position.y > settings.DISPLAY_HEIGHT:
+                self.position.y = self.y
+            
+            self.rect.bottomleft = self.position
+            self.collision_rect.bottomleft = self.position
 
     def check_collisions(self):
         for tile in self.land_tiles:  

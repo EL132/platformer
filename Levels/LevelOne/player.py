@@ -6,7 +6,6 @@ vector = pygame.math.Vector2
 
 
 class Player(pygame.sprite.Sprite):
-    # parameters are TBD for grass and water tiles
     def __init__(self, x, y, land_tiles):
         super().__init__()
 
@@ -91,14 +90,14 @@ class Player(pygame.sprite.Sprite):
         elif self.is_attacking: # this is true right now  
             if self.right:
                 if self.attack_number == 1:
-                    self.animate(self.attack_one_right_frames, 0.1)
+                    self.animate(self.attack_one_right_frames, 0.19)
                 elif self.attack_number == 2:
-                    self.animate(self.attack_two_right_frames, 0.1)
+                    self.animate(self.attack_two_right_frames, 0.19)
             else:
                 if self.attack_number == 1:
-                    self.animate(self.attack_one_left_frames, 0.1)
+                    self.animate(self.attack_one_left_frames, 0.19)
                 elif self.attack_number == 2:
-                    self.animate(self.attack_two_left_frames, 0.1)
+                    self.animate(self.attack_two_left_frames, 0.19)
         else:
             keys = pygame.key.get_pressed()
             
@@ -141,7 +140,7 @@ class Player(pygame.sprite.Sprite):
                     if abs(self.position.x - self.temp_x) > sprint_distance_footstep:
                         self.footstep.play()
                         self.temp_x = self.position.x
-                if self.position.x < 0:
+                if self.position.x < -32:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
@@ -161,7 +160,7 @@ class Player(pygame.sprite.Sprite):
                     if abs(self.position.x - self.temp_x) > walk_distance_footstep:
                         self.footstep.play()
                         self.temp_x = self.position.x
-                if self.position.x < 0:
+                if self.position.x < -32:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
@@ -201,15 +200,15 @@ class Player(pygame.sprite.Sprite):
 
     def check_collisions(self):
         for tile in self.land_tiles:  
-            if self.leg_hitbox_rect.colliderect(tile.rect):
+            if self.leg_hitbox_rect.colliderect(tile.rect) and (self.leg_hitbox_rect.top + 5) < tile.rect.top:
                 if self.velocity.y > 0:
                     # this is where i changed the jumping back to false to prevent infinite jumping 
                     if self.is_jumping:
                         self.is_jumping = False
-                    if self.is_sprinting:
-                        self.position.y = tile.rect.top
+                    if tile.rect.y == WINDOW_HEIGHT - 32:
+                        self.position.y = tile.rect.top + 32
                     else:
-                        self.position.y = tile.rect.top + 1
+                        self.position.y = tile.rect.top
                     self.velocity.y = 0
 
 

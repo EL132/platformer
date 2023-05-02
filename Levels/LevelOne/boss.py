@@ -1,5 +1,5 @@
 import pygame, random
-from Levels.LevelOne.constants import WINDOW_WIDTH
+# from Levels.LevelOne.constants import WINDOW_WIDTH
 
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -82,17 +82,12 @@ class Boss(pygame.sprite.Sprite):
         timePassed = pygame.time.get_ticks() - self.starting_time
 
         # note: end conditions of rect.x prevents boss from attacking on side of the screen
-            # and self.rect.x > 50 and self.rect.x < WINDOW_WIDTH - 50:
 
         if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
-            # print("special")
-            # print(timePassed)
             self.attacking_special = True
             self.current_sprite = 0
 
         elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
-            # print("basic")
-            # print(timePassed)
             self.attacking_basic = True   
             self.current_sprite = 0
 
@@ -110,12 +105,6 @@ class Boss(pygame.sprite.Sprite):
             else:    
                 self.attack_basic(self.attack_number, 'left', 0.1)
 
-        # if self.is_hurting:
-        #     if self.right:
-        #         self.animate(self.hurt_right_frames, 0.1)
-        #     else:
-        #         self.animate(self.hurt_left_frames, 0.1)
-
         elif self.is_dying:
             if self.right:
                 self.animate(self.death_right_frames, 0.1)
@@ -123,9 +112,6 @@ class Boss(pygame.sprite.Sprite):
                 self.animate(self.death_left_frames, 0.1)
 
 
-    # right now, the attack animation is not functional as the animations 
-    # move too fast, but there is a place to start working on it if you go 
-    # to chatGPT and take a look at the stuff it said 
     def attack_basic(self, attack_number, orientation, speed):
         if attack_number == 1:
             if orientation == 'left':
@@ -142,9 +128,6 @@ class Boss(pygame.sprite.Sprite):
     def attack_special(self, orientation, speed): 
         if orientation == 'left':
             self.animate(self.attack_three_left_frames, speed)
-            # i want the boss to look like it is accelerating when it attacks
-            # before:
-            # self.move(False, self.move_speed * 2)
             if self.current_sprite > 0 and self.current_sprite < 1:
                 self.move(False, self.move_speed * 1.1)
             elif self.current_sprite > 1 and self.current_sprite < 2:
@@ -175,7 +158,6 @@ class Boss(pygame.sprite.Sprite):
 
 
     def animate(self, sprite_list, speed):
-        # loop through sprite list and change current sprite 
         if self.current_sprite < len(sprite_list) - 1:
             self.current_sprite += speed
         else:
@@ -185,14 +167,12 @@ class Boss(pygame.sprite.Sprite):
                 self.attacking_basic = False
             if self.attacking_special: 
                 self.attacking_special = False
-            # if self.is_hurting:
-            #     self.is_hurting = False
 
         self.image = sprite_list[int(self.current_sprite)]
     
 
     def load_animation_sprites(self):
-                # animation frames ::
+        # animation frames ::
         self.walk_right_frames = []
         self.walk_left_frames = []
 
@@ -207,9 +187,6 @@ class Boss(pygame.sprite.Sprite):
 
         self.attack_four_left_frames = []
         self.attack_four_right_frames = []
-
-        # self.hurt_left_frames = []
-        # self.hurt_right_frames = []
 
         self.death_left_frames = []
         self.death_right_frames = []
