@@ -139,6 +139,8 @@ class LevelTwo():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
+        pygame.draw.rect(screen, (0, 0, 255), self.boss.head_rect, 3)
+        pygame.draw.rect(screen, (0, 0, 255), self.boss.butt_rect, 3)
 
     def spawn_grunt(self):
         direction = random.choice(['left', 'right'])
@@ -181,29 +183,29 @@ class LevelTwo():
         right_shift = 15
 
         if self.boss.right:
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 60), (self.boss.rect.x + 165, self.boss.rect.y + 60), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 80), (self.boss.rect.x + 165, self.boss.rect.y + 80), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 60), (self.boss.rect.x - right_shift, self.boss.rect.y + 80), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 165, self.boss.rect.y + 60), (self.boss.rect.x + 165, self.boss.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 10), (self.boss.rect.x + 165, self.boss.rect.y + 10), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 30), (self.boss.rect.x + 165, self.boss.rect.y + 30), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 10), (self.boss.rect.x - right_shift, self.boss.rect.y + 30), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 165, self.boss.rect.y + 10), (self.boss.rect.x + 165, self.boss.rect.y + 30), 2)
         
             # fill for the health bar: 
             if time.time() - self.word_draw_start_time < 0.35:
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x - (12), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x - (12), self.boss.rect.y + 13, 176 * self.boss_health, 16.5))
                 self.flashing_red = False
             else:
-                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss.rect.x - (right_shift - 3), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss.rect.x - (right_shift - 3), self.boss.rect.y + 13, 176 * self.boss_health, 16.5))
         else:
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 60), (self.boss.rect.x + 210, self.boss.rect.y + 60), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 80), (self.boss.rect.x + 210, self.boss.rect.y + 80), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 60), (self.boss.rect.x + left_shift, self.boss.rect.y + 80), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 210, self.boss.rect.y + 60), (self.boss.rect.x + 210, self.boss.rect.y + 80), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 10), (self.boss.rect.x + 210, self.boss.rect.y + 10), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 30), (self.boss.rect.x + 210, self.boss.rect.y + 30), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + left_shift, self.boss.rect.y + 10), (self.boss.rect.x + left_shift, self.boss.rect.y + 30), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 210, self.boss.rect.y + 10), (self.boss.rect.x + 210, self.boss.rect.y + 30), 2)
         
             # outline for the health bar: 
             if time.time() - self.word_draw_start_time < 0.35:
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x + (33), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x + (33), self.boss.rect.y + 13, 176 * self.boss_health, 16.5))
                 self.flashing_red = False
             else:
-                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss.rect.x + (left_shift + 3), self.boss.rect.y + 63, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss.rect.x + (left_shift + 3), self.boss.rect.y + 13, 176 * self.boss_health, 16.5))
 
     def boss_hurt(self, damage):
         self.boss_health -= damage

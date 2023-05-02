@@ -1,11 +1,9 @@
 import pygame, random, sys
+DISPLAY_WIDTH = 800
+DISPLAY_HEIGHT = 448
 
 #Use 2D vectors
 vector = pygame.math.Vector2
-
-
-DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 448
 
 
 class Player(pygame.sprite.Sprite):
@@ -143,7 +141,7 @@ class Player(pygame.sprite.Sprite):
                     if abs(self.position.x - self.temp_x) > sprint_distance_footstep:
                         self.footstep.play()
                         self.temp_x = self.position.x
-                if self.position.x < 0:
+                if self.position.x < -32:
                     self.position.x = DISPLAY_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
@@ -163,7 +161,7 @@ class Player(pygame.sprite.Sprite):
                     if abs(self.position.x - self.temp_x) > walk_distance_footstep:
                         self.footstep.play()
                         self.temp_x = self.position.x
-                if self.position.x < 0:
+                if self.position.x < -32:
                     self.position.x = DISPLAY_WIDTH
                 self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
             elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
@@ -208,8 +206,8 @@ class Player(pygame.sprite.Sprite):
                     # this is where i changed the jumping back to false to prevent infinite jumping 
                     if self.is_jumping:
                         self.is_jumping = False
-                    if self.is_sprinting:
-                        self.position.y = tile.rect.top
+                    if tile.rect.y == DISPLAY_HEIGHT - 32:
+                        self.position.y = tile.rect.top + 32
                     else:
                         self.position.y = tile.rect.top
                     self.velocity.y = 0
@@ -288,8 +286,6 @@ class Player(pygame.sprite.Sprite):
         self.idle_right_frames = []
         self.idle_left_frames = []
 
-
-        # establish left and right precedent for these frames at a later point 
         self.hurt_right_frames = []
         self.hurt_left_frames = []
 
@@ -301,6 +297,73 @@ class Player(pygame.sprite.Sprite):
 
         self.attack_two_right_frames = []
         self.attack_two_left_frames = []
+
+        # NEW FRAMES:
+        self.left_angry_emote_frames = []
+        self.right_angry_emote_frames = []
+
+        self.left_bow_attack_frames = []
+        self.right_bow_attack_frames = []
+
+        self.arrow = pygame.image.load('./Levels/LevelTwo/images/player/Arrow.png').convert_alpha()
+
+        self.left_double_jump_frames = []
+        self.right_double_jump_frames = []
+
+        self.left_emote_frames = []
+        self.right_emote_frames = []
+
+        self.left_jump_attack_frames = []
+        self.right_jump_attack_frames = []
+
+
+        # angry emote frames
+        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-4.png').convert_alpha(), (80, 80)))
+        for frame in self.left_angry_emote_frames:
+            self.right_angry_emote_frames.append(pygame.transform.flip(frame, True, False))
+
+        # bow attack frames
+        self.left_bow_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Bow/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.left_bow_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Bow/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.left_bow_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Bow/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.left_bow_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Bow/row-1-column-4.png').convert_alpha(), (80, 80)))
+        self.left_bow_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Bow/row-1-column-5.png').convert_alpha(), (80, 80)))
+        self.left_bow_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Bow/row-1-column-6.png').convert_alpha(), (80, 80)))
+        for frame in self.left_bow_attack_frames:
+            self.right_bow_attack_frames.append(pygame.transform.flip(frame, True, False))
+
+        # double jump frames
+        self.left_double_jump_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Double Jump/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.left_double_jump_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Double Jump/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.left_double_jump_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Double Jump/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.left_double_jump_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Double Jump/row-1-column-4.png').convert_alpha(), (80, 80)))
+        self.left_double_jump_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Double Jump/row-1-column-5.png').convert_alpha(), (80, 80)))
+        self.left_double_jump_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Double Jump/row-1-column-6.png').convert_alpha(), (80, 80)))
+        for frame in self.left_double_jump_frames:
+            self.right_double_jump_frames.append(pygame.transform.flip(frame, True, False))
+        
+        # emote frames
+        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-4.png').convert_alpha(), (80, 80)))
+        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-5.png').convert_alpha(), (80, 80)))
+        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-6.png').convert_alpha(), (80, 80)))
+        for frame in self.left_emote_frames:
+            self.right_emote_frames.append(pygame.transform.flip(frame, True, False))
+
+        # jump attack frames
+        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-4.png').convert_alpha(), (80, 80)))
+        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-5.png').convert_alpha(), (80, 80)))
+        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-6.png').convert_alpha(), (80, 80)))
+        for frame in self.left_jump_attack_frames:
+            self.right_jump_attack_frames.append(pygame.transform.flip(frame, True, False))
 
 
         # walk frames 
