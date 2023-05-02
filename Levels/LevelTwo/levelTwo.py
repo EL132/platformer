@@ -7,7 +7,8 @@ from tile import Tile
 from player import Player
 from boss import Boss
 from grunt import Grunt
-from miniChomper import MiniChomper
+from snake import Snake
+from vulture import Vulture
 
 pygame.init()
 
@@ -90,14 +91,12 @@ class LevelTwo():
         self.boss_group.add(self.boss)
 
         self.creeper_group = pygame.sprite.Group()
-        self.creeper_one = MiniChomper(570, 112, 'right', 3500)
-        self.creeper_two = MiniChomper(265, 242, 'left', 2500)
-        self.creeper_three = MiniChomper(690, 242, 'left', 4500)
-        self.creeper_four = MiniChomper(28, 209, 'right', 3200)
+        self.creeper_one = Snake(100, 145, 3500, self.player, 'left')
+        self.creeper_two = Snake(370, 50, 2500, self.player, 'top')
+        self.creeper_three = Vulture(32, 40, 2000, self.player)
         self.creeper_group.add(self.creeper_one)
         self.creeper_group.add(self.creeper_two)
         self.creeper_group.add(self.creeper_three)
-        self.creeper_group.add(self.creeper_four)
 
         self.grunt_group = pygame.sprite.Group()
         self.grunt_one = Grunt(DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
@@ -292,7 +291,7 @@ class LevelTwo():
                     self.player_lives_update(0.5)
                     # print("basic attack")
 
-            elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking or self.creeper_four.attacking) and collided.enemy_id == 1:
+            elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking) and collided.enemy_id == 1:
                 if collided.current_sprite > 4 and collided.current_sprite < 4.1:
                     # way to verify that the chomper is facing the player 
                     if (collided.right and player.rect.x > collided.rect.x) or (not collided.right and player.rect.x < collided.rect.x):
