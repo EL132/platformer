@@ -82,6 +82,8 @@ class Game:
 			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
 		elif settings.next_game_state == 1: 
 			image = pygame.image.load("LevelSelector/levelOneStart.png")
+		elif settings.next_game_state == 2: 
+			image = pygame.image.load("LevelSelector/levelOneStart.png")
 
 		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
