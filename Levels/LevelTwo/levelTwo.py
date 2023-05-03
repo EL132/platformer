@@ -626,6 +626,6 @@ while running:
     levelTwo.run()
     
     pygame.display.flip()
-    clock.tick()
+    clock.tick(FPS)
 
 pygame.quit()
