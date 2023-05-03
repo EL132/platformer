@@ -24,7 +24,7 @@ class LevelSelector:
 		#add each csv into layout array
 		layout = {
 			'trail_border': import_csv_layout('./levelSelectorTileMap/csv/map_Border.csv'),
-			'level_entrance': import_csv_layout('./levelSelectorTileMap/csv/map_Level Entrance.csv')
+			'level_entrance': import_csv_layout('./levelSelectorTileMap/csv/map_Level Entrance.csv'),
 		}
 
 		for style, layout in layout.items(): 
@@ -39,6 +39,9 @@ class LevelSelector:
 							self.entrance_count += 1
 							LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', self.entrance_count)
 
+		for entrance in self.level_entrance_sprites: 
+			print(entrance.level_number)
+		
 		self.player = Player((578, 382), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
 
 	def entrance_confirmation(self): 
