@@ -139,7 +139,6 @@ class LevelTwo():
         if int(self.display_time) % 7 != 0:
             self.spawned = False
         pygame.draw.rect(screen, (0, 0, 255), self.boss.head_rect, 3)
-        pygame.draw.rect(screen, (0, 0, 255), self.boss.butt_rect, 3)
 
     def spawn_grunt(self):
         direction = random.choice(['left', 'right'])
@@ -263,10 +262,7 @@ class LevelTwo():
             # print(collided.enemy_id)
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
-                    if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(0.05)
-                        boss.is_hurting = True
-                    elif player.rect.colliderect(boss.head_rect):
+                    if player.rect.colliderect(boss.head_rect):
                         self.boss_hurt(0.1)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.rect):
@@ -332,16 +328,16 @@ class LevelTwo():
     def boss_death_animation(self):
         # here i just want the player to go through a whole cycle of animations, and 
         # then i want the game to show the death screen 
-        if self.boss_chomper.right:
-            death_frames = self.boss_chomper.death_right_frames # a list of death frames
+        if self.boss.right:
+            death_frames = self.boss.death_right_frames # a list of death frames
         else:
-            death_frames = self.boss_chomper.death_left_frames # a list of death frames
+            death_frames = self.boss.death_left_frames # a list of death frames
 
         delay = 400 # the delay between each frame in milliseconds
 
         for frame in death_frames:
             # currently have it so that everything goes away except the player 
-            self.boss_chomper.image = frame
+            self.boss.image = frame
             # redraw the screen
             self.boss_group.draw(screen)
             self.player_group.draw(screen)
