@@ -138,7 +138,6 @@ class LevelTwo():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
-        pygame.draw.rect(screen, (0, 0, 255), self.boss.head_rect, 3)
 
     def spawn_grunt(self):
         direction = random.choice(['left', 'right'])
@@ -241,6 +240,7 @@ class LevelTwo():
             self.heart_rect = self.heart.get_rect() # sets a rectangle that surrounds the surface, use this to position
             self.heart_rect.topleft = (10 + (i * 52), 0)
             screen.blit(self.heart, self.heart_rect)
+    
         
 
     def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three):
@@ -262,7 +262,8 @@ class LevelTwo():
             # print(collided.enemy_id)
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
-                    if player.rect.colliderect(boss.head_rect):
+                    # if self.collide_mask_rect(player.mask, boss.head_rect):
+                    if player.collision_rect.colliderect(boss.head_rect):
                         self.boss_hurt(0.1)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.rect):

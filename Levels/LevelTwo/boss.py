@@ -34,6 +34,7 @@ class Boss(pygame.sprite.Sprite):
 
         self.head_rect = pygame.Rect(self.rect.x, self.rect.y, 64, 60)
         self.head_rect.width = 32
+        self.head_rect.height = 32
 
 
     def update(self):
@@ -50,10 +51,10 @@ class Boss(pygame.sprite.Sprite):
         
 
         if self.right:
-            self.head_rect.x = self.rect.x + 50
+            self.head_rect.x = self.rect.x + 25
         else:
             self.head_rect.x = self.rect.x + 92
-        self.head_rect.y = self.rect.y + 35
+        self.head_rect.y = self.rect.y + 45
 
 
     def move(self, animate, speed):

@@ -21,6 +21,12 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+
+        self.collision_rect = self.rect.copy()
+        self.collision_rect.width = self.rect.width * 0.45
+        self.collision_rect.height = self.rect.height * 0.7
+        self.collision_rect.y = self.rect.y + 10
+
         self.x = x
         self.y = y
 
@@ -75,6 +81,11 @@ class Player(pygame.sprite.Sprite):
         self.check_collisions()
         self.check_animations()
         self.mask_maintenance()
+        self.collision_rect.y = self.rect.y
+        if self.right:
+            self.collision_rect.x = self.rect.x + 10
+        else:
+            self.collision_rect.x = self.rect.x + 40
 
 
     def check_animations(self):
