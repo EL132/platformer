@@ -91,12 +91,13 @@ class LevelTwo():
         self.boss_group.add(self.boss)
 
         self.creeper_group = pygame.sprite.Group()
+        self.vulture_group = pygame.sprite.Group()
         self.creeper_one = Snake(100, 145, 3500, self.player, 'left')
         self.creeper_two = Snake(670, 145, 2500, self.player, 'right')
-        self.creeper_three = Vulture(20, 6, 3500)
+        self.vulture = Vulture(20, 6, 3500, land_sprite_group)
         self.creeper_group.add(self.creeper_one)
         self.creeper_group.add(self.creeper_two)
-        self.creeper_group.add(self.creeper_three)
+        self.vulture_group.add(self.vulture)
 
         self.grunt_group = pygame.sprite.Group()
         self.grunt_one = Grunt(DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
@@ -130,7 +131,7 @@ class LevelTwo():
         self.draw_health_bar()
         self.draw_time()
         self.draw_portrait()
-        self.check_collisions(self.player, self.boss, self.creeper_one, self.creeper_two, self.creeper_three)
+        self.check_collisions(self.player, self.boss, self.creeper_one, self.creeper_two)
         if self.displaying_word:
             self.draw_word()
         if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
@@ -176,7 +177,7 @@ class LevelTwo():
 
 
     def draw_health_bar(self):
-        left_shift = 30
+        left_shift = 20
         right_shift = 15
 
         if self.boss.right:
@@ -213,8 +214,6 @@ class LevelTwo():
         # Define the message to display
         if damage == 0.1:
             self.message = 'Critical Hit!'
-        elif damage == 0.05:
-            self.message = 'Penetrated right in the ass!'
         else:
             self.message = 'Hit big ole boss somewhere else'
 
@@ -222,7 +221,7 @@ class LevelTwo():
         if time.time() - self.word_draw_start_time < 1:
             text = self.custom_font.render(self.message, True, (255, 0, 0))
             text_rect = text.get_rect()
-            text_rect.center = (self.boss.rect.x + 100, self.boss.rect.y + 25)
+            text_rect.center = (self.boss.rect.x + 120, self.boss.rect.y - 25)
             screen.blit(text, text_rect)
         else:
             self.displaying_word = False
@@ -243,7 +242,7 @@ class LevelTwo():
     
         
 
-    def check_collisions(self, player, boss, creeper_one, creeper_two, creeper_three):
+    def check_collisions(self, player, boss, creeper_one, creeper_two):
         boss_list = pygame.sprite.groupcollide(self.boss_group, self.player_group, False, False, pygame.sprite.collide_mask)
         creeper_list = []
         for creeper in self.creeper_group:
@@ -288,7 +287,7 @@ class LevelTwo():
                     self.player_lives_update(0.5)
                     # print("basic attack")
 
-            elif (creeper_one.attacking or creeper_two.attacking or creeper_three.attacking) and collided.enemy_id == 1:
+            elif (creeper_one.attacking or creeper_two.attacking) and collided.enemy_id == 1:
                 if collided.current_sprite > 4 and collided.current_sprite < 4.1:
                     # way to verify that the chomper is facing the player 
                     if (collided.right and player.rect.x > collided.rect.x) or (not collided.right and player.rect.x < collided.rect.x):
@@ -598,6 +597,9 @@ class LevelTwo():
 
         self.grunt_group.update(self.player)
         self.grunt_group.draw(screen)
+
+        self.vulture_group.update()
+        self.vulture_group.draw(screen)
 
         self.update()
 
