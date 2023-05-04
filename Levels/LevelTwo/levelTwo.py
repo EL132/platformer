@@ -132,19 +132,27 @@ class LevelTwo():
         self.draw_time()
         self.draw_portrait()
         self.check_collisions(self.player, self.boss, self.creeper_one, self.creeper_two)
+        self.check_grunt_spawn()
+        self.boss_spawn_grunt()
         if self.displaying_word:
             self.draw_word()
+
+    def boss_spawn_grunt(self):
+        if self.boss.attack_number == 1 and self.boss.current_sprite > 5 and self.boss.attacking:
+            if self.boss.right:
+                self.spawn_grunt(self.boss.rect.x, 350, random.choice(['left', 'right']), random.randint(2000, 5000))
+            else:
+                self.spawn_grunt(self.boss.rect.x, 350, random.choice(['left', 'right']), random.randint(2000, 5000))
+
+    def check_grunt_spawn(self):
         if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
-            self.spawn_grunt()
+            self.spawn_grunt(random.randint(DISPLAY_WIDTH // 2 - 20, DISPLAY_WIDTH // 2 + 80), 0, random.choice(['left', 'right']), random.randint(2000, 5000))
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
 
-    def spawn_grunt(self):
-        direction = random.choice(['left', 'right'])
-        attack_timing = random.randint(2000, 5000)
-        starting_x = random.randint(DISPLAY_WIDTH // 2 - 20, DISPLAY_WIDTH // 2 + 80)
-        grunt = Grunt(starting_x, 0, direction, attack_timing, land_sprite_group)
+    def spawn_grunt(self, x, y, direction, attack_timing):
+        grunt = Grunt(x, y, direction, attack_timing, land_sprite_group)
         self.grunt_group.add(grunt)
 
     def draw_portrait(self):
@@ -279,13 +287,11 @@ class LevelTwo():
                     pass
 
 
-            if (boss.attacking_basic or boss.attacking_special) and collided.enemy_id == 0:
-                if boss.attacking_special and boss.current_sprite > 3.2 and boss.current_sprite < 3.3:
+            if boss.attacking and collided.enemy_id == 0:
+                if boss.attacking and boss.current_sprite > 3.2 and boss.current_sprite < 3.3:
                     # print("special attack")
                     self.player_lives_update(1)
-                elif boss.current_sprite > 4.2 and boss.current_sprite < 4.3:
-                    self.player_lives_update(0.5)
-                    # print("basic attack")
+                
 
             elif (creeper_one.attacking or creeper_two.attacking) and collided.enemy_id == 1:
                 if collided.current_sprite > 4 and collided.current_sprite < 4.1:
