@@ -62,8 +62,6 @@ class Vulture(pygame.sprite.Sprite):
 
         for tile in self.tiles:  
             if self.rect.colliderect(tile.rect):
-                print('tile:', tile.rect.y)
-                print('vulture:', self.rect.y)
                 if 0 < self.postedUpTime % 30000 and self.postedUpTime % 30000 < 5000 and self.postedUpTime > 1000 and self.rect.y < (tile.rect.y - 10) and ((340 < self.rect.x and self.rect.x < 512) or (640 < self.rect.x and self.rect.x < 812) or (0 < self.rect.x and self.rect.x < 172)):
                     self.posted_up = True     
                     self.rect.y = tile.rect.y - 43  

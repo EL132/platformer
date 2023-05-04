@@ -177,18 +177,18 @@ class LevelTwo():
 
 
     def draw_health_bar(self):
-        left_shift = 20
-        right_shift = 15
+        left_shift = 30
+        right_shift = 35
 
         if self.boss.right:
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 10), (self.boss.rect.x + 165, self.boss.rect.y + 10), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 30), (self.boss.rect.x + 165, self.boss.rect.y + 30), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 10), (self.boss.rect.x + 145, self.boss.rect.y + 10), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 30), (self.boss.rect.x + 145, self.boss.rect.y + 30), 2)
             pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x - right_shift, self.boss.rect.y + 10), (self.boss.rect.x - right_shift, self.boss.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 165, self.boss.rect.y + 10), (self.boss.rect.x + 165, self.boss.rect.y + 30), 2)
+            pygame.draw.line(screen, (0, 0, 0), (self.boss.rect.x + 145, self.boss.rect.y + 10), (self.boss.rect.x + 145, self.boss.rect.y + 30), 2)
         
             # fill for the health bar: 
             if time.time() - self.word_draw_start_time < 0.35:
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x - (12), self.boss.rect.y + 13, 176 * self.boss_health, 16.5))
+                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss.rect.x - (32), self.boss.rect.y + 13, 176 * self.boss_health, 16.5))
                 self.flashing_red = False
             else:
                 pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss.rect.x - (right_shift - 3), self.boss.rect.y + 13, 176 * self.boss_health, 16.5))

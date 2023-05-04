@@ -21,7 +21,7 @@ class Boss(pygame.sprite.Sprite):
         self.rect.y = y
         self.rect.bottomleft = (x, y)
 
-        self.move_speed = 0.75
+        self.move_speed = 1
         self.right = False
         self.starting_time = pygame.time.get_ticks()
 
@@ -38,11 +38,9 @@ class Boss(pygame.sprite.Sprite):
 
 
     def update(self):
-        self.move(True, self.move_speed)
+        self.move(self.move_speed)
         self.check_animations()
         self.collision_maintenance()
-        
-
     
 
     def collision_maintenance(self):
@@ -57,23 +55,18 @@ class Boss(pygame.sprite.Sprite):
         self.head_rect.y = self.rect.y + 45
 
 
-    def move(self, animate, speed):
+    def move(self, speed):
         if self.able_to_move:
             if not self.attacking_basic:
-                if self.right:
-                    self.rect.centerx += speed
-                    if animate:
-                        self.animate(self.walk_right_frames, 0.05)
-
+                if not self.right:
+                    self.rect.x -= speed
+                    if self.rect.x < 10:
+                        self.right = True
+                else:
+                    self.rect.x += speed
                     if self.rect.x > 600:
                         self.right = False
-                else:
-                    self.rect.x -= speed
-                    if animate:
-                        self.animate(self.walk_left_frames, 0.05)
 
-                    if self.rect.x < 0:
-                        self.right = True
 
 
     def check_animations(self):
@@ -82,78 +75,28 @@ class Boss(pygame.sprite.Sprite):
 
         # note: end conditions of rect.x prevents boss from attacking on side of the screen
 
-        if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
-            self.attacking_special = True
-            self.current_sprite = 0
+        # if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
+        #     self.attacking_special = True
+        #     self.current_sprite = 0
 
-        elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
-            self.attacking_basic = True   
-            self.current_sprite = 0
+        # elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
+        #     self.attacking_basic = True   
+        #     self.current_sprite = 0
 
-            self.attack_number = random.randint(1, 2)
+        #     self.attack_number = random.randint(1, 2)
 
-        if self.attacking_special: 
-            if self.right:
-                self.attack_special('right', 0.01)
-            else: 
-                self.attack_special('left', 0.01)
 
-        elif self.attacking_basic:
-            if self.right:
-                self.attack_basic(self.attack_number, 'right', 0.1)  
-            else:    
-                self.attack_basic(self.attack_number, 'left', 0.1)
-
-        elif self.is_dying:
+        if self.is_dying:
             if self.right:
                 self.animate(self.death_right_frames, 0.1)
             else:
                 self.animate(self.death_left_frames, 0.1)
 
-
-    def attack_basic(self, attack_number, orientation, speed):
-        if attack_number == 1:
-            if orientation == 'left':
-                self.animate(self.attack_one_left_frames, speed)
-            elif orientation == 'right':
-                self.animate(self.attack_one_right_frames, speed)
-        elif attack_number == 2: 
-            if orientation == 'left':
-                self.animate(self.attack_two_left_frames, speed)
-            elif orientation == 'right':
-                self.animate(self.attack_two_right_frames, speed)
-
-
-    def attack_special(self, orientation, speed): 
-        if orientation == 'left':
-            self.animate(self.attack_three_left_frames, speed)
-            if self.current_sprite > 0 and self.current_sprite < 1:
-                self.move(False, self.move_speed * 1.1)
-            elif self.current_sprite > 1 and self.current_sprite < 2:
-                self.move(False, self.move_speed * 1.3)
-            elif self.current_sprite > 2 and self.current_sprite < 3:
-                self.move(False, self.move_speed * 1.5)
-            elif self.current_sprite > 3 and self.current_sprite < 4:
-                self.move(False, self.move_speed * 1.7)
-            elif self.current_sprite > 4 and self.current_sprite < 5:
-                self.move(False, self.move_speed * 1.9)
-            elif self.current_sprite > 5 and self.current_sprite < 6:
-                self.move(False, self.move_speed * 2)  
         else:
-            self.animate(self.attack_three_right_frames, speed)      
-            if self.current_sprite > 0 and self.current_sprite < 1:
-                self.move(False, self.move_speed * 1.1)
-            elif self.current_sprite > 1 and self.current_sprite < 2:
-                self.move(False, self.move_speed * 1.3)
-            elif self.current_sprite > 2 and self.current_sprite < 3:
-                self.move(False, self.move_speed * 1.5)
-            elif self.current_sprite > 3 and self.current_sprite < 4:
-                self.move(False, self.move_speed * 1.7)
-            elif self.current_sprite > 4 and self.current_sprite < 5:
-                self.move(False, self.move_speed * 1.9)
-            elif self.current_sprite > 5 and self.current_sprite < 6:
-                self.move(False, self.move_speed * 2)
-            
+            if self.right:
+                self.animate(self.walk_right_frames, 0.05)
+            else:
+                self.animate(self.walk_left_frames, 0.05)            
 
 
     def animate(self, sprite_list, speed):
