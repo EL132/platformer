@@ -101,13 +101,13 @@ class Player(pygame.sprite.Sprite):
         else:
             keys = pygame.key.get_pressed()
             
-            if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
+            if (keys[pygame.K_LEFT]) and keys[pygame.K_LSHIFT]:
                 self.animate(self.run_left_frames, 0.1)
-            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
+            elif (keys[pygame.K_RIGHT]) and keys[pygame.K_LSHIFT]:
                 self.animate(self.run_right_frames, 0.1)
-            elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
+            elif (keys[pygame.K_LEFT]):
                 self.animate(self.walk_left_frames, 0.15)
-            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+            elif (keys[pygame.K_RIGHT]):
                 self.animate(self.walk_right_frames, 0.15)    
             else:
                 if self.velocity.x > 0:
@@ -133,7 +133,7 @@ class Player(pygame.sprite.Sprite):
 
             keys = pygame.key.get_pressed()
 
-            if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_LSHIFT]:
+            if (keys[pygame.K_LEFT]) and keys[pygame.K_LSHIFT]:
                 self.right = False
                 self.is_sprinting = True
                 if not self.is_jumping:
@@ -143,7 +143,7 @@ class Player(pygame.sprite.Sprite):
                 if self.position.x < -32:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
-            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_LSHIFT]:
+            elif (keys[pygame.K_RIGHT]) and keys[pygame.K_LSHIFT]:
                 self.right = True
                 self.is_sprinting = True
                 if not self.is_jumping:
@@ -153,7 +153,7 @@ class Player(pygame.sprite.Sprite):
                 if self.position.x > WINDOW_WIDTH:
                     self.position.x = 0
                 self.acceleration.x = 1 * (self.HORIZONTAL_ACCELERATION + 0.2)
-            elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
+            elif (keys[pygame.K_LEFT]):
                 self.right = False
                 self.is_sprinting = False
                 if not self.is_jumping:
@@ -163,7 +163,7 @@ class Player(pygame.sprite.Sprite):
                 if self.position.x < -32:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * self.HORIZONTAL_ACCELERATION
-            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+            elif (keys[pygame.K_RIGHT]):
                 self.right = True
                 self.is_sprinting = False
                 # i only want to play the sound if the player is in contact with the grass

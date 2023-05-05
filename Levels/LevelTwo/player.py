@@ -127,13 +127,13 @@ class Player(pygame.sprite.Sprite):
         else:
             keys = pygame.key.get_pressed()
             
-            if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and keys[pygame.K_RSHIFT]:
+            if (keys[pygame.K_LEFT]) and keys[pygame.K_RSHIFT]:
                 self.animate(self.run_left_frames, 0.1)
-            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and keys[pygame.K_RSHIFT]:
+            elif (keys[pygame.K_RIGHT]) and keys[pygame.K_RSHIFT]:
                 self.animate(self.run_right_frames, 0.1)
-            elif (keys[pygame.K_LEFT] or keys[pygame.K_a]):
+            elif (keys[pygame.K_LEFT]):
                 self.animate(self.walk_left_frames, 0.15)
-            elif (keys[pygame.K_RIGHT] or keys[pygame.K_d]):
+            elif (keys[pygame.K_RIGHT]):
                 self.animate(self.walk_right_frames, 0.15)    
             else:
                 if self.velocity.x > 0:
