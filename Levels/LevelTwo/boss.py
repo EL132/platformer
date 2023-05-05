@@ -115,8 +115,8 @@ class Boss(pygame.sprite.Sprite):
             self.attacking = True
             self.current_sprite = 0
 
-            # self.attack_number = random.randint(1, 4)
-            self.attack_number = 4
+            self.attack_number = random.randint(1, 4)
+            # self.attack_number = 4
             self.able_to_move = False
 
 
