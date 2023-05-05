@@ -632,13 +632,13 @@ running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                levelTwo.pause_game("Paused", "Press enter to continue", "Press escape to quit")
-            elif event.key == pygame.K_SPACE:
+            if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and levelTwo.player.is_attacking == False:
                 levelTwo.player.jump()
-            if event.key == pygame.K_1 or event.key == pygame.K_k:
+            if event.key == pygame.K_ESCAPE:
+                levelTwo.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+            if event.key == pygame.K_q:
                 levelTwo.player.attack(1)
-            if event.key == pygame.K_2 or event.key == pygame.K_l:
+            if event.key == pygame.K_w:
                 levelTwo.player.attack(2)
             if event.key == pygame.K_r:
                 levelTwo.player.roll()

@@ -106,16 +106,14 @@ class Game:
 					pygame.quit()
 				if event.type == pygame.KEYDOWN:
 					if settings.game_state == 1:
-						if event.key == pygame.K_SPACE or event.key == pygame.K_UP or event.key == pygame.K_w and self.levelOne.player.is_attacking == False:
+						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelOne.player.is_attacking == False:
 							self.levelOne.player.jump()
 						if event.key == pygame.K_ESCAPE:
 							self.levelOne.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
-						if event.key == pygame.K_1 or event.key == pygame.K_k:
+						if event.key == pygame.K_q:
 							self.levelOne.player.attack(1)
-						if event.key == pygame.K_2 or event.key == pygame.K_l:
+						if event.key == pygame.K_w:
 							self.levelOne.player.attack(2)
-						# if event.key == pygame.K_i: 
-						# 	pygame.image.save(self.screen, "./LevelSelector/levelOneStart.png")
 					
 					if settings.game_state == 0:
 						pass
