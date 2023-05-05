@@ -1,6 +1,31 @@
 import pygame, random
 
+DISPLAY_WIDTH = 800
+DISPLAY_HEIGHT = 448
 
+screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+
+class Ball(pygame.sprite.Sprite):
+    def __init__(self, x, y, direction):
+        super().__init__()
+        self.image = pygame.image.load('./Levels/LevelTwo/images/boss/Ball.png').convert_alpha()
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+        self.direction = direction
+
+    def move(self):
+        if self.rect.x > 800 or self.rect.x < 0:
+            self.kill()
+        
+        if self.direction == 'right':
+            self.rect.x += 10
+        else:
+            self.rect.x -= 10
+
+    def update(self):
+        self.move()
 
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -35,11 +60,24 @@ class Boss(pygame.sprite.Sprite):
         self.head_rect.width = 32
         self.head_rect.height = 32
 
+        self.ball_group = pygame.sprite.Group()
+
+
 
     def update(self):
         self.move(self.move_speed)
         self.check_animations()
         self.collision_maintenance()
+        if self.attacking and self.attack_number == 4 and self.current_sprite > 3:
+            print("ranged attack now")
+            if self.right:
+                ball = Ball(self.rect.x, 330, 'right')
+                self.ball_group.add(ball)
+            else:
+                ball = Ball(self.rect.x, 330, 'left')
+                self.ball_group.add(ball)
+        self.ball_group.update()
+        self.ball_group.draw(screen)
     
 
     def collision_maintenance(self):
@@ -67,13 +105,9 @@ class Boss(pygame.sprite.Sprite):
                         self.right = False
 
 
-
     def check_animations(self):
 
         timePassed = pygame.time.get_ticks() - self.starting_time
-        if self.attacking:
-            print(self.current_sprite)
-
         # note: end conditions of rect.x prevents boss from attacking on side of the screen
 
         if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000:
@@ -81,7 +115,7 @@ class Boss(pygame.sprite.Sprite):
             self.current_sprite = 0
 
             # self.attack_number = random.randint(1, 2)
-            self.attack_number = 1
+            self.attack_number = 4
             self.able_to_move = False
 
 
@@ -91,6 +125,21 @@ class Boss(pygame.sprite.Sprite):
                     self.animate(self.attack_one_right_frames, 0.1)
                 else:
                     self.animate(self.attack_one_left_frames, 0.1)
+            elif self.attack_number == 2:
+                if self.right:
+                    self.animate(self.attack_two_right_frames, 0.1)
+                else:
+                    self.animate(self.attack_two_left_frames, 0.1)
+            elif self.attack_number == 3:
+                if self.right:
+                    self.animate(self.attack_three_right_frames, 0.1)
+                else:
+                    self.animate(self.attack_three_left_frames, 0.1)
+            elif self.attack_number == 4:
+                if self.right:
+                    self.animate(self.attack_four_right_frames, 0.1)
+                else:
+                    self.animate(self.attack_four_left_frames, 0.1)
 
         elif self.is_dying:
             if self.right:
@@ -143,8 +192,6 @@ class Boss(pygame.sprite.Sprite):
 
         self.sneer_left_frames = []
         self.sneer_right_frames = []
-
-        self.ball = pygame.image.load('./Levels/LevelTwo/images/boss/Ball.png').convert_alpha()
 
 
         # attack one frames

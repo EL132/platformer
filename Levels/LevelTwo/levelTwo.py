@@ -136,6 +136,15 @@ class LevelTwo():
         self.boss_spawn_grunt()
         if self.displaying_word:
             self.draw_word()
+        if len(self.boss.ball_group) > 0:
+            for ball in self.boss.ball_group:
+                self.check_ball_collisions(ball)
+
+    def check_ball_collisions(self, ball):
+        if pygame.sprite.collide_rect(ball, self.player):
+            self.player_lives -= 1
+            self.oof.play()
+            ball.kill()
 
     def boss_spawn_grunt(self):
         if self.boss.attack_number == 1 and self.boss.current_sprite > 5 and self.boss.attacking:
