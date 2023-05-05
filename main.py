@@ -120,11 +120,6 @@ class Game:
 
 			self.screen.fill('black')
 
-			# if settings.next_game_state == 0: 
-			# 	del self.levelSelector
-			# 	self.levelSelector = LevelSelector()
-			# 	settings.next_game_state = -1
-
 			#Main Menu
 			if settings.game_state == -1:
 				self.menu.run()
@@ -153,6 +148,13 @@ class Game:
 					self.levelSelector = LevelSelector()
 
 					self.curtainIn()
+
+			elif settings.game_state == 2: 
+				if not settings.transition: 
+					self.levelTwo.run()
+				else: 
+					del self.levelSelector
+					self.levelSelector = LevelSelector()
 
 			pygame.display.update()
 

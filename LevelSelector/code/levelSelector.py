@@ -36,8 +36,12 @@ class LevelSelector:
 						if style == 'trail_border': 	
 							Tile((x, y), [self.obstacle_sprites], 'invisible')
 						if style == 'level_entrance': 
-							self.entrance_count += 1
-							LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', self.entrance_count)
+							if self.level_entrance_sprites.__len__() == 0: 
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1)
+							elif self.level_entrance_sprites.__len__() == 1: 
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 3)
+							elif self.level_entrance_sprites.__len__() == 2:
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 2)
 
 		for entrance in self.level_entrance_sprites: 
 			print(entrance.level_number)
