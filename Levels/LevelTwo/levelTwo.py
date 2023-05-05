@@ -149,7 +149,7 @@ class LevelTwo():
     def boss_spawn_grunt(self):
         if self.boss.attack_number == 1 and self.boss.current_sprite > 5 and self.boss.attacking:
             if self.boss.right:
-                self.spawn_grunt(self.boss.rect.x, 350, random.choice(['left', 'right']), random.randint(2000, 5000))
+                self.spawn_grunt(self.boss.rect.x + 65, 350, random.choice(['left', 'right']), random.randint(2000, 5000))
             else:
                 self.spawn_grunt(self.boss.rect.x, 350, random.choice(['left', 'right']), random.randint(2000, 5000))
 

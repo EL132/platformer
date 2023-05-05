@@ -114,8 +114,7 @@ class Boss(pygame.sprite.Sprite):
             self.attacking = True
             self.current_sprite = 0
 
-            # self.attack_number = random.randint(1, 2)
-            self.attack_number = 4
+            self.attack_number = random.randint(1, 5)
             self.able_to_move = False
 
 
@@ -149,9 +148,9 @@ class Boss(pygame.sprite.Sprite):
 
         else:
             if self.right:
-                self.animate(self.walk_right_frames, 0.05)
+                self.animate(self.walk_right_frames, 0.085)
             else:
-                self.animate(self.walk_left_frames, 0.05)            
+                self.animate(self.walk_left_frames, 0.085)            
 
 
     def animate(self, sprite_list, speed):

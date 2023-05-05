@@ -44,7 +44,7 @@ class Snake(pygame.sprite.Sprite):
                 self.idle = True
             else:
                 self.idle = False
-                if self.rect.x > player.rect.x:
+                if (self.rect.x - 32) > player.rect.x:
                     self.rect.x -= 1
                     self.right = False
 
@@ -59,7 +59,7 @@ class Snake(pygame.sprite.Sprite):
                 if self.rect.x < player.rect.x:
                     self.rect.x += 1
                     self.right = True
-            if self.rect.x > player.rect.x and self.rect.x - 1 > 32:
+            if (self.rect.x - 32) > player.rect.x and self.rect.x - 1 > 32:
                     self.rect.x -= 1
                     self.right = False
 
