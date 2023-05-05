@@ -78,6 +78,7 @@ class Boss(pygame.sprite.Sprite):
                 self.ball_group.add(ball)
         self.ball_group.update()
         self.ball_group.draw(screen)
+
     
 
     def collision_maintenance(self):
@@ -114,7 +115,8 @@ class Boss(pygame.sprite.Sprite):
             self.attacking = True
             self.current_sprite = 0
 
-            self.attack_number = random.randint(1, 5)
+            # self.attack_number = random.randint(1, 4)
+            self.attack_number = 4
             self.able_to_move = False
 
 

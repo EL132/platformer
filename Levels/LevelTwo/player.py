@@ -58,6 +58,7 @@ class Player(pygame.sprite.Sprite):
         self.is_dying = False
         self.is_sprinting = False
         self.started_hurting = False
+        self.is_rolling = False
 
         self.right = True
 
@@ -88,6 +89,14 @@ class Player(pygame.sprite.Sprite):
             self.collision_rect.x = self.rect.x + 40
 
 
+    def roll(self):
+        self.is_rolling = True
+        if self.right:
+            self.velocity.x += 5
+        else:
+            self.velocity.x -= 5
+
+
     def check_animations(self):
         if self.is_jumping:
             if self.right:
@@ -99,6 +108,11 @@ class Player(pygame.sprite.Sprite):
                 self.animate(self.hurt_right_frames, 0.1)
             else:
                 self.animate(self.hurt_left_frames, 0.1)
+        elif self.is_rolling:
+            if self.right:
+                self.animate(self.roll_right_frames, 0.1)
+            else:
+                self.animate(self.roll_left_frames, 0.1)
         elif self.is_attacking: # this is true right now  
             if self.right:
                 if self.attack_number == 1:
@@ -246,25 +260,15 @@ class Player(pygame.sprite.Sprite):
                     self.is_attacking = False
                     self.reverse = False
                     self.able_to_move = True
-        elif self.is_hurting:
-            if self.started_hurting:
-                self.current_sprite = 0
-                self.started_hurting = False
-
-            if self.current_sprite < len(sprite_list) - 1:
-                self.current_sprite += speed
-            else:
-                self.current_sprite = 0
-                self.is_hurting = False
         else:
             if self.current_sprite < len(sprite_list) - 1:
                 self.current_sprite += speed
             else:    
                 self.current_sprite = 0
-                if self.is_hurting:
-                    self.is_hurting = False
                 if self.is_dying:
                     self.is_dying = False
+                if self.is_rolling:
+                    self.is_rolling = False
 
 
         # YES, the problem is that the fifth sprite animation happens too quickly, so it looks jerky 
@@ -324,8 +328,9 @@ class Player(pygame.sprite.Sprite):
         self.left_emote_frames = []
         self.right_emote_frames = []
 
-        self.left_jump_attack_frames = []
-        self.right_jump_attack_frames = []
+        self.roll_left_frames = []
+        self.roll_right_frames = []
+
 
 
         # angry emote frames
@@ -366,15 +371,15 @@ class Player(pygame.sprite.Sprite):
         for frame in self.left_emote_frames:
             self.right_emote_frames.append(pygame.transform.flip(frame, True, False))
 
-        # jump attack frames
-        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-1.png').convert_alpha(), (80, 80)))
-        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-2.png').convert_alpha(), (80, 80)))
-        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-3.png').convert_alpha(), (80, 80)))
-        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-4.png').convert_alpha(), (80, 80)))
-        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-5.png').convert_alpha(), (80, 80)))
-        self.left_jump_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Jump Attack/row-1-column-6.png').convert_alpha(), (80, 80)))
-        for frame in self.left_jump_attack_frames:
-            self.right_jump_attack_frames.append(pygame.transform.flip(frame, True, False))
+        # roll frames
+        self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-4.png').convert_alpha(), (80, 80)))
+        self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-5.png').convert_alpha(), (80, 80)))
+        self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-6.png').convert_alpha(), (80, 80)))
+        for frame in self.roll_left_frames:
+            self.roll_right_frames.append(pygame.transform.flip(frame, True, False))
 
 
         # walk frames 

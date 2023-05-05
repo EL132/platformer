@@ -139,12 +139,19 @@ class LevelTwo():
         if len(self.boss.ball_group) > 0:
             for ball in self.boss.ball_group:
                 self.check_ball_collisions(ball)
+        pygame.draw.rect(display_surface, BLACK, self.player.leg_hitbox_rect, 4)
 
     def check_ball_collisions(self, ball):
-        if pygame.sprite.collide_rect(ball, self.player):
-            self.player_lives -= 1
-            self.oof.play()
-            ball.kill()
+        if self.player.is_rolling:
+            if ball.rect.colliderect(self.player.leg_hitbox_rect):
+                self.player_lives -= 1
+                self.oof.play()
+                ball.kill()
+        else:
+            if pygame.sprite.collide_rect(ball, self.player):
+                self.player_lives -= 1
+                self.oof.play()
+                ball.kill()
 
     def boss_spawn_grunt(self):
         if self.boss.attack_number == 1 and self.boss.current_sprite > 5 and self.boss.attacking:
@@ -634,6 +641,8 @@ while running:
                 levelTwo.player.attack(1)
             if event.key == pygame.K_2 or event.key == pygame.K_l:
                 levelTwo.player.attack(2)
+            if event.key == pygame.K_r:
+                levelTwo.player.roll()
         if event.type == pygame.QUIT:
             running = False
 
