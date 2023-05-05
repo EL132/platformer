@@ -69,7 +69,6 @@ class Boss(pygame.sprite.Sprite):
         self.check_animations()
         self.collision_maintenance()
         if self.attacking and self.attack_number == 4 and self.current_sprite > 3:
-            print("ranged attack now")
             if self.right:
                 ball = Ball(self.rect.x, 330, 'right')
                 self.ball_group.add(ball)

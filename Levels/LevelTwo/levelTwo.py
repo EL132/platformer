@@ -139,7 +139,6 @@ class LevelTwo():
         if len(self.boss.ball_group) > 0:
             for ball in self.boss.ball_group:
                 self.check_ball_collisions(ball)
-        pygame.draw.rect(display_surface, BLACK, self.player.leg_hitbox_rect, 4)
 
     def check_ball_collisions(self, ball):
         if self.player.is_rolling:
@@ -304,7 +303,7 @@ class LevelTwo():
 
 
             if boss.attacking and collided.enemy_id == 0:
-                if boss.attacking and boss.current_sprite > 3.2 and boss.current_sprite < 3.3:
+                if boss.attacking and boss.current_sprite > 3.2 and boss.current_sprite < 3.3 and boss.attack_number != 1 and boss.attack_number != 4:
                     # print("special attack")
                     self.player_lives_update(1)
                 
