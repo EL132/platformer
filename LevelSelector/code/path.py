@@ -9,8 +9,8 @@ display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 
 tmx_data = load_pygame('./maps/levelOne.tmx')
 
-for layer in tmx_data.visible_layers:
-    print(layer.name)
+# for layer in tmx_data.visible_layers:
+#     print(layer.name)
 
 class PathBorder(): 
     pass

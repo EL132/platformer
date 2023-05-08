@@ -73,7 +73,6 @@ class Player(pygame.sprite.Sprite):
 
 		collided_entrance = pygame.sprite.spritecollideany(self, self.entrance_sprites)
 		if collided_entrance and not settings.transition:
-			print("hit")
 			level_request = True
 			# video : 
 			messages = ['You are about to enter level ' + str(collided_entrance.level_number) + '.', 

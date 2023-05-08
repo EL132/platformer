@@ -83,8 +83,6 @@ class Grunt(pygame.sprite.Sprite):
 
                 self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
 
-                # print("colliding with ground: " + str(self.colliding_with_ground))
-                # print("attacking: " + str(self.attacking))
 
                 for tile in self.land_tiles:  
                     if self.rect.colliderect(tile.rect) and not self.attacking:
