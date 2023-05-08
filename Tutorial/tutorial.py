@@ -160,7 +160,7 @@ class Tutorial():
 
     def key(self):
         key_binds = ['LEFT', 'RIGHT', 'UP', 'SPACE', 'RSHIFT', 'ESCAPE', 'Q', 'W', 'R', 'T', 'Y', 'SPACE']
-        directions = ['move left', 'move right', 'jump', 'jump', 'sprint', 'pause', 'attack 1', 'attack 2', 'roll', 'taunt', 'emote', 'double jump']
+        directions = ['move   left', 'move   right', 'jump', 'jump', 'sprint', 'pause', 'attack 1', 'attack 2', 'roll', 'taunt', 'emote', 'double jump']
 
         # i want to draw a rectangle for each key bind
         for i in range(0, 8):
@@ -202,17 +202,16 @@ class Tutorial():
 
         self.time_passed = time.time() - self.starting_time
 
-        # if self.time_passed > 1 and not self.started:
-        #     self.started = True
-        #     self.starting_text()
+        if self.time_passed > 1 and not self.started:
+            self.started = True
+            self.starting_text()
 
-        # if not self.beginning_text and self.started:
-        #     self.key()
-        self.key()
-
+        if not self.beginning_text and self.started:
+            self.key()
 
 
-tutorial = Tutorial(1)
+
+tutorial = Tutorial(2)
 
 clock = pygame.time.Clock()
 FPS = 60
@@ -221,7 +220,7 @@ running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            # level one animations
+            # all level animations (level one animations)
             if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and tutorial.player.is_attacking == False:
                 tutorial.player.jump()
             if event.key == pygame.K_ESCAPE:
@@ -235,6 +234,11 @@ while running:
             if tutorial.level == 2:
                 if event.key == pygame.K_r:
                     tutorial.player.roll()
+                if event.key == pygame.K_t:
+                    tutorial.player.current_sprite = 0
+                    tutorial.player.is_angry_emoting = True
+                if event.key == pygame.K_y:
+                    tutorial.player.is_normal_emoting = True
         if event.type == pygame.QUIT:
             running = False
 

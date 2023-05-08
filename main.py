@@ -115,6 +115,22 @@ class Game:
 						if event.key == pygame.K_w:
 							self.levelOne.player.attack(2)
 					
+					if settings.game_state == 2:
+						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelTwo.player.is_attacking == False:
+							self.levelTwo.player.jump()
+						if event.key == pygame.K_ESCAPE:
+							self.levelTwo.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+						if event.key == pygame.K_q:
+							self.levelTwo.player.attack(1)
+						if event.key == pygame.K_w:
+							self.levelTwo.player.attack(2)
+						if event.key == pygame.K_r:
+							self.levelTwo.player.roll()
+						if event.key == pygame.K_t:
+							self.levelTwo.player.is_angry_emoting = True
+						if event.key == pygame.K_y:
+							self.levelTwo.player.is_normal_emoting = True
+					
 					if settings.game_state == 0:
 						pass
 

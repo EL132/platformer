@@ -642,6 +642,12 @@ while running:
                 levelTwo.player.attack(2)
             if event.key == pygame.K_r:
                 levelTwo.player.roll()
+            if event.key == pygame.K_t:
+                levelTwo.player.current_sprite = 0
+                levelTwo.player.is_angry_emoting = True
+            if event.key == pygame.K_y:
+                levelTwo.player.is_normal_emoting = True
+
         if event.type == pygame.QUIT:
             running = False
 

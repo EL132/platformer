@@ -101,9 +101,9 @@ class Player(pygame.sprite.Sprite):
         else:
             keys = pygame.key.get_pressed()
             
-            if (keys[pygame.K_LEFT]) and keys[pygame.K_LSHIFT]:
+            if (keys[pygame.K_LEFT]) and keys[pygame.K_RSHIFT]:
                 self.animate(self.run_left_frames, 0.1)
-            elif (keys[pygame.K_RIGHT]) and keys[pygame.K_LSHIFT]:
+            elif (keys[pygame.K_RIGHT]) and keys[pygame.K_RSHIFT]:
                 self.animate(self.run_right_frames, 0.1)
             elif (keys[pygame.K_LEFT]):
                 self.animate(self.walk_left_frames, 0.15)
@@ -133,7 +133,7 @@ class Player(pygame.sprite.Sprite):
 
             keys = pygame.key.get_pressed()
 
-            if (keys[pygame.K_LEFT]) and keys[pygame.K_LSHIFT]:
+            if (keys[pygame.K_LEFT]) and keys[pygame.K_RSHIFT]:
                 self.right = False
                 self.is_sprinting = True
                 if not self.is_jumping:
@@ -143,7 +143,7 @@ class Player(pygame.sprite.Sprite):
                 if self.position.x < -32:
                     self.position.x = WINDOW_WIDTH
                 self.acceleration.x = -1 * (self.HORIZONTAL_ACCELERATION + 0.2)
-            elif (keys[pygame.K_RIGHT]) and keys[pygame.K_LSHIFT]:
+            elif (keys[pygame.K_RIGHT]) and keys[pygame.K_RSHIFT]:
                 self.right = True
                 self.is_sprinting = True
                 if not self.is_jumping:

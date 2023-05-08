@@ -59,6 +59,8 @@ class Player(pygame.sprite.Sprite):
         self.is_sprinting = False
         self.started_hurting = False
         self.is_rolling = False
+        self.is_angry_emoting = False
+        self.is_normal_emoting = False
 
         self.right = True
 
@@ -103,11 +105,16 @@ class Player(pygame.sprite.Sprite):
                 self.animate(self.jump_right_frames, 0.1)
             else:
                 self.animate(self.jump_left_frames, 0.1)
-        elif self.is_hurting:
+        elif self.is_normal_emoting:
             if self.right:
-                self.animate(self.hurt_right_frames, 0.1)
+                self.animate(self.right_emote_frames, 0.1)
             else:
-                self.animate(self.hurt_left_frames, 0.1)
+                self.animate(self.left_emote_frames, 0.1)
+        elif self.is_angry_emoting:
+            if self.right:
+                self.animate(self.right_angry_frames, 0.1)
+            else:
+                self.animate(self.left_angry_frames, 0.1)
         elif self.is_rolling:
             if self.right:
                 self.animate(self.roll_right_frames, 0.1)
@@ -268,6 +275,10 @@ class Player(pygame.sprite.Sprite):
                     self.is_dying = False
                 if self.is_rolling:
                     self.is_rolling = False
+                if self.is_angry_emoting:
+                    self.is_angry_emoting = False
+                if self.is_normal_emoting:
+                    self.is_normal_emoting = False
 
 
         # YES, the problem is that the fifth sprite animation happens too quickly, so it looks jerky 
@@ -313,8 +324,8 @@ class Player(pygame.sprite.Sprite):
         self.attack_two_left_frames = []
 
         # NEW FRAMES:
-        self.left_angry_emote_frames = []
-        self.right_angry_emote_frames = []
+        self.left_angry_frames = []
+        self.right_angry_frames = []
 
         self.left_bow_attack_frames = []
         self.right_bow_attack_frames = []
@@ -333,12 +344,12 @@ class Player(pygame.sprite.Sprite):
 
 
         # angry emote frames
-        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-1.png').convert_alpha(), (80, 80)))
-        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-2.png').convert_alpha(), (80, 80)))
-        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-3.png').convert_alpha(), (80, 80)))
-        self.left_angry_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-4.png').convert_alpha(), (80, 80)))
-        for frame in self.left_angry_emote_frames:
-            self.right_angry_emote_frames.append(pygame.transform.flip(frame, True, False))
+        self.right_angry_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.right_angry_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.right_angry_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.right_angry_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Angry/row-1-column-4.png').convert_alpha(), (80, 80)))
+        for frame in self.right_angry_frames:
+            self.left_angry_frames.append(pygame.transform.flip(frame, True, False))
 
         # bow attack frames
         self.left_bow_attack_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Bow/row-1-column-1.png').convert_alpha(), (80, 80)))
@@ -361,14 +372,14 @@ class Player(pygame.sprite.Sprite):
             self.right_double_jump_frames.append(pygame.transform.flip(frame, True, False))
         
         # emote frames
-        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-1.png').convert_alpha(), (80, 80)))
-        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-2.png').convert_alpha(), (80, 80)))
-        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-3.png').convert_alpha(), (80, 80)))
-        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-4.png').convert_alpha(), (80, 80)))
-        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-5.png').convert_alpha(), (80, 80)))
-        self.left_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-6.png').convert_alpha(), (80, 80)))
-        for frame in self.left_emote_frames:
-            self.right_emote_frames.append(pygame.transform.flip(frame, True, False))
+        self.right_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-1.png').convert_alpha(), (80, 80)))
+        self.right_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-2.png').convert_alpha(), (80, 80)))
+        self.right_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-3.png').convert_alpha(), (80, 80)))
+        self.right_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-4.png').convert_alpha(), (80, 80)))
+        self.right_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-5.png').convert_alpha(), (80, 80)))
+        self.right_emote_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Emote/row-1-column-6.png').convert_alpha(), (80, 80)))
+        for frame in self.right_emote_frames:
+            self.left_emote_frames.append(pygame.transform.flip(frame, True, False))
 
         # roll frames
         self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-1.png').convert_alpha(), (80, 80)))
@@ -379,7 +390,6 @@ class Player(pygame.sprite.Sprite):
         self.roll_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/player/Roll/row-1-column-6.png').convert_alpha(), (80, 80)))
         for frame in self.roll_left_frames:
             self.roll_right_frames.append(pygame.transform.flip(frame, True, False))
-
 
         # walk frames 
         self.walk_right_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelOne/images/player/Woodcutter/Walk/walk 1.png').convert_alpha(), (80, 80)))
