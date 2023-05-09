@@ -587,37 +587,3 @@ class LevelTwo():
         self.vulture_group.draw(screen)
 
         self.update()
-
-levelTwo = LevelTwo()
-
-clock = pygame.time.Clock()
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and levelTwo.player.is_attacking == False:
-                levelTwo.player.jump()
-            if event.key == pygame.K_ESCAPE:
-                levelTwo.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
-            if event.key == pygame.K_q:
-                levelTwo.player.attack(1)
-            if event.key == pygame.K_w:
-                levelTwo.player.attack(2)
-            if event.key == pygame.K_r:
-                levelTwo.player.roll()
-            if event.key == pygame.K_t:
-                levelTwo.player.current_sprite = 0
-                levelTwo.player.is_angry_emoting = True
-            if event.key == pygame.K_y:
-                levelTwo.player.is_normal_emoting = True
-
-        if event.type == pygame.QUIT:
-            running = False
-
-    levelTwo.run()
-    
-    pygame.display.flip()
-    clock.tick(FPS)
-
-pygame.quit()
