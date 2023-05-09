@@ -3,6 +3,7 @@ import settings
 from LevelSelector.code.debug import debug
 from LevelSelector.code.levelSelector import LevelSelector
 from Levels.LevelOne.levelOne import LevelOne
+from Levels.LevelTwo.levelTwo import LevelTwo
 from GameSave.SaveLoadManager import SaveLoadSystem
 from Menu.menu import Menu
 
@@ -27,10 +28,11 @@ class Game:
 
 		self.levelSelector = LevelSelector()
 		self.levelOne = LevelOne()
+		self.levelTwo = LevelTwo() 
 		self.menu = Menu()
 
 	def fadeOut(self): 
-		pygame.image.save(self.screen,"./LevelSelector/screenshot.png")
+		pygame.image.save(self.screen, "./LevelSelector/screenshot.png")
 		image = pygame.image.load("./LevelSelector/screenshot.png")
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0,0,0))
@@ -83,7 +85,7 @@ class Game:
 		elif settings.next_game_state == 1: 
 			image = pygame.image.load("LevelSelector/levelOneStart.png")
 		elif settings.next_game_state == 2: 
-			image = pygame.image.load("LevelSelector/levelOneStart.png")
+			image = pygame.image.load("LevelSelector/levelTwoStart.png")
 
 		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
@@ -114,6 +116,19 @@ class Game:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_w:
 							self.levelOne.player.attack(2)
+
+					elif settings.game_state == 2: 
+						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelOne.player.is_attacking == False:
+							self.levelOne.player.jump()
+						if event.key == pygame.K_ESCAPE:
+							self.levelOne.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+						if event.key == pygame.K_q:
+							self.levelOne.player.attack(1)
+						if event.key == pygame.K_w:
+							self.levelOne.player.attack(2)
+						if event.key == pygame.K_k:
+							# pygame.image.save(self.screen, "./LevelSelector/levelTwoStart.png")
+							pass
 					
 					if settings.game_state == 0:
 						pass
@@ -155,6 +170,8 @@ class Game:
 				else: 
 					del self.levelSelector
 					self.levelSelector = LevelSelector()
+
+					self.curtainIn()
 
 			pygame.display.update()
 
