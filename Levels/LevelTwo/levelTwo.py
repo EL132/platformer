@@ -249,7 +249,6 @@ class LevelTwo():
         collision_list.extend(grunt_list)
 
         for collided in collision_list:
-            # print(collided.enemy_id)
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     # if self.collide_mask_rect(player.mask, boss.head_rect):
@@ -272,7 +271,6 @@ class LevelTwo():
 
             if boss.attacking and collided.enemy_id == 0:
                 if boss.attacking and boss.current_sprite > 3.2 and boss.current_sprite < 3.3 and boss.attack_number != 1 and boss.attack_number != 4:
-                    # print("special attack")
                     self.player_lives_update(1)
                 
 
@@ -423,7 +421,6 @@ class LevelTwo():
             screen.blit(old_high_score_text, old_high_score_text_rect)
             screen.blit(new_high_score, new_high_score_rect)
         elif new_high_score and level_two_score == 0:
-            print("inside second if")
             # if there is no old high score, i want it to say "your score: score"
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
@@ -439,7 +436,6 @@ class LevelTwo():
             screen.blit(player_score_text, player_score_text_rect)
             screen.blit(high_score_text, high_score_text_rect)
         else:
-            print("inside else")
             # if there is no new high score, i want it to say "your score: score"
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
@@ -591,3 +587,37 @@ class LevelTwo():
         self.vulture_group.draw(screen)
 
         self.update()
+
+levelTwo = LevelTwo()
+
+clock = pygame.time.Clock()
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and levelTwo.player.is_attacking == False:
+                levelTwo.player.jump()
+            if event.key == pygame.K_ESCAPE:
+                levelTwo.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+            if event.key == pygame.K_q:
+                levelTwo.player.attack(1)
+            if event.key == pygame.K_w:
+                levelTwo.player.attack(2)
+            if event.key == pygame.K_r:
+                levelTwo.player.roll()
+            if event.key == pygame.K_t:
+                levelTwo.player.current_sprite = 0
+                levelTwo.player.is_angry_emoting = True
+            if event.key == pygame.K_y:
+                levelTwo.player.is_normal_emoting = True
+
+        if event.type == pygame.QUIT:
+            running = False
+
+    levelTwo.run()
+    
+    pygame.display.flip()
+    clock.tick(FPS)
+
+pygame.quit()

@@ -9,7 +9,7 @@ FPS      = 60
 TILESIZE = 32
 
 global game_state
-game_state = 0
+game_state = -1
 
 global next_game_state
 next_game_state = -1
@@ -28,6 +28,9 @@ level_two_score = 0
 
 global leaving_level
 leaving_level = False
+
+global mute 
+mute = False
 
 #colors 
 BLACK = (0, 0, 0)

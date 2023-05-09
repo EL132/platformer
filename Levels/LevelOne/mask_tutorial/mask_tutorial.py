@@ -37,7 +37,7 @@ while True:
         overlap_centroid = overlap_mask.centroid()
         pygame.draw.circle(screen, (0, 200, 255), (overlap_centroid[0] + img_loc[0], overlap_centroid[1] + img_loc[1]), 10, 3)
         pygame.draw.circle(screen, (0, 200, 255), (overlap_centroid[0] + img_loc[0], overlap_centroid[1] + img_loc[1]), 3, 3)
-        print(overlap_mask.count(), mask.overlap_area(mask_2, (mx - img_loc[0], my - img_loc[1])), mask.overlap(mask, (mx - img_loc[0], my - img_loc[1])))
+        # print(overlap_mask.count(), mask.overlap_area(mask_2, (mx - img_loc[0], my - img_loc[1])), mask.overlap(mask, (mx - img_loc[0], my - img_loc[1])))
 
     for event in pygame.event.get():
         if event.type == QUIT:

@@ -43,8 +43,8 @@ class LevelSelector:
 							elif self.level_entrance_sprites.__len__() == 2:
 								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 2)
 
-		for entrance in self.level_entrance_sprites: 
-			print(entrance.level_number)
+		# for entrance in self.level_entrance_sprites: 
+		# 	print(entrance.level_number)
 		
 		self.player = Player((578, 382), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
 

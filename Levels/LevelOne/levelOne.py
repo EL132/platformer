@@ -378,7 +378,6 @@ class LevelOne():
         if ((self.player_lives * 1000 - int(display_time) * 10) < 0):
             score = 0
         elif (self.player_lives * 1000 - int(display_time) * 10) > settings.level_one_score:
-            print("new high score!!!")
             new_high_score = True
             # score is their score during this round 
             score = self.player_lives * 1000 - (display_time) * 10
@@ -403,7 +402,6 @@ class LevelOne():
             screen.blit(old_high_score_text, old_high_score_text_rect)
             screen.blit(new_high_score, new_high_score_rect)
         elif new_high_score and settings.level_one_score == 0:
-            print("inside second if")
             # if there is no old high score, i want it to say "your score: score"
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
@@ -419,7 +417,6 @@ class LevelOne():
             screen.blit(player_score_text, player_score_text_rect)
             screen.blit(high_score_text, high_score_text_rect)
         else:
-            print("inside else")
             # if there is no new high score, i want it to say "your score: score"
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
