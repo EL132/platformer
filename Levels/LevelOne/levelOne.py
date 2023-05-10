@@ -98,11 +98,11 @@ class LevelOne():
         self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
-        # if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
-        #     self.spawn_grunt()
-        #     self.spawned = True
-        # if int(self.display_time) % 7 != 0:
-        #     self.spawned = False
+        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
+            self.spawn_grunt()
+            self.spawned = True
+        if int(self.display_time) % 7 != 0:
+            self.spawned = False
 
     def spawn_grunt(self):
         direction = random.choice(['left', 'right'])
