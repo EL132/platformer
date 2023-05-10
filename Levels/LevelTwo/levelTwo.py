@@ -2,53 +2,21 @@ import pygame, time, random, math
 from pytmx.util_pygame import load_pygame
 
 
-from tile import Tile
+from Levels.LevelTwo.tile import Tile
+from Levels.LevelTwo.player import Player
+from Levels.LevelTwo.boss import Boss
+from Levels.LevelTwo.grunt import Grunt
+from Levels.LevelTwo.snake import Snake
+from Levels.LevelTwo.vulture import Vulture
+import settings 
 
-from player import Player
-from boss import Boss
-from grunt import Grunt
-from snake import Snake
-from vulture import Vulture
-
-pygame.init()
-
-# game setup
-DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 448
-
-global transition
-transition = False
-
-FPS      = 60
-TILESIZE = 32
-
-global game_state
-game_state = -1
-
-global next_game_state
-next_game_state = -1
-
-global difficulty
-difficulty = 2
-
-global save_level
-save_level = 0
-
-global level_one_score
-level_one_score = 0
-
-global level_two_score
-level_two_score = 0
-
-global leaving_level
-leaving_level = False
 
 #colors 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 
-screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 
 sprite_group = pygame.sprite.Group()
 
@@ -63,7 +31,7 @@ land_sprite_group = pygame.sprite.Group()
 
 sprite_group = pygame.sprite.Group()
 
-display_surface = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+display_surface = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 pygame.display.set_caption("tile map!")
 
 # cycle through all layers
@@ -100,7 +68,7 @@ class LevelTwo():
         self.vulture_group.add(self.vulture)
 
         self.grunt_group = pygame.sprite.Group()
-        self.grunt_one = Grunt(DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
+        self.grunt_one = Grunt(settings.DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_health = 1
@@ -161,7 +129,7 @@ class LevelTwo():
 
     def check_grunt_spawn(self):
         if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
-            self.spawn_grunt(random.randint(DISPLAY_WIDTH // 2 - 20, DISPLAY_WIDTH // 2 + 80), 0, random.choice(['left', 'right']), random.randint(2000, 5000))
+            self.spawn_grunt(random.randint(settings.DISPLAY_WIDTH // 2 - 20, settings.DISPLAY_WIDTH // 2 + 80), 0, random.choice(['left', 'right']), random.randint(2000, 5000))
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
@@ -194,7 +162,7 @@ class LevelTwo():
 
         time_text = self.medium_font.render("TIME  " + str(self.display_time), True, (255, 255, 255))
         time_rect = time_text.get_rect()
-        time_rect.center = (DISPLAY_WIDTH - 95, 20)
+        time_rect.center = (settings.DISPLAY_WIDTH - 95, 20)
         
         screen.blit(time_text, time_rect)
 
@@ -378,16 +346,16 @@ class LevelTwo():
 
         main_text = self.custom_font.render("GAME OVER", True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2)
+        main_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2)
 
         retry_text = self.custom_font.render("Press Y to retry", True, WHITE)
         exit_text = self.custom_font.render("Press N to exit", True, WHITE)
 
         retry_rect = retry_text.get_rect()
-        retry_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 + 50)
+        retry_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 + 50)
 
         exit_rect = exit_text.get_rect()
-        exit_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 + 100)
+        exit_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 + 100)
 
         #Display the pause text
         screen.fill(BLACK)
@@ -406,7 +374,7 @@ class LevelTwo():
                     if event.key == pygame.K_n:
                         self.reset()
                         game_state = 0
-                        transition = not transition
+                        settings.transition = not settings.transition
                         game_over = False
                 if event.type == pygame.QUIT: 
                     pygame.quit()
@@ -420,7 +388,7 @@ class LevelTwo():
         #Create main pause text
         main_text = self.title_font.render("YOU WON", True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (DISPLAY_WIDTH//2 + 15, DISPLAY_HEIGHT//2 - 150)
+        main_rect.center = (settings.DISPLAY_WIDTH//2 + 15, settings.DISPLAY_HEIGHT//2 - 150)
 
         new_high_score = False
         display_time = time.time() - self.starting_time
@@ -441,11 +409,11 @@ class LevelTwo():
 
             old_high_score_text = self.custom_font.render("OLD HIGH SCORE " + str(int(level_two_score)), True, WHITE)
             old_high_score_text_rect = old_high_score_text.get_rect()
-            old_high_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 75)
+            old_high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
             new_high_score = self.custom_font.render("NEW HIGH SCORE " + str(int(score)), True, WHITE)
             new_high_score_rect = new_high_score.get_rect()
-            new_high_score_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 25)
+            new_high_score_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
             # save the new high score with the "score" variable
             level_two_score = score
@@ -457,11 +425,11 @@ class LevelTwo():
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
             player_score_text_rect = player_score_text.get_rect()
-            player_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 75)
+            player_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
             high_score_text = self.custom_font.render("HIGH SCORE " + str(int(score)), True, WHITE)
             high_score_text_rect = high_score_text.get_rect()
-            high_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 25)
+            high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
             level_two_score = score
 
@@ -472,11 +440,11 @@ class LevelTwo():
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
             player_score_text_rect = player_score_text.get_rect()
-            player_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 75)
+            player_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
             high_score_text = self.custom_font.render("HIGH SCORE " + str(int(level_two_score)), True, WHITE)
             high_score_text_rect = high_score_text.get_rect()
-            high_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 25)
+            high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
             screen.blit(player_score_text, player_score_text_rect)
             screen.blit(high_score_text, high_score_text_rect)
@@ -486,7 +454,7 @@ class LevelTwo():
 
         continue_text = self.custom_font.render("PRESS ENTER TO CONTINUE", True, WHITE)
         continue_rect = main_text.get_rect()
-        continue_rect.center = (DISPLAY_WIDTH//2 - 55, DISPLAY_HEIGHT//2 + 100)
+        continue_rect.center = (settings.DISPLAY_WIDTH//2 - 55, settings.DISPLAY_HEIGHT//2 + 100)
         
         #Display the pause text
         screen.blit(main_text, main_rect)
@@ -505,7 +473,7 @@ class LevelTwo():
                         pygame.mixer.music.stop()
 
                         next_game_state = 0
-                        transition = True
+                        settings.transition = True
                         pygame.image.save(screen,"screenshot.jpg")
                         game_over = False
 
@@ -553,17 +521,17 @@ class LevelTwo():
         #Create main pause text
         main_text = self.custom_font.render(main_text, True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 - 100)
+        main_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 - 100)
 
         #Create sub pause text
         sub_text1 = self.custom_font.render(sub_text1, True, WHITE)
         sub_rect1 = sub_text1.get_rect()
-        sub_rect1.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 - 50)
+        sub_rect1.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 - 50)
         
         #Create sub pause text
         sub_text2 = self.custom_font.render(sub_text2, True, WHITE)
         sub_rect2 = sub_text2.get_rect()
-        sub_rect2.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2)
+        sub_rect2.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2)
 
         # blurred_background = pygame.transform.box_blur(screen, 5)
         blurred_background = self.blurSurf(screen, 5)
@@ -619,37 +587,3 @@ class LevelTwo():
         self.vulture_group.draw(screen)
 
         self.update()
-
-levelTwo = LevelTwo()
-
-clock = pygame.time.Clock()
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and levelTwo.player.is_attacking == False:
-                levelTwo.player.jump()
-            if event.key == pygame.K_ESCAPE:
-                levelTwo.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
-            if event.key == pygame.K_q:
-                levelTwo.player.attack(1)
-            if event.key == pygame.K_w:
-                levelTwo.player.attack(2)
-            if event.key == pygame.K_r:
-                levelTwo.player.roll()
-            if event.key == pygame.K_t:
-                levelTwo.player.current_sprite = 0
-                levelTwo.player.is_angry_emoting = True
-            if event.key == pygame.K_y:
-                levelTwo.player.is_normal_emoting = True
-
-        if event.type == pygame.QUIT:
-            running = False
-
-    levelTwo.run()
-    
-    pygame.display.flip()
-    clock.tick(FPS)
-
-pygame.quit()
