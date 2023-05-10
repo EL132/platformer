@@ -103,6 +103,7 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
+            print("test")
 
     def spawn_grunt(self):
         direction = random.choice(['left', 'right'])
