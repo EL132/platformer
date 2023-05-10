@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="25" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="25" height="14" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
  <tileset firstgid="1" source="../Tiles/Background.tsx"/>
  <tileset firstgid="181" source="../Tiles/no-rock.tsx"/>
  <tileset firstgid="182" source="../Tiles/no-rock-1.tsx"/>
@@ -7,6 +7,7 @@
  <tileset firstgid="198" source="../Tiles/right-middle.tsx"/>
  <tileset firstgid="201" source="../Tiles/middle-layer-2.tsx"/>
  <tileset firstgid="216" source="../Tiles/middle-transition.tsx"/>
+ <tileset firstgid="228" source="../Tiles/middle-transition-no-rock.tsx"/>
  <layer id="1" name="Background" width="25" height="14">
   <data encoding="csv">
 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,1,2,3,4,5,6,7,
@@ -18,7 +19,7 @@
 109,110,111,112,113,114,115,182,117,118,181,120,121,122,123,124,125,126,109,110,111,112,113,114,115,
 183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,183,184,185,186,187,188,189,
 201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,201,202,203,204,205,206,207,208,209,210,
-216,217,218,219,220,221,222,223,224,225,226,227,216,217,218,219,220,221,222,223,224,225,226,227,216,
+216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,216,
 127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,127,128,129,130,131,132,133,
 145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,145,146,147,148,149,150,151,
 163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,163,164,165,166,167,168,169,
