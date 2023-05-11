@@ -11,6 +11,7 @@ from Levels.LevelOne.boss import Boss
 from Levels.LevelOne.miniChomper import MiniChomper
 from Levels.LevelOne.grunt import Grunt
 from Levels.LevelOne.constants import *
+from debug import debug
 
 
 screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -40,10 +41,7 @@ for layer in tmx_data.visible_layers:
 
 class LevelOne():
     def __init__(self):
-        self.player = Player(164, 290, land_sprite_group)
-        self.player_group = pygame.sprite.Group()
-        self.player_group.add(self.player)
-        self.player_lives = 3
+        
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
         self.medium_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 40)
@@ -85,6 +83,11 @@ class LevelOne():
         self.word_draw_start_time = 0
 
         self.spawned = False
+
+        self.player = Player(164, 208, land_sprite_group)
+        self.player_group = pygame.sprite.Group()
+        self.player_group.add(self.player)
+        self.player_lives = 3
 
     def update(self):
         if self.loaded_up:
@@ -464,7 +467,7 @@ class LevelOne():
         self.player_lives = 3
         self.boss_health = 1
         self.boss_chomper.rect.bottomleft = (600, 385)
-        self.player.position = (164, 164)
+        self.player.position = (164, 288)
         self.player.able_to_move = True
         self.player.is_hurting = False
         self.player.is_attacking = False
@@ -565,3 +568,5 @@ class LevelOne():
         self.grunt_group.draw(screen)
 
         self.update()
+
+        debug(self.player.rect)

@@ -8,6 +8,7 @@ from Levels.LevelTwo.boss import Boss
 from Levels.LevelTwo.grunt import Grunt
 from Levels.LevelTwo.snake import Snake
 from Levels.LevelTwo.vulture import Vulture
+from debug import debug
 import settings 
 
 
@@ -45,7 +46,7 @@ for layer in tmx_data.visible_layers:
 
 class LevelTwo():
     def __init__(self):
-        self.player = Player(164, 290, land_sprite_group)
+        self.player = Player(164, 384, land_sprite_group)
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
         self.player_lives = 3
@@ -481,7 +482,7 @@ class LevelTwo():
         self.player_lives = 3
         self.boss_health = 1
         self.boss.rect.bottomleft = (600, 385)
-        self.player.position = (164, 164)
+        self.player.position = (164, 384)
         self.player.able_to_move = True
         self.player.is_hurting = False
         self.player.is_attacking = False
@@ -587,3 +588,5 @@ class LevelTwo():
         self.vulture_group.draw(screen)
 
         self.update()
+                
+        debug(self.player.rect)
