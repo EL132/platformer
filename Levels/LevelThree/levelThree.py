@@ -288,11 +288,11 @@ class LevelThree():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.collision_rect.colliderect(boss_one.head_rect):
-                        self.boss_one_hurt(1)
+                        self.boss_one_hurt(0.1)
                     elif player.rect.colliderect(boss_one.rect):
                         self.boss_one_hurt(0.04)
                     elif player.rect.colliderect(boss_two.head_rect):
-                        self.boss_two_hurt(1)
+                        self.boss_two_hurt(0.1)
                     elif player.rect.colliderect(boss_two.rect):
                         self.boss_two_hurt(0.04)
 
