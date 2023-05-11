@@ -159,7 +159,7 @@ class Tutorial():
                 pygame.display.flip()
 
     def key(self):
-        key_binds = ['LEFT', 'RIGHT', 'UP', 'SPACE', 'RSHIFT', 'ESCAPE', 'Q', 'W', 'R', 'T', 'Y', 'SPACE']
+        key_binds = ['LEFT', 'RIGHT', 'UP', 'SPACE', 'SHIFT', 'ESCAPE', 'Q', 'W', 'R', 'T', 'Y', 'SPACE']
         directions = ['move   left', 'move   right', 'jump', 'jump', 'sprint', 'pause', 'attack 1', 'attack 2', 'roll', 'taunt', 'emote', 'double jump']
 
         # i want to draw a rectangle for each key bind
