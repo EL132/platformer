@@ -90,6 +90,7 @@ class LevelOne():
         self.player_lives = 3
 
     def update(self):
+        print("update")
         if self.loaded_up:
             self.starting_time = time.time()
             self.loaded_up = False
@@ -106,7 +107,6 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
-            print("test")
 
     def spawn_grunt(self):
         direction = random.choice(['left', 'right'])
@@ -232,7 +232,7 @@ class LevelOne():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(0.05)
+                        self.boss_hurt(1000)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
                         self.boss_hurt(0.1)
@@ -324,6 +324,8 @@ class LevelOne():
 
 
     def show_player_loss_screen(self):
+        print("over")
+
         game_over = True
 
         WHITE = (255, 255, 255)
@@ -333,8 +335,8 @@ class LevelOne():
         main_rect = main_text.get_rect()
         main_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2)
 
-        retry_text = self.custom_font.render("Press Y to retry", True, WHITE)
-        exit_text = self.custom_font.render("Press N to exit", True, WHITE)
+        retry_text = self.custom_font.render("Press  Y  to retry", True, WHITE)
+        exit_text = self.custom_font.render("Press  N  to exit", True, WHITE)
 
         retry_rect = retry_text.get_rect()
         retry_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 50)
@@ -343,7 +345,7 @@ class LevelOne():
         exit_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 100)
 
         #Display the pause text
-        screen.fill(BLACK)
+        screen.fill("green")
         screen.blit(main_text, main_rect)
         screen.blit(retry_text, retry_rect)
         screen.blit(exit_text, exit_rect)
@@ -356,11 +358,14 @@ class LevelOne():
                     if event.key == pygame.K_y:
                         self.reset()
                         game_over = False
-                    if event.key == pygame.K_n:
-                        self.reset()
-                        settings.game_state = 0
-                        settings.transition = not settings.transition
+                    if event.key == pygame.K_n:                        
+                        pygame.mixer.music.stop()
+
+                        settings.next_game_state = 0
+                        settings.transition = True
+                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
                         game_over = False
+
                 if event.type == pygame.QUIT: 
                     pygame.quit()
 

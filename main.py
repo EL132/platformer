@@ -150,7 +150,9 @@ class Game:
 							self.levelTwo.player.is_normal_emoting = True
 					
 					if settings.game_state == 0:
-						pass
+						if event.key == pygame.K_k:
+							# pygame.image.save(self.screen, "./LevelSelector/levelSelectorStart.png")
+							pass
 
 			self.screen.fill('black')
 
