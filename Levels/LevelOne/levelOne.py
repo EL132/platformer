@@ -41,7 +41,7 @@ for layer in tmx_data.visible_layers:
 
 class LevelOne():
     def __init__(self):
-        
+        self.click = False        
 
         self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
         self.medium_font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 40)
@@ -499,6 +499,14 @@ class LevelOne():
         surf = pygame.transform.smoothscale(surface, scale_size)
         surf = pygame.transform.smoothscale(surf, surf_size)
         return surf
+    
+
+    def draw_text(self, text, font, color, surface, x, y):
+        textobj = font.render(text, 1, color)
+        textrect = textobj.get_rect()
+        textrect.topleft = (x, y)
+        surface.blit(textobj, textrect)
+
 
     def pause_game(self, main_text, sub_text1, sub_text2):
         time_initial = time.time()
@@ -531,19 +539,34 @@ class LevelOne():
         blurred_rect = blurred_background.get_rect(topleft = (0, 0))
         screen.blit(blurred_background, blurred_rect)
 
-        #Display the pause text
-        # screen.fill(BLACK)
-        pygame.draw.rect(screen, BLACK, pygame.Rect(150, 80, 475, 180), 3)
-        pygame.draw.line(screen, WHITE, (153, 150), (621, 150), 3)
-        screen.blit(main_text, main_rect)
-        screen.blit(sub_text1, sub_rect1)
-        screen.blit(sub_text2, sub_rect2)
-        pygame.display.update()
+        font = pygame.font.Font('./Levels/LevelOne/fonts/ARCADECLASSIC.ttf', 32)
+        self.select = pygame.mixer.Sound('./SFX/menu-select.mp3')
+        self.select.set_volume(0.3)
+        self.hover = pygame.mixer.Sound('./SFX/menu-hover.wav')
 
-        #Pause the game until user hits enter or quits
+        # (left, top, width, height)
+        easy_button = pygame.Rect(205, 315, 69, 35)
+        medium_button = pygame.Rect(305, 315, 108, 35)
+        hard_button = pygame.Rect(455, 315, 70, 35)
+
+        button_list = [False, False, False, False, False]
         is_paused = True
         while is_paused:
+            screen.blit(blurred_background, blurred_rect)
+            pygame.draw.rect(screen, BLACK, pygame.Rect(150, 80, 475, 280), 3)
+            pygame.draw.line(screen, WHITE, (153, 150), (621, 150), 3)
+            screen.blit(main_text, main_rect)
+            screen.blit(sub_text1, sub_rect1)
+            screen.blit(sub_text2, sub_rect2)
+            self.draw_text('Difficulty', font, (255, 255, 255), screen, 170, 255)
+            self.draw_text('Easy', font, (255, 255, 255), screen, 205, 315)
+            self.draw_text('Medium', font, (255, 255, 255), screen, 305, 315)
+            self.draw_text('Hard', font, (255, 255, 255), screen, 455, 315)
+            self.click = False
             for event in pygame.event.get():
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        self.click = True 
                 if event.type == pygame.KEYDOWN:
                     #User wants to continue
                     if event.key == pygame.K_RETURN:
@@ -557,6 +580,45 @@ class LevelOne():
                 if event.type == pygame.QUIT:
                     is_paused = False
                     pygame.quit()
+
+            mx, my = pygame.mouse.get_pos()
+            if easy_button.collidepoint((mx, my)):
+                if not button_list[0]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[0] = True
+                pygame.draw.line(screen, (255, 0, 0), (205, 345), (275, 345), 4)
+                if self.click:
+                    settings.difficulty = 1
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[0] = False
+
+            if medium_button.collidepoint((mx, my)):
+                if not button_list[1]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[1] = True
+                pygame.draw.line(screen, (255, 0, 0), (305, 345), (410, 345), 4)
+                if self.click:
+                    settings.difficulty = 2
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[1] = False
+
+            if hard_button.collidepoint((mx, my)):
+                if not button_list[2]:
+                    pygame.mixer.Sound.play(self.hover)
+                    button_list[2] = True
+                pygame.draw.line(screen, (255, 0, 0), (455, 345), (525, 345), 4)
+                if self.click:
+                    settings.difficulty = 3
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
+                    pygame.mixer.Sound.play(self.select)
+            else:
+                button_list[2] = False
+            
+            pygame.display.update()
 
     def run(self): 
         sprite_group.draw(screen)
