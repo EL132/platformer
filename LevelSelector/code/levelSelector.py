@@ -1,11 +1,11 @@
 #this is on the new branch 
 import pygame
 import settings
-from LevelSelector.code.tile import Tile
-from LevelSelector.code.player import Player
-from LevelSelector.code.debug import debug
-from LevelSelector.code.levelEntrance import LevelEntrance
-from LevelSelector.code.support import *
+from LevelSelector.Code.tile import Tile
+from LevelSelector.Code.player import Player
+from debug import debug
+from LevelSelector.Code.levelEntrance import LevelEntrance
+from LevelSelector.Code.support import *
 
 class LevelSelector:
 	def __init__(self):
@@ -23,8 +23,8 @@ class LevelSelector:
 	def create_map(self):
 		#add each csv into layout array
 		layout = {
-			'trail_border': import_csv_layout('./levelSelectorTileMap/csv/map_Border.csv'),
-			'level_entrance': import_csv_layout('./levelSelectorTileMap/csv/map_Level Entrance.csv'),
+			'trail_border': import_csv_layout('./LevelSelector/TilemapAssets/csv/map_Border.csv'),
+			'level_entrance': import_csv_layout('./LevelSelector/TilemapAssets/csv/map_Level Entrance.csv'),
 		}
 
 		for style, layout in layout.items(): 
@@ -55,7 +55,6 @@ class LevelSelector:
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
-		# debug(self.player.rect)
 
 class YSortCameraGroup(pygame.sprite.Group):
 	def __init__(self): 
@@ -65,19 +64,43 @@ class YSortCameraGroup(pygame.sprite.Group):
 		self.half_height = self.screen.get_size()[1] // 2 
 		self.offset = pygame.math.Vector2(100, 200)
 
-		self.map_image = pygame.image.load("./levelSelectorTileMap/map.png")
+		self.map_image = pygame.image.load("./LevelSelector/TilemapAssets/map.png")
 		self.map_rect = self.map_image.get_rect(topleft = (0, 0))
 
+		#calculate stars for levelOne
 		if settings.level_one_score == 0:
-			self.level_one_stars = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/starsZero.png")
+			self.level_one_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsZero.png")
 		elif settings.level_one_score < 1500:
-			self.level_one_stars = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/starsOne.png")
+			self.level_one_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsOne.png")
 		elif settings.level_one_score < 2500: 
-			self.level_one_stars = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/starsTwo.png")
-		elif settings.level_one_score > 2500: 
-			self.level_one_stars = pygame.image.load("./levelSelectorTileMap/setOne/3 UI/Stars.png")
+			self.level_one_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsTwo.png")
+		else:
+			self.level_one_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/Stars.png")
 
-		self.stars_rect_one = self.level_one_stars.get_rect(topleft = (685, 311))
+		#calculate stars for levelTwo
+		if settings.level_two_score == 0:
+			self.level_two_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsZero.png")
+		elif settings.level_two_score < 1500:
+			self.level_two_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsOne.png")
+		elif settings.level_two_score < 2500: 
+			self.level_two_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsTwo.png")
+		else:
+			self.level_two_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/Stars.png")
+
+		#calculate stars for levelThree
+		if settings.level_three_score == 0:
+			self.level_three_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsZero.png")
+		elif settings.level_three_score < 1500:
+			self.level_three_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsOne.png")
+		elif settings.level_three_score < 2500: 
+			self.level_three_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/starsTwo.png")
+		else:
+			self.level_three_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/Stars.png")
+
+		self.level_one_stars_rect = self.level_one_stars.get_rect(topleft = (685, 311))
+		self.level_two_stars_rect = self.level_two_stars.get_rect(topleft = (654, 1277))
+		self.level_three_stars_rect = self.level_three_stars.get_rect(topleft = (1293, 437))
+
 
 	def custom_draw(self, player): 
 		#calculate offset based on player movement 
@@ -87,8 +110,14 @@ class YSortCameraGroup(pygame.sprite.Group):
 		map_offset = self.map_rect.topleft - self.offset
 		self.screen.blit(self.map_image, map_offset)
 
-		stars_offset = self.stars_rect_one.topleft - self.offset
-		self.screen.blit(self.level_one_stars, stars_offset)
+		stars_one_offset = self.level_one_stars_rect.topleft - self.offset
+		self.screen.blit(self.level_one_stars, stars_one_offset)
+
+		stars_two_offset = self.level_two_stars_rect.topleft - self.offset
+		self.screen.blit(self.level_two_stars, stars_two_offset)
+
+		stars_three_offset = self.level_three_stars_rect.topleft - self.offset
+		self.screen.blit(self.level_three_stars, stars_three_offset)
 
 		#loop through each sprite and blit according to offset position 
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):

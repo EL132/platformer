@@ -3,28 +3,26 @@ from pytmx.util_pygame import load_pygame
 from GameSave.SaveLoadManager import SaveLoadSystem
 
 
-from tile import Tile
-from player import Player
-from bear import Bear
-from mech import Mech
-from grunt import Grunt
+from Levels.LevelThree.tile import Tile
+from Levels.LevelThree.player import Player
+from Levels.LevelThree.bear import Bear
+from Levels.LevelThree.mech import Mech
+from Levels.LevelThree.grunt import Grunt
+from debug import debug
 import settings
 
 pygame.init()
-
-
-DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 448
-
-transition = False
 
 #colors 
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 
 
-screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
+
 save_load_manager = SaveLoadSystem(".save", "save_data")
+settings.level_three_score = save_load_manager.load_game_data(["level_three_score"], [0])
+
 sprite_group = pygame.sprite.Group()
 
 tmx_data = load_pygame('./Levels/levelThree/Tiled/Maps/main.tmx')
@@ -42,7 +40,7 @@ for layer in tmx_data.visible_layers:
 
 class LevelThree():
     def __init__(self):
-        self.player = Player(164, 290, land_sprite_group)
+        self.player = Player(30, 128, land_sprite_group)
         self.player_group = pygame.sprite.Group()
         self.player_group.add(self.player)
         self.player_lives = 3
@@ -67,7 +65,7 @@ class LevelThree():
         # self.vulture_group.add(self.vulture)
 
         self.grunt_group = pygame.sprite.Group()
-        self.grunt_one = Grunt(DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
+        self.grunt_one = Grunt(settings.DISPLAY_WIDTH, 0, 'right', 3500, land_sprite_group)
 
         self.heart = pygame.transform.scale(pygame.image.load("./Levels/LevelOne/images/heart.png").convert_alpha(), (48, 48))
         self.boss_one_health = 1
@@ -90,7 +88,7 @@ class LevelThree():
 
         self.spawned = False
 
-    def update(self):
+    def update(self):        
         if self.loaded_up:
             self.starting_time = time.time()
             self.loaded_up = False
@@ -112,6 +110,8 @@ class LevelThree():
             for ball in self.boss_two.ball_group:
                 self.check_ball_collisions(ball)
 
+
+
     def check_ball_collisions(self, ball):
         if self.player.is_rolling:
             if ball.rect.colliderect(self.player.leg_hitbox_rect):
@@ -126,7 +126,7 @@ class LevelThree():
 
     def check_grunt_spawn(self):
         if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
-            self.spawn_grunt(random.randint(DISPLAY_WIDTH // 2 - 20, DISPLAY_WIDTH // 2 + 80), 0, random.choice(['left', 'right']), random.randint(2000, 5000))
+            self.spawn_grunt(random.randint(settings.DISPLAY_WIDTH // 2 - 20, settings.DISPLAY_WIDTH // 2 + 80), 0, random.choice(['left', 'right']), random.randint(2000, 5000))
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
@@ -159,7 +159,7 @@ class LevelThree():
 
         time_text = self.medium_font.render("TIME  " + str(self.display_time), True, (0, 0, 0))
         time_rect = time_text.get_rect()
-        time_rect.center = (DISPLAY_WIDTH - 95, 20)
+        time_rect.center = (settings.DISPLAY_WIDTH - 95, 20)
         
         screen.blit(time_text, time_rect)
 
@@ -398,16 +398,16 @@ class LevelThree():
 
         main_text = self.custom_font.render("GAME OVER", True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2)
+        main_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2)
 
         retry_text = self.custom_font.render("Press Y to retry", True, WHITE)
         exit_text = self.custom_font.render("Press N to exit", True, WHITE)
 
         retry_rect = retry_text.get_rect()
-        retry_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 + 50)
+        retry_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 + 50)
 
         exit_rect = exit_text.get_rect()
-        exit_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 + 100)
+        exit_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 + 100)
 
         #Display the pause text
         screen.fill(BLACK)
@@ -423,11 +423,14 @@ class LevelThree():
                     if event.key == pygame.K_y:
                         self.reset()
                         game_over = False
-                    if event.key == pygame.K_n:
-                        self.reset()
-                        game_state = 0
-                        transition = not transition
+                    if event.key == pygame.K_n:                        
+                        pygame.mixer.music.stop()
+
+                        settings.next_game_state = 0
+                        settings.transition = True
+                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
                         game_over = False
+
                 if event.type == pygame.QUIT: 
                     pygame.quit()
 
@@ -440,14 +443,14 @@ class LevelThree():
         #Create main pause text
         main_text = self.title_font.render("YOU WON", True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (DISPLAY_WIDTH//2 + 15, DISPLAY_HEIGHT//2 - 150)
+        main_rect.center = (settings.DISPLAY_WIDTH//2 + 15, settings.DISPLAY_HEIGHT//2 - 150)
 
         new_high_score = False
         display_time = time.time() - self.starting_time
         # previous :
         if ((self.player_lives * 1000 - int(display_time) * 10) < 0):
             score = 0
-        elif (self.player_lives * 1000 - int(display_time) * 10) > level_two_score:
+        elif (self.player_lives * 1000 - int(display_time) * 10) > settings.level_three_score :
             print("new high score!!!")
             new_high_score = True
             # score is their score during this round 
@@ -457,33 +460,33 @@ class LevelThree():
         
         screen.fill(BLACK)
 
-        if new_high_score and level_two_score != 0:
+        if new_high_score and settings.level_three_score != 0:
 
-            old_high_score_text = self.custom_font.render("OLD HIGH SCORE " + str(int(level_two_score)), True, WHITE)
+            old_high_score_text = self.custom_font.render("OLD HIGH SCORE " + str(int(settings.level_three_score)), True, WHITE)
             old_high_score_text_rect = old_high_score_text.get_rect()
-            old_high_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 75)
+            old_high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
             new_high_score = self.custom_font.render("NEW HIGH SCORE " + str(int(score)), True, WHITE)
             new_high_score_rect = new_high_score.get_rect()
-            new_high_score_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 25)
+            new_high_score_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
             # save the new high score with the "score" variable
-            level_two_score = score
+            settings.level_three_score = score
 
             screen.blit(old_high_score_text, old_high_score_text_rect)
             screen.blit(new_high_score, new_high_score_rect)
-        elif new_high_score and level_two_score == 0:
+        elif new_high_score and settings.level_three_score == 0:
             # if there is no old high score, i want it to say "your score: score"
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
             player_score_text_rect = player_score_text.get_rect()
-            player_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 75)
+            player_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
             high_score_text = self.custom_font.render("HIGH SCORE " + str(int(score)), True, WHITE)
             high_score_text_rect = high_score_text.get_rect()
-            high_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 25)
+            high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
-            level_two_score = score
+            settings.level_three_score  = score
 
             screen.blit(player_score_text, player_score_text_rect)
             screen.blit(high_score_text, high_score_text_rect)
@@ -492,21 +495,21 @@ class LevelThree():
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
             player_score_text_rect = player_score_text.get_rect()
-            player_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 75)
+            player_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
-            high_score_text = self.custom_font.render("HIGH SCORE " + str(int(level_two_score)), True, WHITE)
+            high_score_text = self.custom_font.render("HIGH SCORE " + str(int(settings.level_three_score )), True, WHITE)
             high_score_text_rect = high_score_text.get_rect()
-            high_score_text_rect.center = (DISPLAY_WIDTH//2 + 20, DISPLAY_HEIGHT//2 - 25)
+            high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
             screen.blit(player_score_text, player_score_text_rect)
             screen.blit(high_score_text, high_score_text_rect)
         
 
-        # save_load_manager.save_game_data([level_two_score], ["level_two_score"])
+        save_load_manager.save_game_data([settings.level_three_score ], ["level_three_score "])
 
         continue_text = self.custom_font.render("PRESS ENTER TO CONTINUE", True, WHITE)
         continue_rect = main_text.get_rect()
-        continue_rect.center = (DISPLAY_WIDTH//2 - 55, DISPLAY_HEIGHT//2 + 100)
+        continue_rect.center = (settings.DISPLAY_WIDTH//2 - 55, settings.DISPLAY_HEIGHT//2 + 100)
         
         #Display the pause text
         screen.blit(main_text, main_rect)
@@ -517,16 +520,18 @@ class LevelThree():
         while game_over:
             for event in pygame.event.get():    
                 #User wants to quit
+                if event.type == pygame.QUIT:
+                    pygame.quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         # THIS SHOULD GO TO THE LEVEL SELECTOR
-                        # save_load_manager.save_game_data([level_two_score], ["level_two_score"])
+                        save_load_manager.save_game_data([settings.level_three_score], ["level_three_score"])
                         
                         pygame.mixer.music.stop()
 
-                        next_game_state = 0
-                        transition = True
-                        pygame.image.save(screen,"screenshot.jpg")
+                        settings.next_game_state = 0
+                        settings.transition = True
+                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
                         game_over = False
 
     def reset(self):
@@ -686,6 +691,7 @@ class LevelThree():
             pygame.display.update()
 
     def run(self): 
+        sprite_group.update()
         sprite_group.draw(screen)
 
         self.player_group.update()
@@ -696,47 +702,8 @@ class LevelThree():
 
         # self.creeper_group.update()
         # self.creeper_group.draw(screen)
-
+# 
         self.grunt_group.update(self.player)
         self.grunt_group.draw(screen)
 
         self.update()
-
-
-# temp implementation
-
-levelThree = LevelThree()
-
-clock = pygame.time.Clock()
-
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and levelThree.player.is_attacking == False:
-                levelThree.player.jump()
-            if event.key == pygame.K_ESCAPE:
-                levelThree.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
-            if event.key == pygame.K_q:
-                levelThree.player.attack(1)
-            if event.key == pygame.K_w:
-                levelThree.player.attack(2)
-            if event.key == pygame.K_r:
-                levelThree.player.roll()
-            if event.key == pygame.K_t:
-                levelThree.player.is_angry_emoting = True
-            if event.key == pygame.K_y:
-                levelThree.player.is_normal_emoting = True
-    
-    sprite_group.draw(screen)
-    sprite_group.update()
-
-    levelThree.run()
-
-    pygame.display.update()
-
-    clock.tick(60)
-pygame.quit()

@@ -1,9 +1,9 @@
 import pygame, sys
 import settings 
-from LevelSelector.code.debug import debug
-from LevelSelector.code.levelSelector import LevelSelector
+from LevelSelector.Code.levelSelector import LevelSelector
 from Levels.LevelOne.levelOne import LevelOne
 from Levels.LevelTwo.levelTwo import LevelTwo
+from Levels.LevelThree.levelThree import LevelThree
 from GameSave.SaveLoadManager import SaveLoadSystem
 from Menu.menu import Menu
 
@@ -29,6 +29,7 @@ class Game:
 		self.levelSelector = LevelSelector()
 		self.levelOne = LevelOne()
 		self.levelTwo = LevelTwo() 
+		self.levelThree = LevelThree()
 		self.menu = Menu()
 
 	def fadeOut(self): 
@@ -86,6 +87,8 @@ class Game:
 			image = pygame.image.load("LevelSelector/levelOneStart.png")
 		elif settings.next_game_state == 2: 
 			image = pygame.image.load("LevelSelector/levelTwoStart.png")
+		elif settings.next_game_state == 3: 
+			image = pygame.image.load("LevelSelector/levelThreeStart.png")
 
 		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
@@ -100,7 +103,8 @@ class Game:
 			self.curtain_closed = False	
 
 	def run(self):
-		while True:
+		while True:	
+			print(settings.game_state)
 			if settings.mute:
 				pygame.mixer.music.set_volume(0)
 			else:
@@ -148,7 +152,26 @@ class Game:
 							self.levelTwo.player.is_angry_emoting = True
 						if event.key == pygame.K_y:
 							self.levelTwo.player.is_normal_emoting = True
-					
+
+					if settings.game_state == 3: 
+						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelThree.player.is_attacking == False:
+							self.levelThree.player.jump()
+						if event.key == pygame.K_ESCAPE:
+							self.levelThree.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+						if event.key == pygame.K_q:
+							self.levelThree.player.attack(1)
+						if event.key == pygame.K_w:
+							self.levelThree.player.attack(2)
+						if event.key == pygame.K_r:
+							self.levelThree.player.roll()
+						if event.key == pygame.K_t:
+							self.levelThree.player.is_angry_emoting = True
+						if event.key == pygame.K_y:
+							self.levelThree.player.is_normal_emoting = True
+						if event.key == pygame.K_k:
+							# pygame.image.save(self.screen, "./LevelSelector/levelThreeStart.png")
+							pass
+
 					if settings.game_state == 0:
 						if event.key == pygame.K_k:
 							# pygame.image.save(self.screen, "./LevelSelector/levelSelectorStart.png")
@@ -195,7 +218,13 @@ class Game:
 					self.curtainIn()
 
 			elif settings.game_state == 3:
-				pass
+				if not settings.transition:
+					self.levelThree.run()
+				else:
+					del self.levelSelector
+					self.levelSelector = LevelSelector()
+
+					self.curtainIn()
 
 			pygame.display.update()
 

@@ -8,4 +8,3 @@ def import_csv_layout(path):
             terrain_map.append(list(row))
         return terrain_map
 
-import_csv_layout('./LevelSelector/Tilemaps/csv/LevelSelector._Level Entrance.csv')

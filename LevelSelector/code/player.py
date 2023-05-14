@@ -16,7 +16,7 @@ class Player(pygame.sprite.Sprite):
 		self.previous_sprite_list = self.walk_front_frames
 
 		self.current_dust = 0
-		self.dust_image = self.dust_frames[self.current_dust]
+		self.dust_image = self.dust_right_frames[self.current_dust]
 
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(-10, 0)
@@ -155,12 +155,12 @@ class Player(pygame.sprite.Sprite):
 		self.previous_sprite_list = sprite_list
 
 	def animate_dust(self, pos_x, pos_y, speed): 
-		if self.current_dust < len(self.dust_frames) - 0.1:
+		if self.current_dust < len(self.dust_right_frames) - 0.1:
 				self.current_dust += speed
 		else:
 			self.current_dust = 0
 
-		self.dust_image = self.dust_frames[int(self.current_sprite)]
+		self.dust_image = self.dust_right_frames[int(self.current_sprite)]
 		self.screen.blit(self.dust_image, (settings.DISPLAY_WIDTH // 2 + pos_x, settings.DISPLAY_HEIGHT // 2 + pos_y))
 
 
@@ -190,24 +190,24 @@ class Player(pygame.sprite.Sprite):
 		self.walk_right_frames = []
 		self.walk_left_frames = []
 
-		self.dust_frames = []
+		self.dust_right_frames = []
+		self.dust_left_frames = []
 
-		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha())
-		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(2).png').convert_alpha())
-		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(1).png').convert_alpha())
-		self.walk_back_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/back/back(3).png').convert_alpha())
+		for i in range(1, 4):
+			self.walk_back_frames.append(pygame.image.load(f'./LevelSelector/SpritesAndArt/sprite animations/back/back({i}).png').convert_alpha())
+			self.walk_front_frames.append(pygame.image.load(f'./LevelSelector/SpritesAndArt/sprite animations/front/front({i}).png').convert_alpha())
+			self.walk_right_frames.append(pygame.image.load(f'./LevelSelector/SpritesAndArt/sprite animations/right/right({i}).png').convert_alpha())
 
-		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha())
-		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(2).png').convert_alpha())
-		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(1).png').convert_alpha())
-		self.walk_front_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/front/front(3).png').convert_alpha())
+		self.walk_back_frames.insert(2, pygame.image.load('./LevelSelector/SpritesAndArt/sprite animations/back/back(1).png').convert_alpha())
+		self.walk_front_frames.insert(2, pygame.image.load('./LevelSelector/SpritesAndArt/sprite animations/front/front(1).png').convert_alpha())
+		self.walk_right_frames.insert(2, pygame.image.load('./LevelSelector/SpritesAndArt/sprite animations/right/right(1).png').convert_alpha())
 
-		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha())
-		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(2).png').convert_alpha())
-		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(1).png').convert_alpha())
-		self.walk_right_frames.append(pygame.image.load('./LevelSelector/graphics/sprite animations/right/right(3).png').convert_alpha())
 		for frame in self.walk_right_frames:
 			self.walk_left_frames.append(pygame.transform.flip(frame, True, False))
 
 		for i in range (1, 8):
-			self.dust_frames.append(pygame.image.load(f"./LevelSelector/RUNNING DUST/Split/dust({i}).png"))
+			self.dust_right_frames.append(pygame.image.load(f"./LevelSelector/SpritesAndArt/running dust/Split/dust({i}).png"))
+
+		for frame in self.dust_right_frames:
+			self.dust_left_frames.append(pygame.transform.flip(frame, True, False))
+

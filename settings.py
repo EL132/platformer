@@ -9,7 +9,7 @@ FPS      = 60
 TILESIZE = 32
 
 global game_state
-game_state = 2
+game_state = 0
 
 global next_game_state
 next_game_state = -1
@@ -25,6 +25,9 @@ level_one_score = 0
 
 global level_two_score
 level_two_score = 0
+
+global level_three_score
+level_three_score = 0
 
 global leaving_level
 leaving_level = False
