@@ -1,5 +1,8 @@
 import pygame, random
-# from Levels.LevelOne.constants import WINDOW_WIDTH
+from GameSave.SaveLoadManager import SaveLoadSystem
+
+save_load_manager = SaveLoadSystem(".save", "save_data")
+difficulty = save_load_manager.load_game_data(["difficulty"], [2])
 
 class Boss(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -81,17 +84,37 @@ class Boss(pygame.sprite.Sprite):
 
         timePassed = pygame.time.get_ticks() - self.starting_time
 
+
         # note: end conditions of rect.x prevents boss from attacking on side of the screen
+        if difficulty == 1:
+            if timePassed % 12000 > 0 and timePassed % 12000 < 100 and timePassed > 1000 and not self.attacking_special:
+                self.attacking_special = True
+                self.current_sprite = 0
+            elif timePassed % 6000 > 0 and timePassed % 6000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
+                self.attacking_basic = True   
+                self.current_sprite = 0
 
-        if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
-            self.attacking_special = True
-            self.current_sprite = 0
+                self.attack_number = random.randint(1, 2)
+        elif difficulty == 2:
+            if timePassed % 9000 > 0 and timePassed % 9000 < 100 and timePassed > 1000 and not self.attacking_special:
+                self.attacking_special = True
+                self.current_sprite = 0
+            elif timePassed % 4500 > 0 and timePassed % 4500 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
+                self.attacking_basic = True   
+                self.current_sprite = 0
 
-        elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
-            self.attacking_basic = True   
-            self.current_sprite = 0
+                self.attack_number = random.randint(1, 2)
+        else:
+            if timePassed % 6000 > 0 and timePassed % 6000 < 100 and timePassed > 1000 and not self.attacking_special:
+                self.attacking_special = True
+                self.current_sprite = 0
+            elif timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking_basic and not self.attacking_special:
+                self.attacking_basic = True   
+                self.current_sprite = 0
 
-            self.attack_number = random.randint(1, 2)
+                self.attack_number = random.randint(1, 2)
+
+
 
         if self.attacking_special: 
             if self.right:

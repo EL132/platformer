@@ -1,4 +1,8 @@
 import pygame, random
+from GameSave.SaveLoadManager import SaveLoadSystem
+
+save_load_manager = SaveLoadSystem(".save", "save_data")
+difficulty = save_load_manager.load_game_data(["difficulty"], [2])
 
 DISPLAY_WIDTH = 800
 DISPLAY_HEIGHT = 448
@@ -78,7 +82,6 @@ class Boss(pygame.sprite.Sprite):
         self.ball_group.update()
         self.ball_group.draw(screen)
 
-    
 
     def collision_maintenance(self):
         self.mask = pygame.mask.from_surface(self.image, 4)
@@ -110,13 +113,25 @@ class Boss(pygame.sprite.Sprite):
         timePassed = pygame.time.get_ticks() - self.starting_time
         # note: end conditions of rect.x prevents boss from attacking on side of the screen
 
-        if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000:
-            self.attacking = True
-            self.current_sprite = 0
+        if difficulty == 1:
+            if timePassed % 5000 > 0 and timePassed % 5000 < 100 and timePassed > 1000 and not self.attacking:
+                self.attacking = True   
+                self.current_sprite = 0
+        elif difficulty == 2:
+            if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking:
+                self.attacking = True   
+                self.current_sprite = 0
+        else:
+            if timePassed % 2000 > 0 and timePassed % 2000 < 100 and timePassed > 1000 and not self.attacking:
+                self.attacking = True   
+                self.current_sprite = 0
 
-            self.attack_number = random.randint(1, 4)
-            # self.attack_number = 4
+        self.attack_number = random.randint(1, 2)
+
+        if self.attack_number != 2:
             self.able_to_move = False
+        else:
+            self.able_to_move = True
 
 
         if self.attacking:

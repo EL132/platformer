@@ -66,6 +66,7 @@ class Menu():
                     button_list[0] = True
                 pygame.draw.line(display_surface, (0, 0, 0), (settings.DISPLAY_WIDTH // 2 - 75, 235), (settings.DISPLAY_WIDTH // 2 + 89, 235), 4)
                 if self.click:
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
                     pygame.mixer.Sound.play(self.select)
                     pygame.mixer.music.stop()
                     pygame.time.delay(150)
@@ -165,6 +166,7 @@ class Menu():
                 pygame.draw.line(display_surface, (255, 255, 255), (45, 250), (115, 250), 4)
                 if self.click:
                     settings.difficulty = 1
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
                     pygame.mixer.Sound.play(self.select)
             else:
                 button_list[0] = False
@@ -176,6 +178,7 @@ class Menu():
                 pygame.draw.line(display_surface, (255, 255, 255), (205, 250), (313, 250), 4)
                 if self.click:
                     settings.difficulty = 2
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
                     pygame.mixer.Sound.play(self.select)
             else:
                 button_list[1] = False
@@ -187,6 +190,7 @@ class Menu():
                 pygame.draw.line(display_surface, (255, 255, 255), (405, 250), (475, 250), 4)
                 if self.click:
                     settings.difficulty = 3
+                    save_load_manager.save_game_data([settings.difficulty], ["difficulty"])
                     pygame.mixer.Sound.play(self.select)
             else:
                 button_list[2] = False

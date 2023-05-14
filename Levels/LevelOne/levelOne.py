@@ -90,7 +90,7 @@ class LevelOne():
         self.player_lives = 3
 
     def update(self):
-        print("update")
+        # print("update")
         if self.loaded_up:
             self.starting_time = time.time()
             self.loaded_up = False
