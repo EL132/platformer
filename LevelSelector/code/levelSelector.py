@@ -55,7 +55,7 @@ class LevelSelector:
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
-		debug(self.player.rect)
+		# debug(self.player.rect)
 
 class YSortCameraGroup(pygame.sprite.Group):
 	def __init__(self): 

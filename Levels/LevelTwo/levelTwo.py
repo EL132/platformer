@@ -8,6 +8,7 @@ from Levels.LevelTwo.boss import Boss
 from Levels.LevelTwo.grunt import Grunt
 from Levels.LevelTwo.snake import Snake
 from Levels.LevelTwo.vulture import Vulture
+from GameSave.SaveLoadManager import SaveLoadSystem
 from debug import debug
 import settings 
 
@@ -24,9 +25,9 @@ sprite_group = pygame.sprite.Group()
 # video tmx code
 tmx_data = load_pygame('./Levels/levelTwo/maps/LevelTwo.tmx')
 
-# save_load_manager = SaveLoadSystem(".save", "save_data")
+save_load_manager = SaveLoadSystem(".save", "save_data")
 
-# level_two_score = save_load_manager.load_game_data(["level_two_score"], [0])
+settings.level_two_score = save_load_manager.load_game_data(["level_two_score"], [0])
 
 land_sprite_group = pygame.sprite.Group()
 
@@ -254,7 +255,7 @@ class LevelTwo():
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     # if self.collide_mask_rect(player.mask, boss.head_rect):
                     if player.collision_rect.colliderect(boss.head_rect):
-                        self.boss_hurt(0.1)
+                        self.boss_hurt(1000)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.rect):
                         self.boss_hurt(0.04)
@@ -372,11 +373,14 @@ class LevelTwo():
                     if event.key == pygame.K_y:
                         self.reset()
                         game_over = False
-                    if event.key == pygame.K_n:
-                        self.reset()
-                        game_state = 0
-                        settings.transition = not settings.transition
+                    if event.key == pygame.K_n:                        
+                        pygame.mixer.music.stop()
+
+                        settings.next_game_state = 0
+                        settings.transition = True
+                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
                         game_over = False
+
                 if event.type == pygame.QUIT: 
                     pygame.quit()
 
@@ -396,7 +400,7 @@ class LevelTwo():
         # previous :
         if ((self.player_lives * 1000 - int(display_time) * 10) < 0):
             score = 0
-        elif (self.player_lives * 1000 - int(display_time) * 10) > level_two_score:
+        elif (self.player_lives * 1000 - int(display_time) * 10) > settings.level_two_score:
             print("new high score!!!")
             new_high_score = True
             # score is their score during this round 
@@ -406,9 +410,9 @@ class LevelTwo():
         
         screen.fill(BLACK)
 
-        if new_high_score and level_two_score != 0:
+        if new_high_score and settings.level_two_score != 0:
 
-            old_high_score_text = self.custom_font.render("OLD HIGH SCORE " + str(int(level_two_score)), True, WHITE)
+            old_high_score_text = self.custom_font.render("OLD HIGH SCORE " + str(int(settings.level_two_score)), True, WHITE)
             old_high_score_text_rect = old_high_score_text.get_rect()
             old_high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
@@ -417,11 +421,11 @@ class LevelTwo():
             new_high_score_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
             # save the new high score with the "score" variable
-            level_two_score = score
+            settings.level_two_score = score
 
             screen.blit(old_high_score_text, old_high_score_text_rect)
             screen.blit(new_high_score, new_high_score_rect)
-        elif new_high_score and level_two_score == 0:
+        elif new_high_score and settings.level_two_score == 0:
             # if there is no old high score, i want it to say "your score: score"
             # and then underneath it, it will say "high score: score"
             player_score_text = self.custom_font.render("YOUR SCORE " + str(int(score)), True, WHITE)
@@ -432,7 +436,7 @@ class LevelTwo():
             high_score_text_rect = high_score_text.get_rect()
             high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
-            level_two_score = score
+            settings.level_two_score = score
 
             screen.blit(player_score_text, player_score_text_rect)
             screen.blit(high_score_text, high_score_text_rect)
@@ -443,7 +447,7 @@ class LevelTwo():
             player_score_text_rect = player_score_text.get_rect()
             player_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 75)
 
-            high_score_text = self.custom_font.render("HIGH SCORE " + str(int(level_two_score)), True, WHITE)
+            high_score_text = self.custom_font.render("HIGH SCORE " + str(int(settings.level_two_score)), True, WHITE)
             high_score_text_rect = high_score_text.get_rect()
             high_score_text_rect.center = (settings.DISPLAY_WIDTH//2 + 20, settings.DISPLAY_HEIGHT//2 - 25)
 
@@ -451,7 +455,7 @@ class LevelTwo():
             screen.blit(high_score_text, high_score_text_rect)
         
 
-        # save_load_manager.save_game_data([level_two_score], ["level_two_score"])
+        save_load_manager.save_game_data([settings.level_two_score], ["level_two_score"])
 
         continue_text = self.custom_font.render("PRESS ENTER TO CONTINUE", True, WHITE)
         continue_rect = main_text.get_rect()
@@ -466,16 +470,18 @@ class LevelTwo():
         while game_over:
             for event in pygame.event.get():    
                 #User wants to quit
+                if event.type == pygame.QUIT:
+                    pygame.quit()
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         # THIS SHOULD GO TO THE LEVEL SELECTOR
-                        # save_load_manager.save_game_data([level_two_score], ["level_two_score"])
+                        save_load_manager.save_game_data([settings.level_two_score], ["level_two_score"])
                         
                         pygame.mixer.music.stop()
 
-                        next_game_state = 0
+                        settings.next_game_state = 0
                         settings.transition = True
-                        pygame.image.save(screen,"screenshot.jpg")
+                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
                         game_over = False
 
     def reset(self):

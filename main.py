@@ -194,6 +194,9 @@ class Game:
 
 					self.curtainIn()
 
+			elif settings.game_state == 3:
+				pass
+
 			pygame.display.update()
 
 			self.clock.tick(settings.FPS)
