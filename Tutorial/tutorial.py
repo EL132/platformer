@@ -1,17 +1,14 @@
 import pygame, time
 from pytmx.util_pygame import load_pygame
 
-from playerOne import Player as playerOne
-from playerTwo import Player as playerTwo
+from Tutorial.playerOne import Player as playerOne
+from Tutorial.playerTwo import Player as playerTwo
 # from Levels.LevelThree.player import Player as playerThree
-from tile import Tile
+from Tutorial.tile import Tile
+import settings
 
-pygame.init()
 
-DISPLAY_WIDTH = 800
-DISPLAY_HEIGHT = 448
-
-screen = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
+screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
 
 tmx_data = load_pygame('./Tutorial/maps/main.tmx')
 
@@ -66,17 +63,17 @@ class Tutorial():
         #Create main pause text
         main_text = self.custom_font.render(main_text, True, WHITE)
         main_rect = main_text.get_rect()
-        main_rect.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 - 100)
+        main_rect.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 - 100)
 
         #Create sub pause text
         sub_text1 = self.custom_font.render(sub_text1, True, WHITE)
         sub_rect1 = sub_text1.get_rect()
-        sub_rect1.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2 - 50)
+        sub_rect1.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2 - 50)
         
         #Create sub pause text
         sub_text2 = self.custom_font.render(sub_text2, True, WHITE)
         sub_rect2 = sub_text2.get_rect()
-        sub_rect2.center = (DISPLAY_WIDTH//2, DISPLAY_HEIGHT//2)
+        sub_rect2.center = (settings.DISPLAY_WIDTH//2, settings.DISPLAY_HEIGHT//2)
 
         # blurred_background = pygame.transform.box_blur(screen, 5)
         blurred_background = self.blurSurf(screen, 5)
@@ -194,12 +191,6 @@ class Tutorial():
 
 
     def update(self):
-        sprite_group.update()
-        sprite_group.draw(screen)
-
-        self.player_group.update()
-        self.player_group.draw(screen)
-
         self.time_passed = time.time() - self.starting_time
 
         if self.time_passed > 1 and not self.started:
@@ -209,42 +200,11 @@ class Tutorial():
         if not self.beginning_text and self.started:
             self.key()
 
+    def run(self): 
+        sprite_group.update()
+        sprite_group.draw(screen)
 
+        self.player_group.update()
+        self.player_group.draw(screen)
 
-tutorial = Tutorial(2)
-
-clock = pygame.time.Clock()
-FPS = 60
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            # all level animations (level one animations)
-            if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and tutorial.player.is_attacking == False:
-                tutorial.player.jump()
-            if event.key == pygame.K_ESCAPE:
-                tutorial.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
-            if event.key == pygame.K_q:
-                tutorial.player.attack(1)
-            if event.key == pygame.K_w:
-                tutorial.player.attack(2)
-
-            # level two aniamtions
-            if tutorial.level == 2:
-                if event.key == pygame.K_r:
-                    tutorial.player.roll()
-                if event.key == pygame.K_t:
-                    tutorial.player.current_sprite = 0
-                    tutorial.player.is_angry_emoting = True
-                if event.key == pygame.K_y:
-                    tutorial.player.is_normal_emoting = True
-        if event.type == pygame.QUIT:
-            running = False
-
-    tutorial.update()
-
-    pygame.display.flip()
-    clock.tick(FPS)
-
-pygame.quit()
+        self.update()

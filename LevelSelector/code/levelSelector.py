@@ -37,7 +37,7 @@ class LevelSelector:
 							Tile((x, y), [self.obstacle_sprites], 'invisible')
 						if style == 'level_entrance': 
 							if self.level_entrance_sprites.__len__() == 0: 
-								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1)
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1.5)
 							elif self.level_entrance_sprites.__len__() == 1: 
 								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 3)
 							elif self.level_entrance_sprites.__len__() == 2:

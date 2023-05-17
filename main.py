@@ -4,6 +4,7 @@ from LevelSelector.Code.levelSelector import LevelSelector
 from Levels.LevelOne.levelOne import LevelOne
 from Levels.LevelTwo.levelTwo import LevelTwo
 from Levels.LevelThree.levelThree import LevelThree
+from Tutorial.tutorial import Tutorial
 from GameSave.SaveLoadManager import SaveLoadSystem
 from Menu.menu import Menu
 
@@ -30,6 +31,9 @@ class Game:
 		self.levelOne = LevelOne()
 		self.levelTwo = LevelTwo() 
 		self.levelThree = LevelThree()
+		self.levelOneTut = Tutorial(1)
+		self.levelTwoTut = Tutorial(2)
+		self.levelThreeTut = Tutorial(2)
 		self.menu = Menu()
 
 	def fadeOut(self): 
@@ -85,10 +89,15 @@ class Game:
 			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
 		elif settings.next_game_state == 1: 
 			image = pygame.image.load("LevelSelector/levelOneStart.png")
+			self.levelOne.reset()
+		elif settings.next_game_state == 1.5:
+			image = pygame.image.load("LevelSelector/levelOneStart.png")
 		elif settings.next_game_state == 2: 
 			image = pygame.image.load("LevelSelector/levelTwoStart.png")
+			self.levelTwo.reset()
 		elif settings.next_game_state == 3: 
 			image = pygame.image.load("LevelSelector/levelThreeStart.png")
+			self.levelThree.reset()
 
 		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
@@ -137,7 +146,7 @@ class Game:
 							# pygame.image.save(self.screen, "./LevelSelector/levelTwoStart.png")
 							pass
 					
-					if settings.game_state == 2:
+					elif settings.game_state == 2:
 						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelTwo.player.is_attacking == False:
 							self.levelTwo.player.jump()
 						if event.key == pygame.K_ESCAPE:
@@ -153,7 +162,7 @@ class Game:
 						if event.key == pygame.K_y:
 							self.levelTwo.player.is_normal_emoting = True
 
-					if settings.game_state == 3: 
+					elif settings.game_state == 3: 
 						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelThree.player.is_attacking == False:
 							self.levelThree.player.jump()
 						if event.key == pygame.K_ESCAPE:
@@ -171,6 +180,55 @@ class Game:
 						if event.key == pygame.K_k:
 							# pygame.image.save(self.screen, "./LevelSelector/levelThreeStart.png")
 							pass
+
+					# all level animations (level one animations)
+					elif settings.game_state == 0.5:
+						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelOneTut.player.is_attacking == False:
+							self.levelOneTut.player.jump()
+						if event.key == pygame.K_ESCAPE:
+							self.levelOneTut.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+						if event.key == pygame.K_q:
+							self.levelOneTut.player.attack(1)
+						if event.key == pygame.K_w:
+							self.levelOneTut.player.attack(2)
+
+					elif settings.game_state == 1.5:
+						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelTwoTut.player.is_attacking == False:
+							self.levelTwoTut.player.jump()
+						if event.key == pygame.K_ESCAPE:
+							self.levelTwoTut.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+						if event.key == pygame.K_q:
+							self.levelTwoTut.player.attack(1)
+						if event.key == pygame.K_w:
+							self.levelTwoTut.player.attack(2)
+
+						# level two animations
+							if event.key == pygame.K_r:
+								self.levelTwoTut.player.roll()
+							if event.key == pygame.K_t:
+								self.levelTwoTut.player.current_sprite = 0
+								self.levelTwoTut.player.is_angry_emoting = True
+							if event.key == pygame.K_y:
+								self.levelTwoTut.player.is_normal_emoting = True
+
+					elif settings.game_state == 2.5:
+						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelThreeTut.player.is_attacking == False:
+							self.levelThreeTut.player.jump()
+						if event.key == pygame.K_ESCAPE:
+							self.levelThreeTut.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
+						if event.key == pygame.K_q:
+							self.levelThreeTut.player.attack(1)
+						if event.key == pygame.K_w:
+							self.levelThreeTut.player.attack(2)
+
+						# level two animations
+							if event.key == pygame.K_r:
+								self.levelThreeTut.player.roll()
+							if event.key == pygame.K_t:
+								self.levelThreeTut.player.current_sprite = 0
+								self.levelThreeTut.player.is_angry_emoting = True
+							if event.key == pygame.K_y:
+								self.levelThreeTut.player.is_normal_emoting = True
 
 					if settings.game_state == 0:
 						if event.key == pygame.K_k:
@@ -194,8 +252,16 @@ class Game:
 				if not settings.transition: 
 					self.levelSelector.run()
 				else:
-					self.levelOne.loaded_up = True
 					self.levelOne.reset()
+					self.curtainIn()
+
+			elif settings.game_state == 0.5:
+				if not settings.transition:
+					self.levelOneTut.run()
+				else:
+					del self.levelSelector
+					self.levelSelector = LevelSelector()
+
 					self.curtainIn()
 
 			#Level 1
@@ -207,7 +273,17 @@ class Game:
 					self.levelSelector = LevelSelector()
 
 					self.curtainIn()
+			
+			elif settings.game_state == 1.5:
+				if not settings.transition: 
+					self.levelTwoTut.run()
+				else: 
+					del self.levelSelector
+					self.levelSelector = LevelSelector()
 
+					self.curtainIn()
+
+			#Level 2
 			elif settings.game_state == 2: 
 				if not settings.transition: 
 					self.levelTwo.run()
@@ -217,6 +293,16 @@ class Game:
 
 					self.curtainIn()
 
+			elif settings.game_state == 2.5:
+				if not settings.transition: 
+					self.levelThreeTut.run()
+				else: 
+					del self.levelSelector
+					self.levelSelector = LevelSelector()
+
+					self.curtainIn()
+					
+			#Level 3
 			elif settings.game_state == 3:
 				if not settings.transition:
 					self.levelThree.run()
