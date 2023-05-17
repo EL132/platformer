@@ -8,7 +8,6 @@ from Levels.LevelThree.player import Player
 from Levels.LevelThree.bear import Bear
 from Levels.LevelThree.mech import Mech
 from Levels.LevelThree.grunt import Grunt
-from debug import debug
 import settings
 
 pygame.init()
