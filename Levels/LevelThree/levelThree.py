@@ -8,7 +8,6 @@ from Levels.LevelThree.player import Player
 from Levels.LevelThree.bear import Bear
 from Levels.LevelThree.mech import Mech
 from Levels.LevelThree.grunt import Grunt
-from debug import debug
 import settings
 
 pygame.init()
@@ -505,7 +504,7 @@ class LevelThree():
             screen.blit(high_score_text, high_score_text_rect)
         
 
-        save_load_manager.save_game_data([settings.level_three_score ], ["level_three_score "])
+        save_load_manager.save_game_data([settings.level_three_score ], ["level_three_score"])
 
         continue_text = self.custom_font.render("PRESS ENTER TO CONTINUE", True, WHITE)
         continue_rect = main_text.get_rect()

@@ -636,5 +636,3 @@ class LevelOne():
         self.grunt_group.draw(screen)
 
         self.update()
-
-        debug(self.player.rect)
