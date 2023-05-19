@@ -29,6 +29,10 @@ class Player(pygame.sprite.Sprite):
 
 		self.custom_font = pygame.font.Font('./Levels/LevelOne/fonts/ArcadeFont.ttf', 12)
 
+		self.temp_x = 0
+		self.temp_y = 0
+		self.footstep = pygame.mixer.Sound('./SFX/footstep_two.wav')
+
 	def input(self): 
 		keys = pygame.key.get_pressed()
 
@@ -50,6 +54,13 @@ class Player(pygame.sprite.Sprite):
 	def move(self, speed): 
 		if self.direction.magnitude() != 0: 
 			self.direction = self.direction.normalize() * 2
+
+		if abs(self.hitbox.x - self.temp_x) > 100:
+			self.temp_x = self.hitbox.x
+			self.footstep.play()
+		if abs(self.hitbox.y - self.temp_y) > 100:
+			self.temp_y = self.hitbox.y
+			self.footstep.play()
 
 		self.hitbox.x += self.direction.x * speed
 		self.collision('horizontal')
