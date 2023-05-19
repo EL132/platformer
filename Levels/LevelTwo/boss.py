@@ -114,27 +114,26 @@ class Boss(pygame.sprite.Sprite):
         # note: end conditions of rect.x prevents boss from attacking on side of the screen
 
         if difficulty == 1:
+            # print("difficulty 1")
             if timePassed % 5000 > 0 and timePassed % 5000 < 100 and timePassed > 1000 and not self.attacking:
                 self.attacking = True   
                 self.current_sprite = 0
+                self.attack_number = random.randint(1, 4)
         elif difficulty == 2:
-            if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000 and not self.attacking:
+            if timePassed % 3000 > 0 and timePassed % 3000 < 100 and timePassed > 1000:
                 self.attacking = True   
                 self.current_sprite = 0
+                self.attack_number = random.randint(1, 4)
         else:
+            # print("difficulty 3")
             if timePassed % 2000 > 0 and timePassed % 2000 < 100 and timePassed > 1000 and not self.attacking:
                 self.attacking = True   
                 self.current_sprite = 0
-
-        self.attack_number = random.randint(1, 2)
-
-        if self.attack_number != 2:
-            self.able_to_move = False
-        else:
-            self.able_to_move = True
+                self.attack_number = random.randint(1, 4)
 
 
         if self.attacking:
+            self.able_to_move = False
             if self.attack_number == 1:
                 if self.right:
                     self.animate(self.attack_one_right_frames, 0.1)
