@@ -26,6 +26,7 @@ sprite_group = pygame.sprite.Group()
 
 tmx_data = load_pygame('./Levels/levelThree/Tiled/Maps/main.tmx')
 land_sprite_group = pygame.sprite.Group()
+water_group = pygame.sprite.Group()
 sprite_group = pygame.sprite.Group()
 
 # cycle through all layers
@@ -36,6 +37,8 @@ for layer in tmx_data.visible_layers:
             temp = Tile(pos = pos, surf = surf, groups = sprite_group)
             if layer.name in ('Main'):
                 land_sprite_group.add(temp)
+            elif layer.name in ('Water'):
+                water_group.add(temp)
 
 class LevelThree():
     def __init__(self):
@@ -271,18 +274,18 @@ class LevelThree():
 
     def check_collisions(self, player, boss_one, boss_two):
         boss_list = pygame.sprite.groupcollide(self.boss_group, self.player_group, False, False, pygame.sprite.collide_mask)
-        # creeper_list = []
-        # for creeper in self.creeper_group:
-        #     if pygame.Rect.colliderect(creeper.collision_rect, player.rect):
-        #         creeper_list.append(creeper)
         grunt_list = []
         for grunt in self.grunt_group:
             if pygame.Rect.colliderect(grunt.collision_rect, player.rect):
                 grunt_list.append(grunt)
         collision_list = []
         collision_list.extend(boss_list)
-        # collision_list.extend(creeper_list)
         collision_list.extend(grunt_list)
+
+        if pygame.sprite.groupcollide(self.player_group, water_group, False, False):
+            self.player_lives_update(0.5)
+            self.player.position.x = 30
+            self.player.position.y = 128
 
         for collided in collision_list:
             if player.is_attacking and not player.reverse:
