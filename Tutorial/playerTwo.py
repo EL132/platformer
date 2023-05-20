@@ -92,11 +92,12 @@ class Player(pygame.sprite.Sprite):
 
 
     def roll(self):
-        self.is_rolling = True
-        if self.right:
-            self.velocity.x += 5
-        else:
-            self.velocity.x -= 5
+        if not self.is_jumping:
+            self.is_rolling = True
+            if self.right:
+                self.velocity.x += 5
+            else:
+                self.velocity.x -= 5
 
 
     def check_animations(self):
@@ -295,6 +296,10 @@ class Player(pygame.sprite.Sprite):
             self.is_attacking = True
             self.able_to_move = False
             self.attack_number = number
+            if self.right:
+                self.velocity.x = 0.01
+            else:   
+                self.velocity.x = 0
 
     
     def load_animation_sprites(self):

@@ -69,7 +69,8 @@ class Grunt(pygame.sprite.Sprite):
             # want the grunt to move towards the player, but if the grunt is right next to the player, it should stop moving
             if self.position.x < player.position.x + 40 and self.position.x > player.position.x - 40:
                 self.idle = True
-                if self.position.y < DISPLAY_HEIGHT - 64:
+                if self.position.y < DISPLAY_HEIGHT - 32:
+                    print("i should be falling down")
                     self.velocity.y += self.acceleration.y
                     self.position.y += self.velocity.y + 0.5 * self.acceleration.y
             else:
@@ -90,7 +91,6 @@ class Grunt(pygame.sprite.Sprite):
                             self.velocity.x = -1
                         else:
                             self.velocity.x = 1
-            
 
 
                 self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
