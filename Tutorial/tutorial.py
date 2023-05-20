@@ -8,7 +8,7 @@ from Tutorial.tile import Tile
 import settings
 
 
-screen = pygame.display.set_mode((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT), flags=pygame.SCALED, vsync=1)
+screen = pygame.display.get_surface()
 
 tmx_data = load_pygame('./Tutorial/maps/main.tmx')
 
