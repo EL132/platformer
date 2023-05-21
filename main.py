@@ -117,7 +117,7 @@ class Game:
 
 	def run(self):
 		while True:	
-			print(settings.next_game_state)
+			# print(settings.next_game_state)
 			if settings.mute:
 				pygame.mixer.music.set_volume(0)
 			else:

@@ -33,7 +33,7 @@ global leaving_level
 leaving_level = False
 
 global mute 
-mute = False
+mute = True
 
 #colors 
 BLACK = (0, 0, 0)
