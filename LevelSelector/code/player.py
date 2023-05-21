@@ -118,24 +118,29 @@ class Player(pygame.sprite.Sprite):
 							message = messages[active_message]
 							counter = 0
 						elif event.key == pygame.K_y: 
+							#transition and change game state
+							settings.next_game_state = collided_entrance.level_number
+							settings.transition = True
+							pygame.image.save(self.screen,"./LevelSelector/screenshot.png")
+							level_request = False			
+
 							#change music
 							pygame.mixer.music.stop()
 							pygame.mixer.Sound.play(pygame.mixer.Sound('./SFX/transition_sound.wav'))
 							pygame.time.delay(1000)
+							if settings.next_game_state == -1:
+								pygame.image.save(self.screen, "./LevelSelector/screenshot.png")
+								pygame.mixer.music.load('./SFX/menu_music.mp3')
 							if settings.next_game_state == 1:
 								pygame.mixer.music.load('./SFX/level_one_bg.mp3')
 							elif settings.next_game_state == 2:
 								pygame.mixer.music.load('./SFX/levelTwo.mp3')
 							elif settings.next_game_state == 3:
 								pygame.mixer.music.load('./SFX/levelThree.mp3')
+							else:
+								pygame.mixer.music.load('./SFX/level_one_bg.mp3')
 							pygame.mixer.music.play(-1)
-							pygame.mixer.music.set_volume(0.1)
-
-							#transition and change game state
-							settings.next_game_state = collided_entrance.level_number
-							settings.transition = True
-							pygame.image.save(self.screen,"./LevelSelector/screenshot.png")
-							level_request = False			
+							pygame.mixer.music.set_volume(0.1)				
 						elif event.key == pygame.K_n: 
 							self.hitbox.y += 20
 							level_request = False

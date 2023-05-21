@@ -37,7 +37,8 @@ class Game:
 		self.menu = Menu()
 
 	def fadeOut(self): 
-		pygame.image.save(self.screen, "./LevelSelector/screenshot.png")
+		if settings.game_state == -1:
+			pygame.image.save(self.screen, "./LevelSelector/screenshot.png")
 		image = pygame.image.load("./LevelSelector/screenshot.png")
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0,0,0))
@@ -50,10 +51,10 @@ class Game:
 		self.fadeIn()
 
 	def fadeIn(self):
-		if settings.game_state == 0: 
+		if settings.next_game_state == -1:
+			image = pygame.image.load("LevelSelector/menu.png")
+		elif settings.next_game_state == 0: 
 			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
-		elif settings.game_state == 1:
-			image = pygame.image.load("LevelSelector/levelOneStart.png")
 			
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0, 0, 0))
@@ -63,12 +64,16 @@ class Game:
 			self.screen.blit(fade, (0,0))
 			pygame.display.update()
 			pygame.time.delay(3)
+		
+		settings.game_state = settings.next_game_state
+
 
 	def redrawScreen(self, fade_image): 
 		self.screen.fill((255, 255, 255))
 		self.fade_image = fade_image
 		self.fade_rect = self.fade_image.get_rect(topleft = (0, 0))
 		self.screen.blit(self.fade_image, self.fade_rect)
+
 
 	def curtainIn(self):
 		image = pygame.image.load("./LevelSelector/screenshot.png")
@@ -83,15 +88,14 @@ class Game:
 			self.curtainOut()
 			
 
-	
 	def curtainOut(self):
 		if settings.next_game_state == 0:
 			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
+		elif settings.next_game_state == 0.5 or settings.next_game_state == 1.5 or settings.next_game_state == 2.5: 
+			image = pygame.image.load("LevelSelector/tutorialStart.png")
 		elif settings.next_game_state == 1: 
 			image = pygame.image.load("LevelSelector/levelOneStart.png")
 			self.levelOne.reset()
-		elif settings.next_game_state == 1.5:
-			image = pygame.image.load("LevelSelector/levelOneStart.png")
 		elif settings.next_game_state == 2: 
 			image = pygame.image.load("LevelSelector/levelTwoStart.png")
 			self.levelTwo.reset()
@@ -113,6 +117,7 @@ class Game:
 
 	def run(self):
 		while True:	
+			print(settings.next_game_state)
 			if settings.mute:
 				pygame.mixer.music.set_volume(0)
 			else:
@@ -214,10 +219,9 @@ class Game:
 						if event.key == pygame.K_y:
 							self.levelThreeTut.player.is_normal_emoting = True
 
-					if settings.game_state == 0:
-						if event.key == pygame.K_k:
-							# pygame.image.save(self.screen, "./LevelSelector/levelSelectorStart.png")
-							pass
+					elif settings.game_state == -1:
+						pygame.image.save(self.screen, "./LevelSelector/menu.png")
+							# pass
 
 			self.screen.fill('black')
 
@@ -236,7 +240,10 @@ class Game:
 				if not settings.transition: 
 					self.levelSelector.run()
 				else:
-					self.curtainIn()
+					if settings.next_game_state == -1: 
+						self.fadeOut()
+					else:
+						self.curtainIn()
 
 			elif settings.game_state == 0.5:
 				if not settings.transition:

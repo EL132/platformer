@@ -256,7 +256,7 @@ class LevelOne():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.rect.colliderect(boss.butt_rect):
-                        self.boss_hurt(1000)
+                        self.boss_hurt(0.05)
                         boss.is_hurting = True
                     elif player.rect.colliderect(boss.head_rect):
                         self.boss_hurt(0.1)

@@ -29,7 +29,6 @@ class Menu():
     def main_menu(self):
         self.fade_counter = 0
         self.click = False
-        self.transitioned = False
 
         self.running = True
 
@@ -119,7 +118,7 @@ class Menu():
 
         self.running = False
         settings.transition = True
-        settings.game_state = 0
+        settings.next_game_state = 0
 
     def options(self):
         # only want to deal with options that we can change in our settings basically

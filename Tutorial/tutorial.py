@@ -36,11 +36,11 @@ class Tutorial():
         self.player_group = pygame.sprite.Group()
 
         if self.level == 1:
-            self.player = playerOne(100, 100, land_sprite_group)
+            self.player = playerOne(100, 384, land_sprite_group)
         elif self.level == 2:
-            self.player = playerTwo(100, 100, land_sprite_group)
+            self.player = playerTwo(100, 384, land_sprite_group)
         else:
-            self.player = playerTwo(100, 100, land_sprite_group)
+            self.player = playerTwo(100, 384, land_sprite_group)
 
         self.player_group.add(self.player)
         self.started = False
