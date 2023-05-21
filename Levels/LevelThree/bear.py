@@ -177,8 +177,9 @@ class Bear(pygame.sprite.Sprite):
                 self.attacking = False
                 self.able_to_move = True
             if self.is_dying:
-                self.kill()
+                print("inside dying if in animate")
                 self.is_dying = False
+                self.kill()
 
         self.image = sprite_list[int(self.current_sprite)]
     

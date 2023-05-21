@@ -85,6 +85,9 @@ class LevelThree():
         self.started_game = False
         self.past_if = False
 
+        self.player_won_time = time.time()
+        self.player_win_started = False
+
     def update(self):        
         if time.time() - self.starting_time > 0.45 and not self.started_game and not self.past_if:
             self.started_game = True
@@ -341,13 +344,14 @@ class LevelThree():
             self.player.able_to_move = False
             self.player_death_animation()
             self.show_player_loss_screen()
-        if self.boss_one_health <= 0.09:
+        if self.boss_one_health <= 0.09 and not self.boss_one.is_dying:
             self.boss_one_death_animation()
-        if self.boss_two_health <= 0.09:
+        if self.boss_two_health <= 0.09 and not self.boss_two.is_dying:
             self.boss_two_death_animation()
-        if self.boss_one_health <= 0.09 and self.boss_two_health <= 0.09:
-            # was debugging this as it did not work 
-            print("ending game")
+        if self.boss_one_health <= 0.09 and self.boss_two_health <= 0.09 and not self.player_win_started:
+            self.player_win_started = True
+            self.player_won_time = time.time()
+        if self.player_win_started and time.time() - self.player_won_time > 1:
             self.show_player_win_screen()
 
 
