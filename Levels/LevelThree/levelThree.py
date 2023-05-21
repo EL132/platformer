@@ -183,51 +183,55 @@ class LevelThree():
         left_shift = -15
         right_shift = 35
 
-        if self.boss_one.right:
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 10), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 30), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 30), 2)
-        
-            # fill for the health bar: 
-            if time.time() - self.word_draw_start_time_one < 0.35:
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_one.rect.x - (32), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
-            else:
-                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_one.rect.x - (right_shift - 3), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
-        else:
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 10), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 30), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 30), 2)
-        
-            # outline for the health bar: 
-            if time.time() - self.word_draw_start_time_one < 0.35:
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_one.rect.x - (13), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
-            else:
-                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_one.rect.x + (left_shift + 3), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
+        if self.boss_one_health > 0:
 
-        if self.boss_two.right:
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 10), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 30), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 30), 2)
-        
-            # fill for the health bar: 
-            if time.time() - self.word_draw_start_time_two < 0.35:
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_two.rect.x - (32), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
+            if self.boss_one.right:
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 10), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 30), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x - right_shift, self.boss_one.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 145, self.boss_one.rect.y + 30), 2)
+            
+                # fill for the health bar: 
+                if time.time() - self.word_draw_start_time_one < 0.35:
+                    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_one.rect.x - (32), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
+                else:
+                    pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_one.rect.x - (right_shift - 3), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
             else:
-                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_two.rect.x - (right_shift - 3), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
-        else:
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 10), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 30), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 30), 2)
-            pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 30), 2)
-        
-            # outline for the health bar: 
-            if time.time() - self.word_draw_start_time_two < 0.35:
-                pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_two.rect.x - (13), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 10), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 30), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 10), (self.boss_one.rect.x + left_shift, self.boss_one.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 10), (self.boss_one.rect.x + 165, self.boss_one.rect.y + 30), 2)
+            
+                # outline for the health bar: 
+                if time.time() - self.word_draw_start_time_one < 0.35:
+                    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_one.rect.x - (13), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
+                else:
+                    pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_one.rect.x + (left_shift + 3), self.boss_one.rect.y + 13, 176 * self.boss_one_health, 16.5))
+
+        if self.boss_two_health > 0:
+
+            if self.boss_two.right:
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 10), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 30), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x - right_shift, self.boss_two.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 145, self.boss_two.rect.y + 30), 2)
+            
+                # fill for the health bar: 
+                if time.time() - self.word_draw_start_time_two < 0.35:
+                    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_two.rect.x - (32), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
+                else:
+                    pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_two.rect.x - (right_shift - 3), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
             else:
-                pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_two.rect.x + (left_shift + 3), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 10), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 30), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 10), (self.boss_two.rect.x + left_shift, self.boss_two.rect.y + 30), 2)
+                pygame.draw.line(screen, (0, 0, 0), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 10), (self.boss_two.rect.x + 165, self.boss_two.rect.y + 30), 2)
+            
+                # outline for the health bar: 
+                if time.time() - self.word_draw_start_time_two < 0.35:
+                    pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.boss_two.rect.x - (13), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
+                else:
+                    pygame.draw.rect(screen, (100, 255, 0), pygame.Rect(self.boss_two.rect.x + (left_shift + 3), self.boss_two.rect.y + 13, 176 * self.boss_two_health, 16.5))
 
     def boss_one_hurt(self, damage):
         self.boss_one_health -= damage
@@ -304,13 +308,13 @@ class LevelThree():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.collision_rect.colliderect(boss_one.head_rect):
-                        self.boss_one_hurt(0.1)
+                        self.boss_one_hurt(1)
                     elif player.rect.colliderect(boss_one.rect):
-                        self.boss_one_hurt(0.04)
+                        self.boss_one_hurt(1)
                     elif player.rect.colliderect(boss_two.head_rect):
-                        self.boss_two_hurt(0.1)
+                        self.boss_two_hurt(1)
                     elif player.rect.colliderect(boss_two.rect):
-                        self.boss_two_hurt(0.04)
+                        self.boss_two_hurt(1)
 
             
             for grunt in self.grunt_group:
@@ -331,12 +335,6 @@ class LevelThree():
                     self.player_lives_update(1)
                 
 
-            # elif (creeper_one.attacking or creeper_two.attacking) and collided.enemy_id == 1:
-            #     if collided.current_sprite > 4 and collided.current_sprite < 4.1:
-            #         # way to verify that the chomper is facing the player 
-            #         if (collided.right and player.rect.x > collided.rect.x) or (not collided.right and player.rect.x < collided.rect.x):
-            #             self.player_lives_update(0.5)
-
     def check_game_over(self):
         if self.player_lives <= 0:
             self.player.is_dying = True
@@ -344,16 +342,10 @@ class LevelThree():
             self.player_death_animation()
             self.show_player_loss_screen()
         elif self.boss_one_health <= 0.09:
-            self.boss_one.is_dying = True
-            self.boss_one.able_to_move = False
             self.boss_one_death_animation()
-            save_level = 3
-            self.show_player_win_screen()
         elif self.boss_two_health <= 0.09:
-            self.boss_two.is_dying = True
-            self.boss_two.able_to_move = False
             self.boss_two_death_animation()
-            save_level = 3
+        elif self.boss_one_health <= 0.09 and self.boss_two_health <= 0.09:
             self.show_player_win_screen()
 
 
@@ -376,33 +368,12 @@ class LevelThree():
 
     
     def boss_one_death_animation(self):
-        pass
-        # # here i just want the player to go through a whole cycle of animations, and 
-        # # then i want the game to show the death screen 
-        # if self.boss_one.right:
-        #     death_frames = self.boss_one.death_right_frames # a list of death frames
-        # else:
-        #     death_frames = self.boss_one.death_left_frames # a list of death frames
-
-        # delay = 400 # the delay between each frame in milliseconds
-
-        # for frame in death_frames:
-        #     # currently have it so that everything goes away except the player 
-        #     self.boss_one.image = frame
-        #     # redraw the screen
-        #     self.boss_group.draw(screen)
-        #     self.player_group.draw(screen)
-
-        #     pygame.display.flip()
-        #     pygame.time.delay(delay)
-        #     screen.fill('black')
-        #     sprite_group.draw(screen)
-
-        # # pause the animation for a few seconds
-        # pygame.time.wait(2000)
+        self.boss_one.is_dying = True
+        self.boss_one.able_to_move = False
 
     def boss_two_death_animation(self):
-        pass
+        self.boss_two.is_dying = True
+        self.boss_two.able_to_move = False
 
 
     def show_player_loss_screen(self):
