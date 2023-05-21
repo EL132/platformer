@@ -341,11 +341,13 @@ class LevelThree():
             self.player.able_to_move = False
             self.player_death_animation()
             self.show_player_loss_screen()
-        elif self.boss_one_health <= 0.09:
+        if self.boss_one_health <= 0.09:
             self.boss_one_death_animation()
-        elif self.boss_two_health <= 0.09:
+        if self.boss_two_health <= 0.09:
             self.boss_two_death_animation()
-        elif self.boss_one_health <= 0.09 and self.boss_two_health <= 0.09:
+        if self.boss_one_health <= 0.09 and self.boss_two_health <= 0.09:
+            # was debugging this as it did not work 
+            print("ending game")
             self.show_player_win_screen()
 
 
