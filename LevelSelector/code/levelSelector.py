@@ -37,10 +37,18 @@ class LevelSelector:
 							Tile((x, y), [self.obstacle_sprites], 'invisible')
 						if style == 'level_entrance': 
 							if self.level_entrance_sprites.__len__() == 0: 
-								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1.5)
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1)
 							elif self.level_entrance_sprites.__len__() == 1: 
-								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 3)
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 0.5)
 							elif self.level_entrance_sprites.__len__() == 2:
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 3)
+							elif self.level_entrance_sprites.__len__() == 3:
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', -1)
+							elif self.level_entrance_sprites.__len__() == 4:
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 2.5)
+							elif self.level_entrance_sprites.__len__() == 5:
+								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1.5)
+							else:
 								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 2)
 
 		# for entrance in self.level_entrance_sprites: 
@@ -98,8 +106,8 @@ class YSortCameraGroup(pygame.sprite.Group):
 			self.level_three_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/Stars.png")
 
 		self.level_one_stars_rect = self.level_one_stars.get_rect(topleft = (685, 311))
-		self.level_two_stars_rect = self.level_two_stars.get_rect(topleft = (654, 1277))
-		self.level_three_stars_rect = self.level_three_stars.get_rect(topleft = (1293, 437))
+		self.level_two_stars_rect = self.level_two_stars.get_rect(topleft = (654, 1317))
+		self.level_three_stars_rect = self.level_three_stars.get_rect(topleft = (1293, 375))
 
 
 	def custom_draw(self, player): 

@@ -113,7 +113,6 @@ class Game:
 
 	def run(self):
 		while True:	
-			# print(settings.game_state)
 			if settings.mute:
 				pygame.mixer.music.set_volume(0)
 			else:
@@ -237,7 +236,6 @@ class Game:
 				if not settings.transition: 
 					self.levelSelector.run()
 				else:
-					self.levelOne.reset()
 					self.curtainIn()
 
 			elif settings.game_state == 0.5:
