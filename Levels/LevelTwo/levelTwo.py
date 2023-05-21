@@ -92,15 +92,21 @@ class LevelTwo():
 
         self.spawned = False
 
+        # using for freezing the game until user presses a key
+        self.started_game = False
+        self.past_if = False
+
     def update(self):
+        if time.time() - self.starting_time > 0.45 and not self.started_game and not self.past_if:
+            self.started_game = True
+            self.past_if = True
+        if self.started_game:
+            self.freeze_game()
         if self.loaded_up:
             self.starting_time = time.time()
             self.loaded_up = False
         self.check_game_over()
-        self.draw_hearts()
         self.draw_health_bar()
-        self.draw_time()
-        self.draw_portrait()
         self.check_collisions(self.player, self.boss, self.creeper_one, self.creeper_two)
         self.check_grunt_spawn()
         self.boss_spawn_grunt()
@@ -109,6 +115,24 @@ class LevelTwo():
         if len(self.boss.ball_group) > 0:
             for ball in self.boss.ball_group:
                 self.check_ball_collisions(ball)
+
+    def freeze_game(self):
+        while self.started_game:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    self.started_game = False
+                    self.starting_time = time.time()
+            text = self.title_font.render("Level Two", True, (0, 0, 0))
+            text_rect = text.get_rect()
+            text_rect.center = (settings.DISPLAY_WIDTH // 2, settings.DISPLAY_HEIGHT // 2)
+            screen.blit(text, text_rect)
+
+            sub_text = self.medium_font.render("Press any key to start", True, (0, 0, 0))
+            sub_text_rect = sub_text.get_rect()
+            sub_text_rect.center = (settings.DISPLAY_WIDTH // 2, settings.DISPLAY_HEIGHT // 2 + 100)
+            screen.blit(sub_text, sub_text_rect)
+
+            pygame.display.flip()
 
     def check_ball_collisions(self, ball):
         if self.player.is_rolling:
@@ -637,6 +661,11 @@ class LevelTwo():
 
     def run(self): 
         sprite_group.draw(screen)
+
+        # for not starting until key is pressed::
+        self.draw_hearts()
+        self.draw_time()
+        self.draw_portrait()
 
         self.player_group.update()
         self.player_group.draw(screen)

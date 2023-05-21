@@ -132,19 +132,6 @@ class Game:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_w:
 							self.levelOne.player.attack(2)
-
-					elif settings.game_state == 2: 
-						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelOne.player.is_attacking == False:
-							self.levelOne.player.jump()
-						if event.key == pygame.K_ESCAPE:
-							self.levelOne.pause_game("Paused", "Press     escape     to     quit", "Press    enter     to     continue")
-						if event.key == pygame.K_q:
-							self.levelOne.player.attack(1)
-						if event.key == pygame.K_w:
-							self.levelOne.player.attack(2)
-						if event.key == pygame.K_k:
-							# pygame.image.save(self.screen, "./LevelSelector/levelTwoStart.png")
-							pass
 					
 					elif settings.game_state == 2:
 						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelTwo.player.is_attacking == False:
@@ -181,7 +168,7 @@ class Game:
 							# pygame.image.save(self.screen, "./LevelSelector/levelThreeStart.png")
 							pass
 
-					# all level animations (level one animations)
+					# level one animations
 					elif settings.game_state == 0.5:
 						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelOneTut.player.is_attacking == False:
 							self.levelOneTut.player.jump()
@@ -201,15 +188,14 @@ class Game:
 							self.levelTwoTut.player.attack(1)
 						if event.key == pygame.K_w:
 							self.levelTwoTut.player.attack(2)
-
 						# level two animations
-							if event.key == pygame.K_r:
-								self.levelTwoTut.player.roll()
-							if event.key == pygame.K_t:
-								self.levelTwoTut.player.current_sprite = 0
-								self.levelTwoTut.player.is_angry_emoting = True
-							if event.key == pygame.K_y:
-								self.levelTwoTut.player.is_normal_emoting = True
+						if event.key == pygame.K_r:
+							self.levelTwoTut.player.roll()
+						if event.key == pygame.K_t:
+							self.levelTwoTut.player.current_sprite = 0
+							self.levelTwoTut.player.is_angry_emoting = True
+						if event.key == pygame.K_y:
+							self.levelTwoTut.player.is_normal_emoting = True
 
 					elif settings.game_state == 2.5:
 						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelThreeTut.player.is_attacking == False:
@@ -220,15 +206,14 @@ class Game:
 							self.levelThreeTut.player.attack(1)
 						if event.key == pygame.K_w:
 							self.levelThreeTut.player.attack(2)
-
-						# level two animations
-							if event.key == pygame.K_r:
-								self.levelThreeTut.player.roll()
-							if event.key == pygame.K_t:
-								self.levelThreeTut.player.current_sprite = 0
-								self.levelThreeTut.player.is_angry_emoting = True
-							if event.key == pygame.K_y:
-								self.levelThreeTut.player.is_normal_emoting = True
+						# level three animations
+						if event.key == pygame.K_r:
+							self.levelThreeTut.player.roll()
+						if event.key == pygame.K_t:
+							self.levelThreeTut.player.current_sprite = 0
+							self.levelThreeTut.player.is_angry_emoting = True
+						if event.key == pygame.K_y:
+							self.levelThreeTut.player.is_normal_emoting = True
 
 					if settings.game_state == 0:
 						if event.key == pygame.K_k:

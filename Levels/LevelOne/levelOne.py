@@ -89,16 +89,21 @@ class LevelOne():
         self.player_group.add(self.player)
         self.player_lives = 3
 
+        # using for freezing the game until user presses a key
+        self.started_game = False
+        self.past_if = False
+
     def update(self):
-        # print("update")
+        if time.time() - self.starting_time > 0.45 and not self.started_game and not self.past_if:
+            self.started_game = True
+            self.past_if = True
+        if self.started_game:
+            self.freeze_game()
         if self.loaded_up:
             self.starting_time = time.time()
             self.loaded_up = False
         self.check_game_over()
-        self.draw_hearts()
         self.draw_health_bar()
-        self.draw_time()
-        self.draw_portrait()
         self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
@@ -107,6 +112,25 @@ class LevelOne():
             self.spawned = True
         if int(self.display_time) % 7 != 0:
             self.spawned = False
+
+    
+    def freeze_game(self):
+        while self.started_game:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    self.started_game = False
+                    self.starting_time = time.time()
+            text = self.title_font.render("Level One", True, (255, 255, 255))
+            text_rect = text.get_rect()
+            text_rect.center = (settings.DISPLAY_WIDTH // 2, settings.DISPLAY_HEIGHT // 2)
+            screen.blit(text, text_rect)
+
+            sub_text = self.medium_font.render("Press any key to start", True, (255, 255, 255))
+            sub_text_rect = sub_text.get_rect()
+            sub_text_rect.center = (settings.DISPLAY_WIDTH // 2, settings.DISPLAY_HEIGHT // 2 + 100)
+            screen.blit(sub_text, sub_text_rect)
+
+            pygame.display.flip()
 
     def spawn_grunt(self):
         direction = random.choice(['left', 'right'])
@@ -622,6 +646,11 @@ class LevelOne():
 
     def run(self): 
         sprite_group.draw(screen)
+
+        # for not starting until key is pressed::
+        self.draw_portrait()
+        self.draw_hearts()
+        self.draw_time()
 
         self.player_group.update()
         self.player_group.draw(screen)
