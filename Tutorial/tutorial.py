@@ -149,9 +149,12 @@ class Tutorial():
                 
 
 
+                sprite_group.draw(screen)
+                self.player_group.draw(screen)
                 
                 snip = self.custom_font.render(message[0:counter//speed], True, (255, 255, 255))
                 screen.blit(snip, (50, 100))
+
 
                 pygame.display.flip()
 
