@@ -27,7 +27,7 @@ class Game:
 		self.curtain_counter = 0
 		self.curtain_closed = False
 
-		self.levelSelector = LevelSelector()
+		self.levelSelector = LevelSelector((578, 382))
 		self.levelOne = LevelOne()
 		self.levelTwo = LevelTwo() 
 		self.levelThree = LevelThree()
@@ -219,7 +219,7 @@ class Game:
 						if event.key == pygame.K_y:
 							self.levelThreeTut.player.is_normal_emoting = True
 
-					elif settings.game_state == -1:
+					elif settings.game_state == 0:
 						pygame.image.save(self.screen, "./LevelSelector/menu.png")
 							# pass
 
@@ -250,7 +250,7 @@ class Game:
 					self.levelOneTut.run()
 				else:
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((578, 382))
 
 					self.curtainIn()
 
@@ -260,7 +260,7 @@ class Game:
 					self.levelOne.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((578, 382))
 
 					self.curtainIn()
 			
@@ -269,7 +269,7 @@ class Game:
 					self.levelTwoTut.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((670, 895))
 
 					self.curtainIn()
 
@@ -279,7 +279,7 @@ class Game:
 					self.levelTwo.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((670, 895))
 
 					self.curtainIn()
 
