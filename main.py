@@ -33,7 +33,7 @@ class Game:
 		self.levelThree = LevelThree()
 		self.levelOneTut = Tutorial(1)
 		self.levelTwoTut = Tutorial(2)
-		self.levelThreeTut = Tutorial(2)
+		self.levelThreeTut = Tutorial(3)
 		self.menu = Menu()
 
 	def fadeOut(self): 
