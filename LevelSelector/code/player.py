@@ -138,8 +138,6 @@ class Player(pygame.sprite.Sprite):
 									pygame.mixer.music.load('./SFX/levelTwo.mp3')
 								elif settings.next_game_state == 3:
 									pygame.mixer.music.load('./SFX/levelThree.mp3')
-								else:
-									pygame.mixer.music.load('./SFX/level_one_bg.mp3')
 								pygame.mixer.music.play(-1)
 								pygame.mixer.music.set_volume(0.1)				
 						elif event.key == pygame.K_n: 
