@@ -3,7 +3,7 @@ from pytmx.util_pygame import load_pygame
 
 from Tutorial.playerOne import Player as playerOne
 from Tutorial.playerTwo import Player as playerTwo
-# from Levels.LevelThree.player import Player as playerThree
+from Tutorial.playerThree import Player as playerThree
 from Tutorial.tile import Tile
 import settings
 
@@ -40,7 +40,7 @@ class Tutorial():
         elif self.level == 2:
             self.player = playerTwo(100, 384, land_sprite_group)
         else:
-            self.player = playerTwo(100, 384, land_sprite_group)
+            self.player = playerThree(100, 384, land_sprite_group)
 
         self.player_group.add(self.player)
         self.started = False
@@ -149,9 +149,12 @@ class Tutorial():
                 
 
 
+                sprite_group.draw(screen)
+                self.player_group.draw(screen)
                 
                 snip = self.custom_font.render(message[0:counter//speed], True, (255, 255, 255))
                 screen.blit(snip, (50, 100))
+
 
                 pygame.display.flip()
 

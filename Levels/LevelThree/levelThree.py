@@ -143,7 +143,7 @@ class LevelThree():
                 ball.kill()
 
     def check_grunt_spawn(self):
-        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
+        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2 and self.past_if:
             self.spawn_grunt(random.randint(settings.DISPLAY_WIDTH // 2 - 20, settings.DISPLAY_WIDTH // 2 + 80), 0, random.choice(['left', 'right']), random.randint(2000, 5000))
             self.spawned = True
         if int(self.display_time) % 7 != 0:
@@ -311,13 +311,13 @@ class LevelThree():
             if player.is_attacking and not player.reverse:
                 if (player.attack_number == 1 and player.current_sprite > 3.2 and player.current_sprite < 3.35) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35):
                     if player.collision_rect.colliderect(boss_one.head_rect):
-                        self.boss_one_hurt(1)
+                        self.boss_one_hurt(0.1)
                     elif player.rect.colliderect(boss_one.rect):
-                        self.boss_one_hurt(1)
+                        self.boss_one_hurt(0.05)
                     elif player.rect.colliderect(boss_two.head_rect):
-                        self.boss_two_hurt(1)
+                        self.boss_two_hurt(0.1)
                     elif player.rect.colliderect(boss_two.rect):
-                        self.boss_two_hurt(1)
+                        self.boss_two_hurt(0.05)
 
             
             for grunt in self.grunt_group:

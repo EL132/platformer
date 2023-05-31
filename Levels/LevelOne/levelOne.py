@@ -107,7 +107,7 @@ class LevelOne():
         self.check_collisions(self.player, self.boss_chomper, self.creeper_one, self.creeper_two, self.creeper_three)
         if self.displaying_word:
             self.draw_word()
-        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
+        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2 and self.past_if:
             self.spawn_grunt()
             self.spawned = True
         if int(self.display_time) % 7 != 0:
@@ -208,7 +208,7 @@ class LevelOne():
         if damage == 0.1:
             self.message = 'Critical Hit!'
         elif damage == 0.05:
-            self.message = 'Penetrated right in the ass!'
+            self.message = 'Hit!'
         else:
             self.message = 'Hit big ole boss somewhere else'
 

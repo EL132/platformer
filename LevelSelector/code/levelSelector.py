@@ -8,7 +8,7 @@ from LevelSelector.Code.levelEntrance import LevelEntrance
 from LevelSelector.Code.support import *
 
 class LevelSelector:
-	def __init__(self):
+	def __init__(self, player_pos):
 
 		self.screen = pygame.display.get_surface()
 
@@ -18,9 +18,9 @@ class LevelSelector:
 
 		self.entrance_count = 0
 
-		self.create_map()
+		self.create_map(player_pos)
 
-	def create_map(self):
+	def create_map(self, player_pos):
 		#add each csv into layout array
 		layout = {
 			'trail_border': import_csv_layout('./LevelSelector/TilemapAssets/csv/map_Border.csv'),
@@ -50,11 +50,10 @@ class LevelSelector:
 								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1.5)
 							else:
 								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 2)
-
-		# for entrance in self.level_entrance_sprites: 
-		# 	print(entrance.level_number)
 		
-		self.player = Player((578, 382), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
+		# self.player = Player((578, 382), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
+		self.player = Player(player_pos, [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
+
 
 	def entrance_confirmation(self): 
 		pass
@@ -63,6 +62,7 @@ class LevelSelector:
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
+		debug(self.player.rect)
 
 class YSortCameraGroup(pygame.sprite.Group):
 	def __init__(self): 

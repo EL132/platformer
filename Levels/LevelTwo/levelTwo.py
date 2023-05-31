@@ -154,7 +154,7 @@ class LevelTwo():
                 self.spawn_grunt(self.boss.rect.x, 350, random.choice(['left', 'right']), random.randint(2000, 5000))
 
     def check_grunt_spawn(self):
-        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2:
+        if int(self.display_time) % 7 == 0 and self.spawned == False and len(self.grunt_group) < 2 and self.past_if:
             self.spawn_grunt(random.randint(settings.DISPLAY_WIDTH // 2 - 20, settings.DISPLAY_WIDTH // 2 + 80), 0, random.choice(['left', 'right']), random.randint(2000, 5000))
             self.spawned = True
         if int(self.display_time) % 7 != 0:

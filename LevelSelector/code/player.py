@@ -89,10 +89,21 @@ class Player(pygame.sprite.Sprite):
 		if collided_entrance and not settings.transition:
 			level_request = True
 			# video : 
-			messages = ['You are about to enter level ' + str(collided_entrance.level_number) + '.', 
-						'It is not that hard',
-						'Are you sure you want to enter?',
-						'Yes (Y) or No (N)']
+			if collided_entrance.level_number == 1 or collided_entrance.level_number == 2 or collided_entrance.level_number == 3:
+				messages = ['You are about to enter level ' + str(collided_entrance.level_number) + '.', 
+							'It is not that hard',
+							'Are you sure you want to enter?',
+							'Yes (Y) or No (N)']
+			# if the user is entering a tutorial:
+			elif collided_entrance.level_number % 1 == 0.5:
+				messages = ['This is a tutorial house.', 
+							'Are you sure you want to enter?',
+							'Yes (Y) or No (N)']
+			# if the user wants to return to the main menu
+			elif collided_entrance.level_number == -1:
+				messages = ['You are about to return to the main menu.', 
+							'Are you sure you want to continue?',
+							'Yes (Y) or No (N)']
 			snip = self.custom_font.render('', True, (255, 255, 255))
 			counter = 0
 			# the bigger the speed variable, the slower it goes because of math
