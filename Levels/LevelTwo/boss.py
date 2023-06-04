@@ -209,80 +209,80 @@ class Boss(pygame.sprite.Sprite):
 
 
         # attack one frames
-        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-4.png').convert_alpha(), (120, 120)))
-        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-5.png').convert_alpha(), (120, 120)))
-        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-6.png').convert_alpha(), (120, 120)))
+        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-4.png').convert_alpha(), (100, 100)))
+        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-5.png').convert_alpha(), (100, 100)))
+        self.attack_one_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 1/row-1-column-6.png').convert_alpha(), (100, 100)))
         for frame in self.attack_one_left_frames:
             self.attack_one_right_frames.append(pygame.transform.flip(frame, True, False))
 
         # attack two frames
-        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-4.png').convert_alpha(), (120, 120)))
-        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-5.png').convert_alpha(), (120, 120)))
-        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-6.png').convert_alpha(), (120, 120)))
+        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-4.png').convert_alpha(), (100, 100)))
+        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-5.png').convert_alpha(), (100, 100)))
+        self.attack_two_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 2/row-1-column-6.png').convert_alpha(), (100, 100)))
         for frame in self.attack_two_left_frames:
             self.attack_two_right_frames.append(pygame.transform.flip(frame, True, False))
 
         # attack three frames
-        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-4.png').convert_alpha(), (120, 120)))
-        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-5.png').convert_alpha(), (120, 120)))
-        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-6.png').convert_alpha(), (120, 120)))
+        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-4.png').convert_alpha(), (100, 100)))
+        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-5.png').convert_alpha(), (100, 100)))
+        self.attack_three_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 3/row-1-column-6.png').convert_alpha(), (100, 100)))
         for frame in self.attack_three_left_frames:
             self.attack_three_right_frames.append(pygame.transform.flip(frame, True, False)) 
         
         # attack four frames
-        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-4.png').convert_alpha(), (120, 120)))
+        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.attack_four_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Attack 4/row-1-column-4.png').convert_alpha(), (100, 100)))
         for frame in self.attack_four_left_frames:
             self.attack_four_right_frames.append(pygame.transform.flip(frame, True, False))
         
         # death frames
-        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-4.png').convert_alpha(), (120, 120)))
-        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-5.png').convert_alpha(), (120, 120)))
-        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-6.png').convert_alpha(), (120, 120)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-4.png').convert_alpha(), (100, 100)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-5.png').convert_alpha(), (100, 100)))
+        self.death_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Death/row-1-column-6.png').convert_alpha(), (100, 100)))
         for frame in self.death_left_frames:
             self.death_right_frames.append(pygame.transform.flip(frame, True, False))
         
 
         # idle frames
-        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-4.png').convert_alpha(), (120, 120)))
+        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.idle_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Idle/row-1-column-4.png').convert_alpha(), (100, 100)))
         for frame in self.idle_left_frames:
             self.idle_right_frames.append(pygame.transform.flip(frame, True, False))
 
         
         # sneer frames
-        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-4.png').convert_alpha(), (120, 120)))
-        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-5.png').convert_alpha(), (120, 120)))
-        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-6.png').convert_alpha(), (120, 120)))
+        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-4.png').convert_alpha(), (100, 100)))
+        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-5.png').convert_alpha(), (100, 100)))
+        self.sneer_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Sneer/row-1-column-6.png').convert_alpha(), (100, 100)))
         for frame in self.sneer_left_frames:
             self.sneer_right_frames.append(pygame.transform.flip(frame, True, False))
 
 
         # walk frames
-        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-1.png').convert_alpha(), (120, 120)))
-        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-2.png').convert_alpha(), (120, 120)))
-        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-3.png').convert_alpha(), (120, 120)))
-        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-4.png').convert_alpha(), (120, 120)))
-        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-5.png').convert_alpha(), (120, 120)))
-        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-6.png').convert_alpha(), (120, 120)))
+        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-1.png').convert_alpha(), (100, 100)))
+        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-2.png').convert_alpha(), (100, 100)))
+        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-3.png').convert_alpha(), (100, 100)))
+        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-4.png').convert_alpha(), (100, 100)))
+        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-5.png').convert_alpha(), (100, 100)))
+        self.walk_left_frames.append(pygame.transform.scale(pygame.image.load('./Levels/LevelTwo/images/boss/Walk/row-1-column-6.png').convert_alpha(), (100, 100)))
         for frame in self.walk_left_frames:
             self.walk_right_frames.append(pygame.transform.flip(frame, True, False))

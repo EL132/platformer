@@ -290,7 +290,7 @@ class LevelTwo():
                 if player.is_attacking and grunt.collision_rect.colliderect(player.rect) and ((player.attack_number == 1 and player.current_sprite > 3.0 and player.current_sprite < 3.5) or (player.attack_number == 2 and player.current_sprite > 4.2 and player.current_sprite < 4.35)):
                     # had collidemask here before, but this colliderect is better for making it easier for the player to hit the grunt
                     grunt.health = 0
-                elif pygame.sprite.collide_mask(player, grunt) and grunt.attacking and grunt.current_sprite > 3 and grunt.current_sprite < 3.1:
+                elif grunt.rect.colliderect(player.collision_rect) and grunt.attacking and grunt.current_sprite > 3 and grunt.current_sprite < 3.1:
                     self.player_lives_update(0.5)
                     pass
 

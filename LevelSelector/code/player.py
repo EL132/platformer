@@ -101,8 +101,8 @@ class Player(pygame.sprite.Sprite):
 							'Yes (Y) or No (N)']
 			# if the user wants to return to the main menu
 			elif collided_entrance.level_number == -1:
-				messages = ['You are about to return to the main menu.', 
-							'Are you sure you want to continue?',
+				messages = ['You\'re going to the main menu.', 
+							'Do you want to continue?',
 							'Yes (Y) or No (N)']
 			snip = self.custom_font.render('', True, (255, 255, 255))
 			counter = 0
