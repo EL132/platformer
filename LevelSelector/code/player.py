@@ -143,16 +143,15 @@ class Player(pygame.sprite.Sprite):
 								if settings.next_game_state == -1:
 									pygame.image.save(self.screen, "./LevelSelector/TransitionImages/screenshot.png")
 									pygame.mixer.music.load('./SFX/menu_music.mp3')
-								if settings.next_game_state == 1:
+								elif settings.next_game_state == 1:
 									pygame.mixer.music.load('./SFX/level_one_bg.mp3')
 								elif settings.next_game_state == 2:
 									pygame.mixer.music.load('./SFX/levelTwo.mp3')
 								elif settings.next_game_state == 3:
 									pygame.mixer.music.load('./SFX/levelThree.mp3')
-								else:
-									pygame.mixer.music.load('./SFX/levelThree.mp3')
-								pygame.mixer.music.play(-1)
-								pygame.mixer.music.set_volume(0.1)				
+								if settings.next_game_state == -1 or settings.next_game_state == 1 or settings.next_game_state == 2 or settings.next_game_state == 3:
+									pygame.mixer.music.play(-1)
+									pygame.mixer.music.set_volume(0.1)
 						elif event.key == pygame.K_n: 
 							self.hitbox.y += 20
 							level_request = False
