@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #13234b;
+}
+
+.title-image {
+    width: 85%;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+}
