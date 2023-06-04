@@ -8,7 +8,7 @@ from LevelSelector.Code.levelEntrance import LevelEntrance
 from LevelSelector.Code.support import *
 
 class LevelSelector:
-	def __init__(self):
+	def __init__(self, player_pos):
 
 		self.screen = pygame.display.get_surface()
 
@@ -18,9 +18,9 @@ class LevelSelector:
 
 		self.entrance_count = 0
 
-		self.create_map()
+		self.create_map(player_pos)
 
-	def create_map(self):
+	def create_map(self, player_pos):
 		#add each csv into layout array
 		layout = {
 			'trail_border': import_csv_layout('./LevelSelector/TilemapAssets/csv/map_Border.csv'),
@@ -50,11 +50,10 @@ class LevelSelector:
 								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 1.5)
 							else:
 								LevelEntrance((x, y), [self.obstacle_sprites, self.level_entrance_sprites], 'invisible', 2)
-
-		# for entrance in self.level_entrance_sprites: 
-		# 	print(entrance.level_number)
 		
-		self.player = Player((578, 382), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
+		# self.player = Player((578, 382), [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
+		self.player = Player(player_pos, [self.visible_sprites], self.obstacle_sprites, self.level_entrance_sprites)
+
 
 	def entrance_confirmation(self): 
 		pass
@@ -63,6 +62,7 @@ class LevelSelector:
 		# update and draw the game
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.update()
+		debug(self.player.rect)
 
 class YSortCameraGroup(pygame.sprite.Group):
 	def __init__(self): 
@@ -105,9 +105,19 @@ class YSortCameraGroup(pygame.sprite.Group):
 		else:
 			self.level_three_stars = pygame.image.load("./LevelSelector/TilemapAssets/setOne/3 UI/Stars.png")
 
+		self.level_one_tut_stars = pygame.image.load("./LevelSelector/TileMapAssets/setOne/3 UI/Star2.png")
+		self.level_two_tut_stars = pygame.image.load("./LevelSelector/TileMapAssets/setOne/3 UI/Star2.png")
+		self.level_three_tut_stars = pygame.image.load("./LevelSelector/TileMapAssets/setOne/3 UI/Star2.png")
+
+
 		self.level_one_stars_rect = self.level_one_stars.get_rect(topleft = (685, 311))
 		self.level_two_stars_rect = self.level_two_stars.get_rect(topleft = (654, 1317))
 		self.level_three_stars_rect = self.level_three_stars.get_rect(topleft = (1293, 375))
+
+		self.level_one_tut_stars_rect = self.level_one_tut_stars.get_rect(topleft = (226, 334))
+		self.level_two_tut_stars_rect = self.level_two_tut_stars.get_rect(topleft = (772, 815))
+		self.level_three_tut_stars_rect = self.level_three_tut_stars.get_rect(topleft = (1412, 514))
+
 
 
 	def custom_draw(self, player): 
@@ -126,6 +136,16 @@ class YSortCameraGroup(pygame.sprite.Group):
 
 		stars_three_offset = self.level_three_stars_rect.topleft - self.offset
 		self.screen.blit(self.level_three_stars, stars_three_offset)
+
+		stars_one_tut_offset = self.level_one_tut_stars_rect.topleft - self.offset
+		self.screen.blit(self.level_one_tut_stars, stars_one_tut_offset)
+
+		stars_two_tut_offset = self.level_two_tut_stars_rect.topleft - self.offset
+		self.screen.blit(self.level_two_tut_stars, stars_two_tut_offset)
+
+		stars_three_tut_offset = self.level_three_tut_stars_rect.topleft - self.offset
+		self.screen.blit(self.level_three_tut_stars, stars_three_tut_offset)
+
 
 		#loop through each sprite and blit according to offset position 
 		for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery):

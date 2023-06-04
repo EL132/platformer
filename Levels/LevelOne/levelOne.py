@@ -208,7 +208,7 @@ class LevelOne():
         if damage == 0.1:
             self.message = 'Critical Hit!'
         elif damage == 0.05:
-            self.message = 'Penetrated right in the ass!'
+            self.message = 'Hit!'
         else:
             self.message = 'Hit big ole boss somewhere else'
 

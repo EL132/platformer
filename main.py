@@ -27,7 +27,7 @@ class Game:
 		self.curtain_counter = 0
 		self.curtain_closed = False
 
-		self.levelSelector = LevelSelector()
+		self.levelSelector = LevelSelector((578, 382))
 		self.levelOne = LevelOne()
 		self.levelTwo = LevelTwo() 
 		self.levelThree = LevelThree()
@@ -38,8 +38,8 @@ class Game:
 
 	def fadeOut(self): 
 		if settings.game_state == -1:
-			pygame.image.save(self.screen, "./LevelSelector/screenshot.png")
-		image = pygame.image.load("./LevelSelector/screenshot.png")
+			pygame.image.save(self.screen, "./LevelSelector/TransitionImages/screenshot.png")
+		image = pygame.image.load("./LevelSelector/TransitionImages/screenshot.png")
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0,0,0))
 		for alpha in range(0, 275):
@@ -52,9 +52,9 @@ class Game:
 
 	def fadeIn(self):
 		if settings.next_game_state == -1:
-			image = pygame.image.load("LevelSelector/menu.png")
+			image = pygame.image.load("LevelSelector/TransitionImages/menu.png")
 		elif settings.next_game_state == 0: 
-			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
+			image = pygame.image.load("LevelSelector/TransitionImages/levelSelectorStart.png")
 			
 		fade = pygame.Surface((settings.DISPLAY_WIDTH, settings.DISPLAY_HEIGHT))
 		fade.fill((0, 0, 0))
@@ -76,7 +76,7 @@ class Game:
 
 
 	def curtainIn(self):
-		image = pygame.image.load("./LevelSelector/screenshot.png")
+		image = pygame.image.load("./LevelSelector/TransitionImages/screenshot.png")
 		image_rect = image.get_rect(topleft = (0, 0))
 		self.screen.blit(image, image_rect)
 		if self.curtain_counter < settings.DISPLAY_WIDTH // 2 and not self.curtain_closed: 
@@ -89,18 +89,22 @@ class Game:
 			
 
 	def curtainOut(self):
-		if settings.next_game_state == 0:
-			image = pygame.image.load("LevelSelector/levelSelectorStart.png")
+		if settings.next_game_state == 0 and (settings.game_state == 0.5 or settings.game_state == 1): 
+			image = pygame.image.load("LevelSelector/TransitionImages/levelOneRespawn.png")
+		elif settings.next_game_state == 0 and (settings.game_state == 1.5 or settings.game_state == 2): 
+			image = pygame.image.load("LevelSelector/TransitionImages/levelTwoRespawn.png")
+		elif settings.next_game_state == 0 and (settings.game_state == 2.5 or settings.game_state == 3): 
+			image = pygame.image.load("LevelSelector/TransitionImages/levelThreeRespawn.png")
 		elif settings.next_game_state == 0.5 or settings.next_game_state == 1.5 or settings.next_game_state == 2.5: 
-			image = pygame.image.load("LevelSelector/tutorialStart.png")
+			image = pygame.image.load("LevelSelector/TransitionImages/tutorialStart.png")
 		elif settings.next_game_state == 1: 
-			image = pygame.image.load("LevelSelector/levelOneStart.png")
+			image = pygame.image.load("LevelSelector/TransitionImages/levelOneStart.png")
 			self.levelOne.reset()
 		elif settings.next_game_state == 2: 
-			image = pygame.image.load("LevelSelector/levelTwoStart.png")
+			image = pygame.image.load("LevelSelector/TransitionImages/levelTwoStart.png")
 			self.levelTwo.reset()
 		elif settings.next_game_state == 3: 
-			image = pygame.image.load("LevelSelector/levelThreeStart.png")
+			image = pygame.image.load("LevelSelector/TransitionImages/levelThreeStart.png")
 			self.levelThree.reset()
 
 		image_rect = image.get_rect(topleft = (0, 0))
@@ -169,7 +173,7 @@ class Game:
 						if event.key == pygame.K_y:
 							self.levelThree.player.is_normal_emoting = True
 						if event.key == pygame.K_k:
-							# pygame.image.save(self.screen, "./LevelSelector/levelThreeStart.png")
+							# pygame.image.save(self.screen, "./LevelSelector/TransitionImages/levelThreeStart.png")
 							pass
 
 					# level one animations
@@ -219,9 +223,10 @@ class Game:
 						if event.key == pygame.K_y:
 							self.levelThreeTut.player.is_normal_emoting = True
 
-					elif settings.game_state == -1:
-						pygame.image.save(self.screen, "./LevelSelector/menu.png")
-							# pass
+					elif settings.game_state == 0:
+						if event.key == pygame.K_k: 
+							# pygame.image.save(self.screen, "./LevelSelector/TransitionImages/levelThreeRespawn.png")
+							pass
 
 			self.screen.fill('black')
 
@@ -230,6 +235,9 @@ class Game:
 				self.menu.run()
 
 				if settings.transition:
+					del self.levelSelector
+					self.levelSelector = LevelSelector((100, 382))
+
 					self.fadeOut()
 					settings.transition = False
 					pygame.mixer.music.load('./SFX/level_selector_background.mp3')
@@ -250,7 +258,7 @@ class Game:
 					self.levelOneTut.run()
 				else:
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((578, 382))
 
 					self.curtainIn()
 
@@ -260,7 +268,7 @@ class Game:
 					self.levelOne.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((578, 382))
 
 					self.curtainIn()
 			
@@ -269,7 +277,7 @@ class Game:
 					self.levelTwoTut.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((670, 895))
 
 					self.curtainIn()
 
@@ -279,7 +287,7 @@ class Game:
 					self.levelTwo.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((670, 895))
 
 					self.curtainIn()
 
@@ -288,7 +296,7 @@ class Game:
 					self.levelThreeTut.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((1310, 605))
 
 					self.curtainIn()
 					
@@ -298,7 +306,7 @@ class Game:
 					self.levelThree.run()
 				else:
 					del self.levelSelector
-					self.levelSelector = LevelSelector()
+					self.levelSelector = LevelSelector((1310, 605))
 
 					self.curtainIn()
 
