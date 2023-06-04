@@ -1,0 +1,170 @@
+@font-face {
+    font-family: myFirstFont;
+    src: url(./BM-HANNA.ttf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #13234b;
+    font-family: myFirstFont;
+    color: white;
+}
+
+.dev-841-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 86px;
+}
+
+.title-image {
+    width: 85%;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+}
+
+.download-section {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10vw;
+}
+
+.download-button {
+    background-color: #0060AE;
+    color: black;
+    width: 16vw;
+    height: 8vh;
+    text-align: center;
+    font-size: 5vh;
+}
+
+.download-text {
+    font-size: 2vh;
+    width: 17vw;
+    text-align: left;
+    margin: 2vh 0 10vh;
+}
+
+.starting-screen-directions {
+    padding: 0 10vw;
+    height: 90vh;
+    display: flex;
+}
+
+.left-side {
+    width: 60%;
+}
+
+.menu-image {
+    width: 37vw;
+    border-radius: 40px;
+}
+
+.how-to-play {
+    display: flex;
+    width: 37vw;
+    flex-direction: column;
+    justify-content: left;
+    margin-top: 10vh;
+}
+
+.how-to-play-title {
+    text-decoration: underline;
+    margin-bottom: 3vh;
+    font-size: 4vh;
+}
+
+.how-to-play-text {
+    font-size: 3vh;
+    margin-bottom: 3vh;
+}
+
+.right-side {
+    margin-left: 10vw;
+}
+
+.right-side-title {
+    font-size: 2.5vh;
+    margin: 5vh 0;
+}
+
+.level-one-image {
+    height: 65vh;
+    border-radius: 35px;
+}
+
+.level-selector-image {
+    height: 65vh;
+    border-radius: 35px;
+    margin: 5vh 0;
+}
+
+.credits {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    padding: 0 10vw;
+}
+
+.credits-title {
+    text-decoration: underline;
+    margin: 3vh 0;
+    font-size: 3vh;
+}
+
+.dev-credits {
+    font-size: 2vh;
+    margin: 0.3vh 0;
+}
+
+.footer {
+    margin-top: 10vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4vw;
+    height: 12vh;
+    background-color: #D9D9D9;
+}
+
+.logo {
+    height: 9vh;
+}
+
+.logo-section {
+    display: flex;
+    margin-left: 3vw;
+    flex-direction: row;
+    background-color: #D9D9D9;
+}
+
+.logo-title-pair {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #D9D9D9;
+}
+
+.icon {
+    width: 2vw;
+    background-color: #D9D9D9;
+    margin-right: 0.5vw;
+}
+
+.logo-title {
+    background-color: #D9D9D9;
+    color: black;
+    font-size: 2vh;
+}
+
+.divider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1vw;
+    background-color: #D9D9D9;
+}
