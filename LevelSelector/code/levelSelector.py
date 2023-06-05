@@ -109,6 +109,10 @@ class YSortCameraGroup(pygame.sprite.Group):
 		self.level_two_tut_stars = pygame.image.load("./LevelSelector/TileMapAssets/setOne/3 UI/Star2.png")
 		self.level_three_tut_stars = pygame.image.load("./LevelSelector/TileMapAssets/setOne/3 UI/Star2.png")
 
+		if settings.level_one_tut: 
+			self.level_one_tut_stars = pygame.image.load("./LevelSelector/TileMapAssets/setOne/3 UI/Star1.png")
+
+
 
 		self.level_one_stars_rect = self.level_one_stars.get_rect(topleft = (685, 311))
 		self.level_two_stars_rect = self.level_two_stars.get_rect(topleft = (654, 1317))
