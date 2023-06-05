@@ -101,8 +101,8 @@ class Player(pygame.sprite.Sprite):
 							'Yes (Y) or No (N)']
 			# if the user wants to return to the main menu
 			elif collided_entrance.level_number == -1:
-				messages = ['You are about to return to the main menu.', 
-							'Are you sure you want to continue?',
+				messages = ['You\'re going to the main menu.', 
+							'Do you want to continue?',
 							'Yes (Y) or No (N)']
 			snip = self.custom_font.render('', True, (255, 255, 255))
 			counter = 0
@@ -143,12 +143,13 @@ class Player(pygame.sprite.Sprite):
 								if settings.next_game_state == -1:
 									pygame.image.save(self.screen, "./LevelSelector/TransitionImages/screenshot.png")
 									pygame.mixer.music.load('./SFX/menu_music.mp3')
-								if settings.next_game_state == 1:
+								elif settings.next_game_state == 1:
 									pygame.mixer.music.load('./SFX/level_one_bg.mp3')
 								elif settings.next_game_state == 2:
 									pygame.mixer.music.load('./SFX/levelTwo.mp3')
 								elif settings.next_game_state == 3:
 									pygame.mixer.music.load('./SFX/levelThree.mp3')
+<<<<<<< HEAD
 								else:
 									pygame.mixer.music.load('./SFX/levelThree.mp3')
 								pygame.mixer.music.play(-1)
@@ -159,6 +160,11 @@ class Player(pygame.sprite.Sprite):
 								settings.level_two_tut = True
 							elif settings.next_game_state == 2.5: 
 								settings.level_three_tut = True
+=======
+								if settings.next_game_state == -1 or settings.next_game_state == 1 or settings.next_game_state == 2 or settings.next_game_state == 3:
+									pygame.mixer.music.play(-1)
+									pygame.mixer.music.set_volume(0.1)
+>>>>>>> 142feb142865ee99863e2679a6c7ae348b3abb3c
 						elif event.key == pygame.K_n: 
 							self.hitbox.y += 20
 							level_request = False

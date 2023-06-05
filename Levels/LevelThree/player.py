@@ -246,7 +246,7 @@ class Player(pygame.sprite.Sprite):
                     # this is where i changed the jumping back to false to prevent infinite jumping 
                     if self.is_jumping:
                         self.is_jumping = False
-                    if tile.rect.y == DISPLAY_HEIGHT - 32:
+                    if tile.rect.y > DISPLAY_HEIGHT - 32:
                         self.position.y = tile.rect.top + 32
                     else:
                         self.position.y = tile.rect.top
