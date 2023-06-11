@@ -232,7 +232,7 @@ class LevelTwo():
         if damage == 0.1:
             self.message = 'Critical Hit!'
         else:
-            self.message = 'Hit big ole boss somewhere else'
+            self.message = 'Hit!'
 
     def draw_word(self):
         if time.time() - self.word_draw_start_time < 1:

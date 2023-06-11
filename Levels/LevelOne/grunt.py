@@ -89,9 +89,18 @@ class Grunt(pygame.sprite.Sprite):
                 self.acceleration.x -= self.HORIZONTAL_FRICTION * self.velocity.x # this is for friction of the acceleration
                 self.velocity += self.acceleration
                 self.position += self.velocity + 0.5 * self.acceleration
+        
 
             if self.position.y > settings.DISPLAY_HEIGHT:
                 self.position.y = self.y
+            
+            self.rect.bottomleft = self.position
+            self.collision_rect.bottomleft = self.position
+        # else if the grunt is dying
+        else:
+            self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
+            self.velocity.y += self.acceleration.y
+            self.position.y += self.velocity.y + 0.5 * self.acceleration.y
             
             self.rect.bottomleft = self.position
             self.collision_rect.bottomleft = self.position
