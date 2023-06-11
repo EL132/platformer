@@ -14,9 +14,9 @@
 
 .dev-841-logo {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 86px;
+    top: 2vh;
+    left: 2vw;
+    width: 6vw;
 }
 
 .title-image {
@@ -167,4 +167,62 @@
     align-items: center;
     margin: 0 1vw;
     background-color: #D9D9D9;
+}
+
+@media (max-width: 400px) {
+    .image-container {
+        width: 100vw;   
+        display: flex;
+        justify-content: center;
+    }
+    .dev-841-logo {
+        width: 9vw;
+    }
+    .title-image {
+        width: 100%;
+    }
+    .download-button {
+        width: 25vw;
+        height: 4vh;
+        font-size: 2vh;
+    }
+    .download-text {
+        font-size: 1.5vh;
+        width: 45vw;
+    }
+    .menu-image {
+        position: absolute;
+        margin-top: -20vh;
+        margin-left: 47vw;
+        border-radius: 20px;
+    }
+    .starting-screen-directions {
+        display: flex;
+        flex-direction: column;
+    }
+    .how-to-play {
+        margin-top: -5vh;
+        width: 80vw;
+    }
+    .how-to-play-title {
+        text-align: center;
+        font-size: 3vh;
+    }
+    .how-to-play-text {
+        font-size: 2vh;
+    }
+    .right-side-title {
+        font-size: 1.5vh;
+        margin-left: 2vh;
+    }
+    .level-one-image {
+        height: 40vh;
+        border-radius: 20px;
+        margin-left: 2vh;
+    }
+    .level-selector-image {
+        height: 20vh;
+        border-radius: 20px;
+        margin-top: -14vh;
+    }
 }
