@@ -114,13 +114,13 @@ class YSortCameraGroup(pygame.sprite.Group):
 
 
 
-		self.level_one_stars_rect = self.level_one_stars.get_rect(topleft = (685, 311))
-		self.level_two_stars_rect = self.level_two_stars.get_rect(topleft = (654, 1317))
-		self.level_three_stars_rect = self.level_three_stars.get_rect(topleft = (1293, 375))
+		self.level_one_stars_rect = self.level_one_stars.get_rect(topleft = (1005, 311))
+		self.level_two_stars_rect = self.level_two_stars.get_rect(topleft = (974, 1317))
+		self.level_three_stars_rect = self.level_three_stars.get_rect(topleft = (1613, 375))
 
-		self.level_one_tut_stars_rect = self.level_one_tut_stars.get_rect(topleft = (226, 334))
-		self.level_two_tut_stars_rect = self.level_two_tut_stars.get_rect(topleft = (772, 815))
-		self.level_three_tut_stars_rect = self.level_three_tut_stars.get_rect(topleft = (1412, 514))
+		self.level_one_tut_stars_rect = self.level_one_tut_stars.get_rect(topleft = (546, 334))
+		self.level_two_tut_stars_rect = self.level_two_tut_stars.get_rect(topleft = (1092, 815))
+		self.level_three_tut_stars_rect = self.level_three_tut_stars.get_rect(topleft = (1732, 514))
 
 
 

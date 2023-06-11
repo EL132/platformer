@@ -153,7 +153,15 @@ class Player(pygame.sprite.Sprite):
 									pygame.mixer.music.play(-1)
 									pygame.mixer.music.set_volume(0.1)
 						elif event.key == pygame.K_n: 
-							self.hitbox.y += 20
+							if collided_entrance.level_number == 1 or collided_entrance.level_number == 3 or collided_entrance.level_number == 1.5 or collided_entrance.level_number == 0.5:
+								self.hitbox.y += 20
+							elif collided_entrance.level_number == 2: 
+								self.hitbox.y -= 20
+							elif collided_entrance.level_number == 0: 
+								self.hitbox.x += 30
+							elif collided_entrance.level_number == 2.5: 
+								self.hitbox.x -= 20
+								
 							level_request = False
 				
 				snip = self.custom_font.render(message[0:counter//speed], True, (0, 0, 0))
