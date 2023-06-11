@@ -402,7 +402,7 @@ class LevelTwo():
 
                         settings.next_game_state = 0
                         settings.transition = True
-                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
+                        pygame.image.save(screen, "./LevelSelector/TransitionImages/screenshot.png")
                         game_over = False
 
                 if event.type == pygame.QUIT: 
@@ -505,7 +505,7 @@ class LevelTwo():
 
                         settings.next_game_state = 0
                         settings.transition = True
-                        pygame.image.save(screen, "./LevelSelector/screenshot.png")
+                        pygame.image.save(screen, "./LevelSelector/TransitionImages/screenshot.png")
                         game_over = False
 
     def reset(self):
@@ -614,6 +614,13 @@ class LevelTwo():
                         is_paused = False
                         self.starting_time = time.time()
                         # pygame.mixer.music.unpause()
+                    if event.key == pygame.K_ESCAPE:                         
+                        pygame.mixer.music.stop()
+
+                        settings.next_game_state = 0
+                        settings.transition = True
+                        pygame.image.save(screen, "./LevelSelector/TransitionImages/screenshot.png")
+                        is_paused = False
                 #User wants to quit
                 if event.type == pygame.QUIT:
                     is_paused = False

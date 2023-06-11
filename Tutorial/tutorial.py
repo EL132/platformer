@@ -90,8 +90,6 @@ class Tutorial():
         screen.blit(sub_text2, sub_rect2)
         pygame.display.update()
 
-        # pygame.image.save(self.screen,"screenshot.jpg")
-
         #Pause the game until user hits enter or quits
         is_paused = True
         while is_paused:
@@ -100,6 +98,10 @@ class Tutorial():
                     #User wants to continue
                     if event.key == pygame.K_RETURN:
                         is_paused = False
+                    if event.key == pygame.K_ESCAPE:                         
+                        settings.next_game_state = 0
+                        settings.transition = True
+                        pygame.image.save(screen, "./LevelSelector/TransitionImages/screenshot.png")
                 if event.type == pygame.QUIT:
                     is_paused = False
                     pygame.quit()
