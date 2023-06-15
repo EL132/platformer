@@ -102,6 +102,14 @@ class Grunt(pygame.sprite.Sprite):
             
             self.rect.bottomleft = self.position
             self.collision_rect.bottomleft = self.position
+        # else if the grunt is dying
+        else:
+            self.acceleration = vector(0, self.VERTICAL_ACCELERATION)
+            self.velocity.y += self.acceleration.y
+            self.position.y += self.velocity.y + 0.5 * self.acceleration.y
+            
+            self.rect.bottomleft = self.position
+            self.collision_rect.bottomleft = self.position
 
     def check_collisions(self):
         for tile in self.land_tiles:  
