@@ -175,7 +175,6 @@ class Player(pygame.sprite.Sprite):
 
 
 	def update(self): 
-		self.screen.blit(self.hitbox)
 		self.input()
 		self.move(self.speed)
 		self.check_animations()

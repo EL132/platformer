@@ -225,8 +225,8 @@ class Game:
 
 					elif settings.game_state == 0:
 						if event.key == pygame.K_k: 
-							# pygame.image.save(self.screen, "./LevelSelector/TransitionImages/levelThreeRespawn.png")
-							pass
+							# pygame.image.save(self.screen, "./LevelSelector/TransitionImages/levelOneRespawn.png")
+							pass							
 
 			self.screen.fill('black')
 
@@ -258,7 +258,7 @@ class Game:
 					self.levelOneTut.run()
 				else:
 					del self.levelSelector
-					self.levelSelector = LevelSelector((578, 382))
+					self.levelSelector = LevelSelector((898, 382))
 
 					self.curtainIn()
 
@@ -268,7 +268,7 @@ class Game:
 					self.levelOne.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector((578, 382))
+					self.levelSelector = LevelSelector((898, 382))
 
 					self.curtainIn()
 			
@@ -277,7 +277,7 @@ class Game:
 					self.levelTwoTut.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector((670, 895))
+					self.levelSelector = LevelSelector((990, 895))
 
 					self.curtainIn()
 
@@ -287,7 +287,7 @@ class Game:
 					self.levelTwo.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector((670, 895))
+					self.levelSelector = LevelSelector((990, 895))
 
 					self.curtainIn()
 
@@ -296,7 +296,7 @@ class Game:
 					self.levelThreeTut.run()
 				else: 
 					del self.levelSelector
-					self.levelSelector = LevelSelector((1310, 605))
+					self.levelSelector = LevelSelector((1630, 605))
 
 					self.curtainIn()
 					
@@ -306,7 +306,7 @@ class Game:
 					self.levelThree.run()
 				else:
 					del self.levelSelector
-					self.levelSelector = LevelSelector((1310, 605))
+					self.levelSelector = LevelSelector((1630, 605))
 
 					self.curtainIn()
 
