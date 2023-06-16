@@ -19,7 +19,9 @@ class Player(pygame.sprite.Sprite):
 		self.dust_image = self.dust_right_frames[self.current_dust]
 
 		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.inflate(-10, 0)
+		self.shrink = self.rect.inflate(0, -10)
+		self.test = self.shrink.move(0, 9)
+		self.hitbox = self.test.inflate(-5, 0)
 
 		self.direction = pygame.math.Vector2()
 		self.speed = 3
@@ -154,7 +156,7 @@ class Player(pygame.sprite.Sprite):
 									pygame.mixer.music.set_volume(0.1)
 						elif event.key == pygame.K_n: 
 							if collided_entrance.level_number == 1 or collided_entrance.level_number == 3 or collided_entrance.level_number == 1.5 or collided_entrance.level_number == 0.5:
-								self.hitbox.y += 20
+								self.hitbox.y += 18
 							elif collided_entrance.level_number == 2: 
 								self.hitbox.y -= 20
 							elif collided_entrance.level_number == 0: 
@@ -177,6 +179,7 @@ class Player(pygame.sprite.Sprite):
 		self.input()
 		self.move(self.speed)
 		self.check_animations()
+		pygame.draw.rect(self.screen, 'red', self.hitbox)
 
 
 	def animate(self, sprite_list, speed, idle = False):

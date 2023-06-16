@@ -27,7 +27,7 @@ class Game:
 		self.curtain_counter = 0
 		self.curtain_closed = False
 
-		self.levelSelector = LevelSelector((578, 382))
+		self.levelSelector = LevelSelector((578, 378))
 		self.levelOne = LevelOne()
 		self.levelTwo = LevelTwo() 
 		self.levelThree = LevelThree()
