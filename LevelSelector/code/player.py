@@ -19,7 +19,8 @@ class Player(pygame.sprite.Sprite):
 		self.dust_image = self.dust_right_frames[self.current_dust]
 
 		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.inflate(-10, 0)
+		self.feet = self.rect.move(0, 10)
+		self.hitbox = self.feet.inflate(-10, -8)
 
 		self.direction = pygame.math.Vector2()
 		self.speed = 3
