@@ -194,6 +194,10 @@
     .title-image {
         width: 100%;
     }
+    .download-section {
+        display: flex;
+        flex-direction: column;
+    }
     .download-button {
         width: 25vw;
         height: 4vh;
@@ -204,10 +208,7 @@
         width: 45vw;
     }
     .menu-image {
-        position: absolute;
-        margin-top: -20vh;
-        margin-left: 47vw;
-        border-radius: 20px;
+        display: none;
     }
     .starting-screen-directions {
         display: flex;
