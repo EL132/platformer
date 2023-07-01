@@ -243,9 +243,9 @@ class LevelThree():
         
         # Define the message to display
         if damage == 0.1:
-            self.message = 'Critical Hit!'
+            self.message_one = 'Critical Hit!'
         else:
-            self.message = 'Hit!'
+            self.message_one = 'Hit!'
 
     def boss_two_hurt(self, damage):
         self.boss_two_health -= damage
@@ -254,9 +254,9 @@ class LevelThree():
         
         # Define the message to display
         if damage == 0.1:
-            self.message = 'Critical Hit!'
+            self.message_two = 'Critical Hit!'
         else:
-            self.message = 'Hit!'
+            self.message_two = 'Hit!'
 
     def draw_word_one(self):
         if time.time() - self.word_draw_start_time_one < 1:

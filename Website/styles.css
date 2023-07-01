@@ -30,8 +30,22 @@
 
 .download-section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 0 10vw;
+    margin: 10vh 0;
+}
+
+.how-to-download {
+    display: flex;
+    flex-direction: column;
+    line-height: 4vh;
+    padding: 0 10vw;
+}
+
+.additional {
+    margin-top: 2vh;
+    font-size: 1.8vh;
+    line-height: 2.5vh;
 }
 
 .download-button {
@@ -74,7 +88,6 @@
 }
 
 .how-to-play-title {
-    text-decoration: underline;
     margin-bottom: 3vh;
     font-size: 4vh;
 }
