@@ -228,7 +228,7 @@ class Game:
 
 					elif settings.game_state == 0:
 						if event.key == pygame.K_k: 
-							pygame.image.save(self.screen, "./LevelSelector/TransitionImages/LevelTwoRespawn.png")
+							pygame.image.save(self.screen, "./LevelSelector/TransitionImages/LevelOneRespawn.png")
 							pass			
 
 			self.screen.fill('black')
