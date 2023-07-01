@@ -140,6 +140,9 @@ class Game:
 							self.levelOne.player.attack(1)
 						if event.key == pygame.K_w:
 							self.levelOne.player.attack(2)
+						if event.key == pygame.K_k:
+							# pygame.image.save(self.screen, "./Website/vert-image.png")
+							pass
 					
 					elif settings.game_state == 2:
 						if (event.key == pygame.K_UP or event.key == pygame.K_SPACE) and self.levelTwo.player.is_attacking == False:
@@ -225,8 +228,8 @@ class Game:
 
 					elif settings.game_state == 0:
 						if event.key == pygame.K_k: 
-							# pygame.image.save(self.screen, "./LevelSelector/TransitionImages/levelOneRespawn.png")
-							pass							
+							pygame.image.save(self.screen, "./LevelSelector/TransitionImages/LevelOneRespawn.png")
+							pass			
 
 			self.screen.fill('black')
 
@@ -236,7 +239,7 @@ class Game:
 
 				if settings.transition:
 					del self.levelSelector
-					self.levelSelector = LevelSelector((100, 382))
+					self.levelSelector = LevelSelector((420, 370))
 
 					self.fadeOut()
 					settings.transition = False
