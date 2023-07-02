@@ -52,6 +52,7 @@ class Player(pygame.sprite.Sprite):
 
 
 	def move(self, speed): 
+		print(self.rect)
 		if self.direction.magnitude() != 0: 
 			self.direction = self.direction.normalize() * 2
 
@@ -62,10 +63,20 @@ class Player(pygame.sprite.Sprite):
 			self.temp_y = self.hitbox.y
 			self.footstep.play()
 
-		self.hitbox.x += self.direction.x * speed
-		self.collision('horizontal')
-		self.hitbox.y += self.direction.y * speed
-		self.collision('vertical')
+		# here i want to check if the player is walking on the bridge
+		# x coordinates are 1305-1568, y coordinates are 901
+		# if player is on any of these coordinates, i want the y coordinate to be 891
+		if self.hitbox.x >= 1305 and self.hitbox.x <= 1568 and self.hitbox.y == 901:
+			self.hitbox.y = 891
+			self.hitbox.x += self.direction.x * speed
+			self.collision('horizontal')
+		else:
+			self.hitbox.x += self.direction.x * speed
+			self.collision('horizontal')
+			self.hitbox.y += self.direction.y * speed
+			self.collision('vertical')
+
+		
 		self.rect.center = self.hitbox.center
 
 	def collision(self, direction): 
