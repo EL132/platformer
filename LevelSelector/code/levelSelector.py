@@ -132,23 +132,23 @@ class YSortCameraGroup(pygame.sprite.Group):
 		map_offset = self.map_rect.topleft - self.offset
 		self.screen.blit(self.map_image, map_offset)
 
-		stars_one_offset = self.level_one_stars_rect.topleft - self.offset
-		self.screen.blit(self.level_one_stars, stars_one_offset)
+		# stars_one_offset = self.level_one_stars_rect.topleft - self.offset
+		# self.screen.blit(self.level_one_stars, stars_one_offset)
 
-		stars_two_offset = self.level_two_stars_rect.topleft - self.offset
-		self.screen.blit(self.level_two_stars, stars_two_offset)
+		# stars_two_offset = self.level_two_stars_rect.topleft - self.offset
+		# self.screen.blit(self.level_two_stars, stars_two_offset)
 
-		stars_three_offset = self.level_three_stars_rect.topleft - self.offset
-		self.screen.blit(self.level_three_stars, stars_three_offset)
+		# stars_three_offset = self.level_three_stars_rect.topleft - self.offset
+		# self.screen.blit(self.level_three_stars, stars_three_offset)
 
-		stars_one_tut_offset = self.level_one_tut_stars_rect.topleft - self.offset
-		self.screen.blit(self.level_one_tut_stars, stars_one_tut_offset)
+		# stars_one_tut_offset = self.level_one_tut_stars_rect.topleft - self.offset
+		# self.screen.blit(self.level_one_tut_stars, stars_one_tut_offset)
 
-		stars_two_tut_offset = self.level_two_tut_stars_rect.topleft - self.offset
-		self.screen.blit(self.level_two_tut_stars, stars_two_tut_offset)
+		# stars_two_tut_offset = self.level_two_tut_stars_rect.topleft - self.offset
+		# self.screen.blit(self.level_two_tut_stars, stars_two_tut_offset)
 
-		stars_three_tut_offset = self.level_three_tut_stars_rect.topleft - self.offset
-		self.screen.blit(self.level_three_tut_stars, stars_three_tut_offset)
+		# stars_three_tut_offset = self.level_three_tut_stars_rect.topleft - self.offset
+		# self.screen.blit(self.level_three_tut_stars, stars_three_tut_offset)
 
 
 		#loop through each sprite and blit according to offset position 

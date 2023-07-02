@@ -228,7 +228,7 @@ class Game:
 
 					elif settings.game_state == 0:
 						if event.key == pygame.K_k: 
-							pygame.image.save(self.screen, "./LevelSelector/TransitionImages/LevelOneRespawn.png")
+							pygame.image.save(self.screen, "./LevelSelector/TransitionImages/LevelSelectorStart.png")
 							pass			
 
 			self.screen.fill('black')
@@ -239,7 +239,7 @@ class Game:
 
 				if settings.transition:
 					del self.levelSelector
-					self.levelSelector = LevelSelector((420, 370))
+					self.levelSelector = LevelSelector((440, 380))
 
 					self.fadeOut()
 					settings.transition = False
