@@ -19,8 +19,9 @@ class Player(pygame.sprite.Sprite):
 		self.dust_image = self.dust_right_frames[self.current_dust]
 
 		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.inflate(-10, 0)
-
+		# self.lower = self.rect.inflate(-10, -15)
+		self.hitbox = self.rect.inflate(-10, -15)
+		self.hitbox.move_ip(0, 20)
 		self.direction = pygame.math.Vector2()
 		self.speed = 3
 
@@ -166,10 +167,10 @@ class Player(pygame.sprite.Sprite):
 
 
 	def update(self): 
-		# self.screen.blit(self.hitbox)
 		self.input()
 		self.move(self.speed)
 		self.check_animations()
+		pygame.draw.rect(self.screen, "red", self.hitbox, 1)
 
 
 	def animate(self, sprite_list, speed, idle = False):
