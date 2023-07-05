@@ -102,6 +102,7 @@ class Tutorial():
                         settings.next_game_state = 0
                         settings.transition = True
                         pygame.image.save(screen, "./LevelSelector/TransitionImages/screenshot.png")
+                        is_paused = False 
                 if event.type == pygame.QUIT:
                     is_paused = False
                     pygame.quit()
