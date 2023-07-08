@@ -233,7 +233,9 @@ class Game:
 
 			self.screen.fill('black')
 
-			#Main Menu - testing
+			#previous: Main Menu - lalalala
+			#Main Menu - lalalala
+			#Main Menu - lalalala
 			if settings.game_state == -1:
 				self.menu.run()
 
