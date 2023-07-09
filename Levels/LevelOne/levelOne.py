@@ -367,7 +367,7 @@ class LevelOne():
         exit_rect.center = (WINDOW_WIDTH//2, WINDOW_HEIGHT//2 + 100)
 
         #Display the pause text
-        screen.fill("green")
+        screen.fill(BLACK)
         screen.blit(main_text, main_rect)
         screen.blit(retry_text, retry_rect)
         screen.blit(exit_text, exit_rect)
